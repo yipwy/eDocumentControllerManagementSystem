@@ -16,5 +16,5 @@ class DocumentType(models.Model):
     modify_date                 = models.DateTimeField(default=datetime.now(), blank=True)
 
     def __str__(self):
-        return self.companyId
+        return self.document_description
 # Create your models here.
