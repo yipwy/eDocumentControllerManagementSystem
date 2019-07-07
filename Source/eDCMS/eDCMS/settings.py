@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2p%3m(vpo7k8yot)))2z3l=xh11v+1nm^l3nsabqp4#gt8s8*e'
+SECRET_KEY = '2p%3m(vpo7k8yot)))v2xz3l=xh11v+1nm^l3nsabqp4#gt8s8*e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -75,8 +75,13 @@ WSGI_APPLICATION = 'eDCMS.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'edcms_dev',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+        'OPTIONS': {'autocommit': True}
     }
 }
 
