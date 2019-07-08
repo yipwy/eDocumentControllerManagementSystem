@@ -18,6 +18,7 @@ class DocumentType(models.Model):
     def __str__(self):
         return self.document_description
 
+
 class SeriesNumber(models.Model):
     class Meta:
         verbose_name_plural     = 'Series_Numbers'
