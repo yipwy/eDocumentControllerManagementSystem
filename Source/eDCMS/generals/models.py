@@ -21,7 +21,7 @@ class DocumentType(models.Model):
 
 class SeriesNumber(models.Model):
     class Meta:
-        verbose_name_plural = 'Series_Numbers'
+        verbose_name_plural = 'SeriesNumbers'
 
     series_code = models.CharField(max_length=5)
     series_description = models.CharField(max_length=50)
