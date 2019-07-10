@@ -5,7 +5,7 @@ from django.contrib import messages
 
 def mylogin(request):
     if request.user.is_authenticated:
-        return redirect('accounts:index')
+        return redirect('accounts:home')
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -15,7 +15,7 @@ def mylogin(request):
         if user is not None:
             # correct username and password login the user
             login(request, user)
-            return redirect('accounts:index')
+            return redirect('accounts:home')
 
         else:
             messages.warning(request, f'Incorrect username or password.')
@@ -23,5 +23,5 @@ def mylogin(request):
     return render(request, 'accounts/login.html')
 
 
-def index(request):
+def home(request):
     return render(request, 'accounts/home.html')
