@@ -24,4 +24,4 @@ def mylogin(request):
 
 
 def index(request):
-    return render(request, 'accounts/index.html')
+    return render(request, 'accounts/home.html')
