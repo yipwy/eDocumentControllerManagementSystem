@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, intial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'accounts/main.css' %}">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -14,8 +15,18 @@
 
 <div class="container">
     <div class="col-lg-4">
-        <div class="jumbotron" style="margin-top:100px">
+        <div class="jumbotron" style="margin-top:90px">
             <div class="border-bottom mb-4"><h2 style="text-align:center">Login</h2></div>
+            <div class="col-mb-4">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible text-center" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <small class="text-muted">{{ message }}</small>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
             <form method="POST">
                 {% csrf_token %}
                 <label for="in_username" style="text-align:left"><b>Username:</b></label>
@@ -32,11 +43,9 @@
             <div class="border-top pt-3" style="text-align:center">
                 <small class="text-muted">Need an account? <a class="ml-2" href="#">Sign up</a></small>
             </div>
-
         </div>
-
+    </div>
 </div>
-
 
 
 
