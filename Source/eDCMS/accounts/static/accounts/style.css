@@ -5,6 +5,9 @@
 
 body{
     font-family: sans-serif;
+    background: #fafafa;
+    color: #333333;
+    margin-top: 8rem;
 }
 
 #nav-bar{
@@ -40,6 +43,10 @@ body{
 }
 
 
+.login-form {
+    width: 340px;
+    margin: 75px auto;
+    }
 
 /*-----------banner section---------------*/
 
@@ -66,16 +73,13 @@ body{
 }
 .button1{
     padding: 80px 0;
-    width: 80px;
-    height: 50px;
+    width: 300px;
+    height: 150px;
     text-transform: uppercase;
-
 }
-.button2{
-    padding: 80px 0;
-    width: 80px;
-    height: 50px;
-    text-transform: uppercase;
+.button1 div{
+    font-size: 2em;
+    padding-top: 35px;
 
 }
 .services h4{

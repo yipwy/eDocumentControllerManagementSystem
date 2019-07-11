@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from .forms import UserRegistrationForm
+from django.contrib.auth.decorators import login_required
 
 
 def mylogin(request):
@@ -23,5 +25,18 @@ def mylogin(request):
     return render(request, 'accounts/login.html')
 
 
+def signup(request):
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Your account has been created.')
+            return redirect('accounts:login')
+    else:
+        form = UserRegistrationForm()
+    return render(request, 'accounts/signup.html', {'form': form})
+
+
+@login_required
 def home(request):
     return render(request, 'accounts/home.html')
