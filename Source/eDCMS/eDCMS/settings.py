@@ -128,6 +128,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#AUTH_USER_MODEL = 'accounts.Profile'
+AUTH_USER_MODEL = 'accounts.Profile'
 
 LOGIN_URL = 'accounts:login'

@@ -19,10 +19,17 @@
             <div class="col-mb-4">
                 {% if messages %}
                 {% for message in messages %}
+                {% if message.tags == 'warning' %}
                 <div class="alert alert-danger alert-dismissible text-center" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <small class="text-muted">{{ message }}</small>
                 </div>
+                {% else %}
+                <div class="alert alert-{{ message.tag }} alert-dismissible text-center" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <small class="text-muted">{{ message }}</small>
+                </div>
+                {% endif %}
                 {% endfor %}
                 {% endif %}
             </div>
@@ -40,7 +47,7 @@
                 <button class="btn btn-outline-success form-control" type="submit">Login</button>
             </form>
             <div class="border-top pt-3" style="text-align:center">
-                <small class="text-muted">Need an account? <a class="ml-2" href="#">Sign up</a></small>
+                <small class="text-muted">Need an account? <a class="ml-2" href="{% url 'accounts:signup' %}">Sign up</a></small>
             </div>
         </div>
     </div>
