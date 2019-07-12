@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from .models import Container
-# Create your views here.
+from django.contrib.auth.decorators import login_required
 
 
-def showtable(request):
+@login_required
+def showTable(request):
 
     allitem = Container.objects.all()
     context = {'allitem': allitem}
-    return render(request, 'recordmgnts/Records.html', context)
+    return render(request, 'recordmgnts/records.html', context)

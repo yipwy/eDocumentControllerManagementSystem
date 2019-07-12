@@ -1,5 +1,6 @@
 {% extends 'accounts/base.html' %}
 {% load widget_tweaks %}
+{% block title %} Sign up {% endblock title %}
 {% block content %}
 <style>
     .input-group.is-invalid {
@@ -46,7 +47,7 @@
         </article>
 
             <div class="border-top pt-3" style="text-align:center">
-                <p class="text-muted">Have an account? <a class="ml-2" href="{% url 'accounts:login' %}">Login</a></p>
+                <small class="text-muted">Have an account? <a class="ml-2" href="{% url 'accounts:login' %}">Login</a></small>
             </div>
 </div>
 </div>
