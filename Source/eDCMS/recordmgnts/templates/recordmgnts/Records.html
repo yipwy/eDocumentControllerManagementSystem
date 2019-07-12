@@ -1,0 +1,18 @@
+{% extends 'accounts/base.html' %}
+{% block content %}
+    <!---Container table--->
+    <section id="cont-table">
+      <div class="table-responsive">
+        <table id="t01 table-striped" border="5" width="1300">
+          <tr>
+              <th> Container Serial Number </th><th> Container Description </th><th> Is active? </th><th> Created by? </th><th> Created date </th><th> Modify by </th><th> Modify Date </th><th> Warehouse </th>
+          </tr>
+          {% for Container in allitem %}
+          <tr>
+            <td>{{ Container.container_serial_number }}</td><td>{{ Container.container_description }}</td><td>{{ Container.is_active }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date }}</td><td>{{ Container.warehouse }}</td>
+          </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </section>
+{% endblock content %}
