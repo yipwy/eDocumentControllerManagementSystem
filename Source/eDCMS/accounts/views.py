@@ -22,7 +22,7 @@ def mylogin(request):
         else:
             messages.warning(request, f'Incorrect username or password.')
 
-    return render(request, 'accounts/login.html')
+    return render(request, 'registration/login.html')
 
 
 def signup(request):

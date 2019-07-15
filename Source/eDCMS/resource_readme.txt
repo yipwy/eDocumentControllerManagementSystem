@@ -3,3 +3,6 @@
 
 2) configure INSTALLED_APPS to override django default templates
     src :https://stackoverflow.com/questions/35804554/importing-django-contrib-auth-urls-does-not-play-well-with-existing-admin-templa
+
+3) password reset tutorial
+    src :https://wsvincent.com/django-user-authentication-tutorial-password-reset/
