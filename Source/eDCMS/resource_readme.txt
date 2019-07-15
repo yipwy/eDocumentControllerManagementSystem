@@ -6,3 +6,6 @@
 
 3) password reset tutorial
     src :https://wsvincent.com/django-user-authentication-tutorial-password-reset/
+
+4) set path for PasswordResetConfirmView and override the class's default attributes
+    src :https://stackoverflow.com/questions/52502862/django-2-1-passwordresetview-404

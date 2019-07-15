@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, PasswordResetForm
+from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 
 
@@ -35,6 +36,10 @@ def signup(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'accounts/signup.html', {'form': form})
+
+
+class MyPasswordConfirmView(auth_views.PasswordResetConfirmView):
+    form_class = PasswordResetForm
 
 
 @login_required
