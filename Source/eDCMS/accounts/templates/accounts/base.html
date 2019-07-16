@@ -12,6 +12,8 @@
     <title>{% block title %}eDCMS{% endblock title %}</title>
 </head>
 <body>
+<div id="page-container">
+    <div id="content-wrap"
    <section id="nav-bar">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="{% url 'accounts:home' %}"><img src=http://www.huayang.com.my/main/img/huayanglogo.png></a>
@@ -36,7 +38,8 @@
     </nav>
    </section>
    {% block content %}{% endblock %}
-   <section id="footer">
+</div>
+   <div id="footer">
         <div class="container">
             <div class="row">
                 <div class="col-md-6 footer-box">
@@ -45,7 +48,7 @@
                 </div>
             </div>
         </div>
+   </div>
 
-   </section>
 </body>
 </html>
