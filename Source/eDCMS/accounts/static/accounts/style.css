@@ -140,7 +140,10 @@ body{
 }
 
 #content-wrap {
-  padding-bottom: 9rem;    /* Footer height */
+  margin-left:0px;
+  padding-bottom: 9rem; /* Footer height */
+  transition: all 500ms linear;
+
 }
 
 #footer  {
@@ -150,3 +153,45 @@ body{
   width: 100%;
   height: 8rem;            /* Footer height */
 }
+
+#sidebar{
+    position:fixed;
+    width:200px;
+    height:100%;
+    background:#151719;
+    left:-200px;
+    transition: all 500ms linear;
+}
+
+#sidebar.active{
+    left:0px;
+}
+
+#content-wrap.active{
+    margin-left:200px;
+
+}
+
+#sidebar ul li{
+    color:rgba(230,230,230,0.9);
+    list-style:none;
+    padding:15px 10px;
+    border-bottom:1px solid rgba(100,100,100,0.3);
+
+}
+
+#sidebar .toggle-btn{
+    position:absolute;
+    left:230px;
+    top:20px;
+}
+
+#sidebar .toggle-btn span{
+    display:block;
+    width:30px;
+    height:5px;
+    background:#151719;
+    margin:5px 0px;
+}
+
+
