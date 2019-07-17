@@ -9,3 +9,6 @@
 
 4) set path for PasswordResetConfirmView and override the class's default attributes
     src :https://stackoverflow.com/questions/52502862/django-2-1-passwordresetview-404
+
+5) if css external style sheet changes does not reflect in browser, hard refresh your browser
+    src :https://stackoverflow.com/questions/18543776/why-is-my-css-not-updating-in-web-browser

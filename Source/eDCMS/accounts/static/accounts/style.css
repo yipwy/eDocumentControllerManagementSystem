@@ -24,8 +24,10 @@ body{
     background-image: linear-gradient(to right, #E5E4E4,#B7B7B7);
     padding: 0 !important;
 }
+
 .navbar-brand img{
-    padding-left: 30px;
+    margin-left:75px;
+
 }
 
 .navbar-nav li{
@@ -154,44 +156,70 @@ body{
   height: 8rem;            /* Footer height */
 }
 
+
+/* Sidebar */
 #sidebar{
     position:fixed;
-    width:200px;
+    width:250px;
     height:100%;
     background:#151719;
-    left:-200px;
+    left:-250px;
     transition: all 500ms linear;
 }
+
+#sidebar ul li a {
+    color:#2DBFC4;
+    padding: 10px;
+    display: block;
+    border-bottom: 1px solid #47748b;
+}
+
+#sidebar ul a:hover {
+    background: #DFE9E9;
+
+}
+
+
+/*#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #6d7fcc;
+}*/
+
 
 #sidebar.active{
     left:0px;
 }
 
 #content-wrap.active{
-    margin-left:200px;
+    margin-left:250px;
 
 }
 
 #sidebar ul li{
     color:rgba(230,230,230,0.9);
     list-style:none;
-    padding:15px 10px;
-    border-bottom:1px solid rgba(100,100,100,0.3);
+    padding:10px 10px;
 
 }
 
-#sidebar .toggle-btn{
+.toggle-btn{
     position:absolute;
-    left:230px;
-    top:20px;
+    left:25px;
+    top:25px;
 }
 
-#sidebar .toggle-btn span{
+.toggle-btn span{
     display:block;
     width:30px;
     height:5px;
     background:#151719;
     margin:5px 0px;
+}
+
+#sidebar ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    border-style:none;
 }
 
 
