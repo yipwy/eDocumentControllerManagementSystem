@@ -7,6 +7,7 @@ class Profile(AbstractUser):
     class Meta:
         verbose_name_plural = 'Profiles'
     companyId        = models.CharField(max_length=50)
+    branchId         = models.CharField(max_length=20)
     departmentId     = models.CharField(max_length=50)
     created_by       = models.CharField(max_length=20)
     modify_by        = models.CharField(max_length=20)

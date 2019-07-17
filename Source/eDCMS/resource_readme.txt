@@ -12,3 +12,6 @@
 
 5) if css external style sheet changes does not reflect in browser, hard refresh your browser
     src :https://stackoverflow.com/questions/18543776/why-is-my-css-not-updating-in-web-browser
+
+6) django signals to create user profile
+    src :https://medium.com/@bencleary/django-user-profiles-f5c9aedb70db

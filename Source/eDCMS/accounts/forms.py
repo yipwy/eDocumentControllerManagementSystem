@@ -11,10 +11,11 @@ class UserRegistrationForm(UserCreationForm):
     password2 = forms.CharField(label="Password Confirmation", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
     departmentId = forms.CharField(label="Department", widget=forms.TextInput(attrs={'class': 'form-control'}))
     companyId = forms.CharField(label="Company", widget=forms.TextInput(attrs={'class': 'form-control'}))
+    branchId = forms.CharField(label="Branch", widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta(UserCreationForm):
         model = Profile
-        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'departmentId', 'companyId')
+        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'departmentId', 'companyId', 'branchId')
 
 
 class PasswordResetForm(SetPasswordForm):

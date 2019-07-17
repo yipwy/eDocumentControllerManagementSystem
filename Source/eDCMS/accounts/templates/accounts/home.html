@@ -5,18 +5,8 @@
 
    <!----Services section----->
    <section id="services">
-       <div class="container text-center">
-            <h1 class="message">Welcome, {{ user.username }}!</h1>
-           <div class="row text-center">
-               <div class="col-md-6 services">
-                   <a href="{% url 'recordmgnts:records' %}" class="button1 btn btn-outline-info btn-lg"><div>Records</div></a>
-                   <h4>To find and locate containers</h4>
-               </div>
-               <div class="col-md-6 services">
-                <a href="#" class="button1 btn btn-outline-info btn-lg"><div>Mailings</div></a>
-                <h4>To keep track of mailings</h4>
-            </div>
-           </div>
+       <div class="container text-center jumbotron">
+            <h1>Welcome, {{ user.username }}!</h1>
        </div>
    </section>
 {% endblock content %}

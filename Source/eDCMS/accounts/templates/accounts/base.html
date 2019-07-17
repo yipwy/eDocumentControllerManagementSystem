@@ -24,9 +24,9 @@
             <span></span>
             <span></span>
         </div>
-        <div class="navbar-brand" href="{% url 'accounts:home' %}"><img src="../../static/accounts/huayanglogo.png"></div>
+        <div class="navbar-brand" href="{% url 'accounts:home' %}"><img src="{% static 'accounts/huayanglogo.png' %}"></div>
         {% else %}
-        <div class="navbar-brand" style="margin-left:-50px"><img src="../../static/accounts/huayanglogo.png"></div>
+        <div class="navbar-brand" style="margin-left:-50px"><img src="{% static 'accounts/huayanglogo.png' %}"></div>
         {% endif %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fa fa-bars"></i>
@@ -67,6 +67,9 @@
             </li>
             <!--end list with dropdown-->
             <li><a href="#">Mailings</a></li>
+            {% if user.is_superuser and user.is_staff %}
+            <li><a href="^admin/">Admin Site</a></li>
+            {% endif %}
         </ul>
     </div>
 
@@ -79,7 +82,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 footer-box">
-                        <img src="../../static/accounts/huayanglogo.png">
+                        <img src="{% static 'accounts/huayanglogo.png' %}">
                         <p>© Copyright 2018 Hua Yang Berhad. All Rights Reserved.</p>
                 </div>
             </div>
