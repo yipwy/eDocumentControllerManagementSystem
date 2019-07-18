@@ -1,10 +1,18 @@
 {% extends 'accounts/base.html' %}
-{% block title %} Home {% endblock title %}
+{% block title %} {{ user.username }}-Profile {% endblock title %}
 {% block content %}
 
 
 <section id="services">
     <div class="col-md-8 col-sm-6 container-left jumbotron">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success alert-dismissible text-center" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <small class="text-muted">{{ message }}</small>
+        </div>
+        {% endfor %}
+        {% endif %}
         <div id="headers">
             <div class="row">
             <div class="col">
@@ -12,7 +20,7 @@
             </div>
             <div class="col" style="text-align:right">
                 <a href="#">Update info</a><br>
-                <a href="#">Change password</a>
+                <a href="{% url 'accounts:password_change' %}">Change password</a>
             </div>
         </div>
         </div>

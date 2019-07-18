@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm, PasswordChangeForm
 from .models import Profile
 
 
@@ -21,6 +21,19 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class PasswordResetForm(SetPasswordForm):
+    def save(self, commit=True):
+        password = self.cleaned_data["new_password1"]
+        self.user.set_password(password)
+        if self.user.is_superuser is not True and self.user.is_staff is not True:
+            self.user.is_staff = False
+            self.user.is_superuser = False
+        if commit:
+            self.user.save()
+
+        return self.user
+
+
+class ChangePasswordForm(PasswordChangeForm):
     def save(self, commit=True):
         password = self.cleaned_data["new_password1"]
         self.user.set_password(password)

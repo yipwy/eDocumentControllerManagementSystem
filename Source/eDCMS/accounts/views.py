@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import UserRegistrationForm, PasswordResetForm
+from .forms import UserRegistrationForm, PasswordResetForm, ChangePasswordForm
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages.views import SuccessMessageMixin
+from django.urls import reverse_lazy
 
 
 def mylogin(request):
@@ -40,6 +42,14 @@ def signup(request):
 
 class MyPasswordConfirmView(auth_views.PasswordResetConfirmView):
     form_class = PasswordResetForm
+
+
+class MyPasswordChangeView(SuccessMessageMixin, auth_views.PasswordChangeView):
+    form_class = ChangePasswordForm
+    success_url = reverse_lazy('accounts:profile_page')
+
+    def get_success_message(self, cleaned_data):
+        return 'Your password has been changed successfully.'
 
 
 @login_required
