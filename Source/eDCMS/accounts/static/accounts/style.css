@@ -71,7 +71,25 @@ body{
 /*------services section------*/
 
 #services{
-    padding: 80px 0;
+    padding: 70px 0 40px 20px;
+}
+
+#services #headers{
+    border-bottom: 1px solid #DCC2C2;
+
+}
+
+#services p{
+    padding-top:15px;
+    padding-left: 15px;
+    font-size:1.2em;
+
+}
+
+#services .container-left{
+    padding:20px 20px 10px 20px;
+    margin-left:55px;
+
 }
 
 .services{
@@ -228,3 +246,4 @@ body{
     text-decoration: none;
     transition: all 0.3s;
 }
+

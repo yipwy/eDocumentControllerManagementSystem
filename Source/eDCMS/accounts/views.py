@@ -45,3 +45,8 @@ class MyPasswordConfirmView(auth_views.PasswordResetConfirmView):
 @login_required
 def home(request):
     return render(request, 'accounts/home.html')
+
+
+@login_required
+def profile(request):
+    return render(request, 'accounts/profile.html')

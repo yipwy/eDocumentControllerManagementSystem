@@ -1,0 +1,39 @@
+{% extends 'accounts/base.html' %}
+{% block title %} Home {% endblock title %}
+{% block content %}
+
+
+<section id="services">
+    <div class="col-md-8 col-sm-6 container-left jumbotron">
+        <div id="headers">
+            <div class="row">
+            <div class="col">
+            <h1>{{user.get_full_name}}</h1>
+            </div>
+            <div class="col" style="text-align:right">
+                <a href="#">Update info</a><br>
+                <a href="#">Change password</a>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p><b>Username: </b>{{ user.username }}</p>
+            </div>
+            <div class="col">
+                <p><b>Email: </b>{{ user.email }}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p><b>Company: </b>{{ user.companyId }}</p>
+            </div>
+            <div class="col">
+                <p><b>Contact: </b>{{ user.contact }}</p>
+            </div>
+        </div>
+        <p><b>Branch: </b>{{ user.branchId }}</p>
+        <p><b>Department: </b>{{ user.departmentId }}</p>
+    </div>
+</section>
+{% endblock content %}
