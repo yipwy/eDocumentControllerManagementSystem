@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import DetailView
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
+
 
 
 @login_required
@@ -25,5 +27,10 @@ def showDetail(request):
     return render(request, 'recordmgnts/records.html', context)
 
 
+class ContainerDetailView(DetailView):
+    template_name = 'recordmgnts/records_detail.html'
 
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Container, id=id_)
 
