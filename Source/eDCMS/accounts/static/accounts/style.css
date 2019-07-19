@@ -7,6 +7,10 @@
     display: none;
 }
 
+.hidden{
+    display: none;
+}
+
 body{
     font-family: sans-serif;
     background: #fafafa;
@@ -87,8 +91,8 @@ body{
 }
 
 #services .container-left{
-    padding:20px 20px 10px 20px;
-    margin-left:55px;
+    padding:35px 20px 35px 20px;
+    margin-left:100px;
 
 }
 

@@ -4,16 +4,16 @@ from .models import Profile
 
 
 class UserRegistrationForm(UserCreationForm):
-    first_name = forms.CharField(label="First Name", widget=forms.TextInput(attrs={'class': 'row col form-group'}))
-    last_name = forms.CharField(label="Last Name", widget=forms.TextInput(attrs={'class': 'row col form-group'}))
-    username = forms.CharField(label="Username", widget=forms.TextInput(attrs={'class': 'form-control'}))
-    contact = forms.CharField(label="Contact Number", widget=forms.TextInput(attrs={'class': 'form-control'}))
-    email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    password1 = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    password2 = forms.CharField(label="Password Confirmation", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
-    departmentId = forms.CharField(label="Department", widget=forms.TextInput(attrs={'class': 'form-control'}))
-    companyId = forms.CharField(label="Company", widget=forms.TextInput(attrs={'class': 'form-control'}))
-    branchId = forms.CharField(label="Branch", widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(label="First Name")
+    last_name = forms.CharField(label="Last Name")
+    username = forms.CharField(label="Username")
+    contact = forms.CharField(label="Contact Number")
+    email = forms.EmailField(label="Email Address")
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput())
+    password2 = forms.CharField(label="Password Confirmation", widget=forms.PasswordInput())
+    departmentId = forms.CharField(label="Department")
+    companyId = forms.CharField(label="Company")
+    branchId = forms.CharField(label="Branch")
 
     class Meta(UserCreationForm):
         model = Profile
@@ -46,8 +46,17 @@ class ChangePasswordForm(PasswordChangeForm):
         return self.user
 
 
-# class CustomUserChangeForm(UserChangeForm):
-#
-#     class Meta(UserChangeForm):
-#         model = Profile
-#         fields = ('username', 'email')
+class CustomUserChangeForm(UserChangeForm):
+    password = None
+    username = forms.CharField(label="Username")
+    contact = forms.CharField(label="Contact Number")
+    email = forms.EmailField(label="Email Address")
+    departmentId = forms.CharField(label="Department")
+    companyId = forms.CharField(label="Company")
+    branchId = forms.CharField(label="Branch")
+    is_superuser = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
+    is_staff = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
+
+    class Meta(UserChangeForm):
+        model = Profile
+        fields = ('username', 'email', 'contact', 'departmentId', 'companyId', 'branchId', 'is_superuser', 'is_staff')

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from .forms import UserRegistrationForm, PasswordResetForm, ChangePasswordForm
+from .forms import UserRegistrationForm, PasswordResetForm, ChangePasswordForm, CustomUserChangeForm
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
@@ -60,3 +60,17 @@ def home(request):
 @login_required
 def profile(request):
     return render(request, 'accounts/profile.html')
+
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Your profile has been updated.')
+            return redirect('accounts:profile_page')
+
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return render(request, 'accounts/profile_update_form.html', {'form': form})
