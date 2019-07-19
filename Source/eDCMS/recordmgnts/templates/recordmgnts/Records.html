@@ -1,18 +1,100 @@
 {% extends 'accounts/base.html' %}
 {% block content %}
+
+<section>
+    <div class="container-fluid">
+        <div class="row align-items-start">
+            <div class="col-8 justify-content-between">
+
+                <h2>Search</h2>
+                <form method='GET' action=''>
+                    <input type='text' name='q' placeholder='search data'/>
+                    <input type='submit' value='Search'/>
+                </form>
+            </div>
+        </div>
     <!---Container table--->
-    <section id="cont-table">
-      <div class="table-responsive">
-        <table id="t01 table-striped" border="5" width="1300">
-          <tr>
-              <th> Container Serial Number </th><th> Container Description </th><th> Is active? </th><th> Created by? </th><th> Created date </th><th> Modify by </th><th> Modify Date </th><th> Warehouse </th>
-          </tr>
-          {% for Container in allitem %}
-          <tr>
-            <td>{{ Container.container_serial_number }}</td><td>{{ Container.container_description }}</td><td>{{ Container.is_active }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date }}</td><td>{{ Container.warehouse }}</td>
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-    </section>
+        <div class="row">
+            <div class="col align-self-center">
+                <div class="table-responsive">
+                    <h3><button class="btn-lg" style="margin-left:1400px;margin-bottom:30px"><a href="#">Add</a></button>Container</h3>
+                     <table class="table table-hover table-bordered table-condensed">
+                        <tr>
+                            <th> Container Serial Number </th><th> Container Description </th><th> Is active? </th><th> Created by? </th><th> Created date </th><th> Modify by </th><th> Modify Date </th><th> Warehouse </th><th> Modify </th><th> Delete </th><th> View </th>
+                        </tr>
+                         {% for Container in allContainer %}
+                         <tr>
+                             <td>{{ Container.container_serial_number }}</td><td>{{ Container.container_description }}</td><td>{{ Container.is_active }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date }}</td><td>{{ Container.warehouse }}</td><td><button onclick="window.location.href='#';">Modify</button></td><td><button id="del" onclick="delFunction()">Delete</button>
+                                    <script>
+                                        function delFunction(){
+                                            var txt;
+                                            if (confirm("Ok to confirm")){
+                                                window.alert("You have deleted a data");
+                                           }else{}
+                                        }
+                                    </script></td><td><button onclick="window.location.href='#';">View</button></td>
+                         </tr>
+                         {% endfor %}
+                     </table>
+                </div>
+            </div>
+        </div>
+    <!---Header table--->
+        <h4 style="margin-top:50px"><button class="btn-lg" style="margin-left:1400px;margin-bottom:30px"><a href="#">Add</a></button>OrderHeader</h4>
+        <div class="row">
+            <div class="col align-self-center">
+                <div class="table-responsive">
+                     <table class="table table-hover table-bordered table-condensed">
+                        <tr>
+                            <th> Doc Type </th><th> Doc Serial Number </th><th> Created by? </th><th> Department </th><th> Branch </th><th> Created Date </th><th> Modify </th><th> Delete </th><th> View </th>
+                        </tr>
+                         {% for OrderHeader in allHeader %}
+                         <tr>
+                             <td>{{ OrderHeader.doc_type }}</td><td>{{ OrderHeader.doc_serial_number }}</td><td>{{ OrderHeader.created_by }}</td><td>{{ OrderHeader.department }}</td><td>{{ OrderHeader.branch }}</td><td>{{ OrderHeader.created_date }}</td><td><button onclick="window.location.href='#';">Modify</button></td><td><button id="del" onclick="delFunction()">Delete</button>
+                                    <script>
+                                        function delFunction(){
+                                            var txt;
+                                            if (confirm("Ok to confirm")){
+                                                window.alert("You have deleted a data");
+                                           }else{}
+                                        }
+                                    </script></td><td><button onclick="window.location.href='#';">View</button></td>
+                         </tr>
+                         {% endfor %}
+                     </table>
+                </div>
+            </div>
+        </div>
+    <!---Detail table--->
+        <h4 style="margin-top:50px"><button class="btn-lg" style="margin-left:1400px;margin-bottom:30px"><a href="#">Add</a></button>OrderDetail</h4>
+        <div class="row">
+            <div class="col align-self-center">
+                <div class="table-responsive">
+                     <table class="table table-hover table-bordered table-condensed">
+                        <tr>
+                            <th> Header </th><th> Container </th><th> Barcode </th><th> Modify </th><th> Delete </th><th> View </th>
+                        </tr>
+                         {% for OrderDetail in allDetail %}
+                         <tr>
+                             <td>{{ OrderDetail.header }}</td><td>{{ OrderDetail.container }}</td><td>{{ OrderDetail.barcode }}</td><td><button onclick="window.location.href='#';">Modify</button></td><td><button id="del" onclick="delFunction()">Delete</button>
+                                    <script>
+                                        function delFunction(){
+                                            var txt;
+                                            if (confirm("Ok to confirm")){
+                                                window.alert("You have deleted a data");
+                                           }else{}
+                                        }
+                                    </script></td><td><button onclick="window.location.href='#';">View</button></td>
+                         </tr>
+                         {% endfor %}
+                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
 {% endblock content %}
