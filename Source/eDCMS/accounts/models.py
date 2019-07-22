@@ -3,6 +3,8 @@ from datetime import datetime
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+
+
 class Profile(AbstractUser):
     class Meta:
         verbose_name_plural = 'Profiles'
@@ -15,7 +17,6 @@ class Profile(AbstractUser):
     modify_date      = models.DateTimeField(default=datetime.now, blank=True)
     is_superuser     = models.BooleanField(default=False, null=True)
     is_staff         = models.BooleanField(default=False, null=True)
-
 
     def __str__(self):
         return self.username
