@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
 from .forms import ContainerForm
@@ -33,7 +33,10 @@ def addContainer(request):
         form = ContainerForm(request.POST)
         if form.is_valid():
             container = form.save()
-            return redirect('new_container/SuccessAdded.html')
+            container.created_by = str(request.user)
+            container.modify_by = str(request.user)
+            container.save()
+            return render(request, 'recordmgnts/SuccessAdded.html')
     else:
         form = ContainerForm()
     return render(request, 'recordmgnts/new_container.html', {'form': form})
@@ -42,10 +45,9 @@ def addContainer(request):
 class ContainerDetailView(DetailView):
     template_name = 'recordmgnts/records_detail.html'
 
-
-def get_object(self):
-    id_ = self.kwargs.get("id")
-    return get_object_or_404(Container, id=id_)
+    def get_object(self):
+        id_ = self.kwargs.get("id")
+        return get_object_or_404(Container, id=id_)
 
 
 
