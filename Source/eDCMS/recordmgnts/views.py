@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
 from .forms import ContainerForm
+from django.views.generic import DetailView
 
 
 @login_required
@@ -36,6 +37,15 @@ def addContainer(request):
     else:
         form = ContainerForm()
     return render(request, 'recordmgnts/new_container.html', {'form': form})
+
+
+class ContainerDetailView(DetailView):
+    template_name = 'recordmgnts/records_detail.html'
+
+
+def get_object(self):
+    id_ = self.kwargs.get("id")
+    return get_object_or_404(Container, id=id_)
 
 
 

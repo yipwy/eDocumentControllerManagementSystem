@@ -1,0 +1,43 @@
+{% extends 'accounts/base.html' %}
+{% load widget_tweaks %}
+{% block title %}Update Profile{% endblock %}
+
+{% block content %}
+<section id="services">
+    <div class="container-left jumbotron col-md-8 col-sm-3">
+        <div id="headers" style="margin-bottom:20px">
+            <h1>Update profile</h1>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            {% if field == form.hidden_field_name %}
+            {% render_field field hidden='True' id='hidden-field' class='hidden-field-class' %}
+            {% endif %}
+            {% for field in form.visible_fields %}
+            {% if field.name == 'is_superuser' or field.name == 'is_staff' %}
+            {% render_field field class="hidden" %}
+            {% else %}
+            <div class="form-group col-md-8 col-sm-3" style="margin-left:-15px">
+                <b>{{ field.label_tag }}</b>
+                {% if form.is_bound %}
+                {% if field.errors %}
+                {% render_field field class="form-control is-invalid" %}
+                {% for error in field.errors %}
+                <div class="invalid-feedback">
+                    {{ error }}
+                </div>
+                {% endfor %}
+                {% else %}
+                {% render_field field class="form-control is-valid" %}
+                {% endif %}
+                {% else %}
+                {% render_field field class="form-control" %}
+                {% endif %}
+            </div>
+            {% endif %}
+            {% endfor %}
+            <button class="btn btn-outline-info form-control col-md-4" type="submit" style="margin-top:5px">Update</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

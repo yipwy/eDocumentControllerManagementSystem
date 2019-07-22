@@ -4,13 +4,14 @@
 <section>
     <div class="container-fluid">
         <div class="row align-items-start">
-            <div class="col-8 justify-content-between">
-
+            <div class="col-8 justify-content-between" style="margin-top:25px">
                 <h2>Search</h2>
+                <div class="search-bar">
                 <form method='GET' action=''>
-                    <input type='text' name='q' placeholder='search data'/>
-                    <input type='submit' value='Search'/>
+                        <input type="text" name="q" class="col-md-4" placeholder="Search"/>
+                        <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
+                </div>
             </div>
         </div>
     <!---Container table--->
@@ -24,7 +25,7 @@
                         </tr>
                          {% for Container in allContainer %}
                          <tr>
-                             <td>{{ Container.container_serial_number }}</td><td>{{ Container.container_description }}</td><td>{{ Container.is_active }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date }}</td><td>{{ Container.warehouse }}</td><td><button onclick="window.location.href='#';">Modify</button></td><td><button id="del" onclick="delFunction()">Delete</button>
+                             <td>{{ Container.container_serial_number }}</td><td>{{ Container.container_description }}</td><td>{{ Container.is_active }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date }}</td><td>{{ Container.warehouse }}</td><td><button class="btn btn-outline-default" onclick="window.location.href='#';">Modify</button></td><td><button id="del" class="btn btn-outline-default" onclick="delFunction()">Delete</button>
                                     <script>
                                         function delFunction(){
                                             var txt;
@@ -32,7 +33,7 @@
                                                 window.alert("You have deleted a data");
                                            }else{}
                                         }
-                                    </script></td><td><button onclick="window.location.href='#';">View</button></td>
+                                    </script></td><td><button class="btn btn-primary-default" onclick="window.location.href='{% url 'recordmgnts:records_view' Container.id %}';">View</button></td>
                          </tr>
                          {% endfor %}
                      </table>

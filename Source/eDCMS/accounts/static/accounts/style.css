@@ -7,6 +7,10 @@
     display: none;
 }
 
+.hidden{
+    display: none;
+}
+
 body{
     font-family: sans-serif;
     background: #fafafa;
@@ -79,6 +83,12 @@ body{
 
 }
 
+.container-left{
+    margin-left:25px;
+    margin-top:25px
+
+}
+
 #services p{
     padding-top:15px;
     padding-left: 15px;
@@ -87,8 +97,8 @@ body{
 }
 
 #services .container-left{
-    padding:20px 20px 10px 20px;
-    margin-left:55px;
+    padding:35px 20px 35px 20px;
+    margin-left:100px;
 
 }
 
@@ -247,3 +257,24 @@ body{
     transition: all 0.3s;
 }
 
+
+.search-bar input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+.search-bar button {
+  float: left;
+  width: 10%;
+  padding: 10px;
+  background: black;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
