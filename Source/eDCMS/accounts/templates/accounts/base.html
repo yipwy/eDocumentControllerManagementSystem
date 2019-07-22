@@ -74,6 +74,8 @@
         </ul>
     </div>
 
+    <div id="overlay" onclick="off()"></div>
+
 
     <div id="content-wrap">
    {% block content %}{% endblock %}
@@ -93,7 +95,12 @@
 <script>
     function toggleSidebar(){
         document.getElementById("sidebar").classList.toggle('active');
-        document.getElementById("content-wrap").classList.toggle('active');
+        document.getElementById("overlay").classList.toggle('active');
+    }
+
+    function off(){
+        document.getElementById("sidebar").classList.toggle('active');
+        document.getElementById("overlay").classList.toggle('active');
     }
 </script>
 </body>
