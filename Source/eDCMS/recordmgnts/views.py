@@ -41,7 +41,7 @@ def addContainer(request):
             container.created_by = str(request.user)
             container.modify_by = str(request.user)
             container.save()
-            return render(request, 'recordmgnts/SuccessAdded.html')
+            return render(request, 'recordmgnts/success_added.html')
     else:
         form = ContainerForm()
     return render(request, 'recordmgnts/new_container.html', {'form': form})
