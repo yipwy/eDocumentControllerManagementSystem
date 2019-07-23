@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
 from .forms import ContainerForm
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.db.models import Q
 
 
 @login_required
@@ -60,6 +61,14 @@ def containerDelete(request,id):
     return redirect('recordmgnts:records')
 
 
+class SearchContainerView(LoginRequiredMixin, ListView):
+    model = Container
+    template_name = 'recordmgnts/search_container_results.html'
 
-
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        object_list = Container.objects.filter(
+            Q(container_serial_number__icontains=query) | Q(container_description__icontains=query)
+        )
+        return object_list
 

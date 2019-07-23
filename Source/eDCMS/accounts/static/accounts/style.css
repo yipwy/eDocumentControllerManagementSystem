@@ -232,6 +232,7 @@ body{
     position:absolute;
     left:25px;
     top:25px;
+    cursor:pointer;
 }
 
 .toggle-btn span{
@@ -240,6 +241,7 @@ body{
     height:5px;
     background:#151719;
     margin:5px 0px;
+
 }
 
 #sidebar ul ul a {
@@ -274,6 +276,14 @@ body{
   border: 1px solid grey;
   border-left: none;
   cursor: pointer;
+}
+
+.search-bar button:hover{
+    background: black;
+    opacity:0.5;
+    transition: all 0.3s;
+
+
 }
 
 #overlay {

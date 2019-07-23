@@ -8,7 +8,7 @@
             <div class="col-8 justify-content-between" style="margin-top:25px">
                 <h2>Search</h2>
                 <div class="search-bar">
-                <form method='GET' action=''>
+                <form method="GET" action="{% url 'recordmgnts:container_search' %}">
                         <input type="text" name="q" class="col-md-4" placeholder="Search"/>
                         <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
@@ -55,10 +55,10 @@
                              </div>
                          </div>
                          <tr>
-                             <td>{{ Container.container_serial_number }}</td><td>{{ Container.container_description }}</td><td>{{ Container.is_active }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date }}</td><td>{{ Container.warehouse }}</td>
+                             <td>{{ Container.container_serial_number }}</td><td>{{ Container.container_description }}</td><td>{{ Container.is_active|yesno:"Yes,No" }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date }}</td><td>{{ Container.warehouse }}</td>
                              <td><button class="btn btn-outline-info" onclick="window.location.href='#';">Modify</button></td>
-                             <td><button href="{% url 'recordmgnts:records_delete' id=Container.id %}" id="{{Container.id}}" class="btn btn-outline-info confirm-delete" data-toggle="modal" data-target="#delModal">Delete</button></td>
-                             <td><button class="btn btn-outline-info" onclick="window.location.href='{% url 'recordmgnts:records_view' Container.id %}';">View</button></td>
+                             <td><button href="{% url 'recordmgnts:container_delete' id=Container.id %}" id="{{Container.id}}" class="btn btn-outline-info confirm-delete" data-toggle="modal" data-target="#delModal">Delete</button></td>
+                             <td><button class="btn btn-outline-info" onclick="window.location.href='{% url 'recordmgnts:container_view' Container.id %}';">View</button></td>
                          </tr>
                          {% endfor %}
                          <script>
