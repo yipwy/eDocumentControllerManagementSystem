@@ -2,14 +2,12 @@
 {% block title %}eDCMS-Documents Search{% endblock title %}
 {% block content %}
 
-
-
-
 <section>
     <div class="container-fluid" style="margin-top:25px">
         <h1>Search Results</h1>
         <div class="row">
             <div class="col align-self-center">
+                {% if object_list %}
                 <div class="table-responsive" style="margin-top:30px">
                     <h3>Container</h3>
                         <table class="table table-hover table-bordered table-condensed">
@@ -18,12 +16,15 @@
                         </tr>
                         {% for container in object_list %}
                         <tr>
-                            <td>{{ container.container_serial_number }}</td><td>{{ container.container_description }}</td><td>{{ container.is_active }}</td><td>{{ container.created_by }}</td><td>{{ container.created_date }}</td><td>{{ container.modify_by }}</td><td>{{ container.modify_date }}</td><td>{{ container.warehouse }}</td>
+                            <td>{{ container.container_serial_number }}</td><td>{{ container.container_description }}</td><td>{{ container.is_active |yesno:"Yes,No"  }}</td><td>{{ container.created_by }}</td><td>{{ container.created_date }}</td><td>{{ container.modify_by }}</td><td>{{ container.modify_date }}</td><td>{{ container.warehouse }}</td>
                         </tr>
                         {% endfor %}
 
                         </table>
-                    <button class="btn btn-info" onclick="window.location.href='{% url 'recordmgnts:records' %}';">Back</button>
+                    {% else %}
+                    <h4 style="margin-top:25px; margin-bottom:20px">No results found.</h4>
+                    {% endif %}
+                        <button class="btn btn-info" onclick="window.location.href='{% url 'recordmgnts:records' %}';">Back</button>
                 </div>
             </div>
         </div>

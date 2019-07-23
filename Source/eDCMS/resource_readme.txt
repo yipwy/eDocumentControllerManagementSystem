@@ -14,4 +14,7 @@
     src :https://stackoverflow.com/questions/18543776/why-is-my-css-not-updating-in-web-browser
 
 6) using bootstrap modal to delete records
-    src : https://elennion.wordpress.com/2018/10/08/bootstrap-4-delete-confirmation-modal-for-list-of-items/
+    src :https://elennion.wordpress.com/2018/10/08/bootstrap-4-delete-confirmation-modal-for-list-of-items/
+
+7) search input
+    src :https://wsvincent.com/django-search/

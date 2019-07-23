@@ -29,6 +29,9 @@ def mylogin(request):
 
 
 def signup(request):
+    if request.user.is_authenticated:
+        return redirect('accounts:home')
+
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -40,8 +43,23 @@ def signup(request):
     return render(request, 'accounts/signup.html', {'form': form})
 
 
+class MyPasswordResetView(auth_views.PasswordResetView):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('accounts:home')
+        return super(MyPasswordResetView, self).get(request, *args, **kwargs)
+
+
 class MyPasswordConfirmView(auth_views.PasswordResetConfirmView):
     form_class = PasswordResetForm
+
+
+class MyPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('accounts:home')
+        return super(MyPasswordResetCompleteView, self).get(request, *args, **kwargs)
+
 
 
 class MyPasswordChangeView(SuccessMessageMixin, auth_views.PasswordChangeView):
