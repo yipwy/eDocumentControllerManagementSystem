@@ -8,7 +8,7 @@ class ContainerForm(forms.ModelForm):
     container_serial_number = forms.CharField(
         widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'})),
     container_description = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=50),
+        widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100),
     is_active = forms.BooleanField(required=False,
                                    label='Available?')
 
