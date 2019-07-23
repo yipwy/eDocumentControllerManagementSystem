@@ -74,22 +74,6 @@ class SearchContainerView(LoginRequiredMixin, ListView):
         )
         return object_list
 
-# class containerUpdate(UpdateView):
-#     # model = Container
-#     # fields = ('container_serial_number', 'container_description', 'is_active', 'warehouse')
-#     template_name = 'edit_records.html'
-#     # context_object_name = 'container'
-#     # pk_url_kwargs = 'container_pk'
-#     form_class = ContainerForm
-#     queryset = Container.objects.all()
-#
-#     def get_object(self):
-#         id_ = self.kwargs.get("id")
-#         return get_object_or_404(Container, id=id_)
-#
-#     def form_valid(self, form):
-#         print(form.cleaned_data)
-#         return super().form_valid(form)
 
 def containerUpdate(request, pk):
     template_name = 'recordmgnts/edit_records.html'
