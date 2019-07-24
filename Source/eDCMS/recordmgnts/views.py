@@ -104,6 +104,6 @@ def transactionlog(request):
     else:
         form = ContainerTransactionForm(initial=initial_data)
 
-    return render(request,'recordmgnts/container_transaction.html', {'form': form})
+    return render(request, 'recordmgnts/container_transaction.html', {'form': form})
 
 

@@ -15,7 +15,7 @@ class Container(models.Model):
     warehouse                   = models.ForeignKey('generals.Warehouse', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.container_description
+        return self.container_serial_number
 
 
 class OrderHeader(models.Model):
