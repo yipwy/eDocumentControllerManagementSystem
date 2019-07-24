@@ -6,7 +6,7 @@ class DocumentType(models.Model):
     class Meta:
         verbose_name_plural = 'DocumentTypes'
 
-    document_code = models.CharField(max_length=20)
+    document_code = models.CharField(max_length=20, unique=True)
     document_description = models.CharField(max_length=50)
     document_number_seriesId = models.ForeignKey('SeriesNumber', null=True, blank=True, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
@@ -23,7 +23,7 @@ class SeriesNumber(models.Model):
     class Meta:
         verbose_name_plural = 'SeriesNumbers'
 
-    series_code = models.CharField(max_length=20)
+    series_code = models.CharField(max_length=20, unique=True)
     series_description = models.CharField(max_length=50)
     starting_number = models.IntegerField()
     ending_number = models.IntegerField()
@@ -60,7 +60,7 @@ class Department(models.Model):
 class Warehouse(models.Model):
     class Meta:
         verbose_name_plural     = "Warehouses"
-    warehouse_id                = models.CharField(max_length=15, null=False)
+    warehouse_id                = models.CharField(max_length=15, null=False, unique=True)
     branch                      = models.ForeignKey('Branch', on_delete=models.CASCADE)
 
     def __str__(self):
