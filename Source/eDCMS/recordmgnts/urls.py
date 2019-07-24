@@ -13,5 +13,6 @@ urlpatterns = [
     path('delete/<int:id>/', views.containerDelete, name='container_delete'),
     path('search/', views.SearchContainerView.as_view(), name='container_search'),
     path('records/edit_records/<int:pk>/', views.containerUpdate, name='edit_records'),
-    path('transaction/', views.transactionlog, name='transaction_log'),
+    path('transaction/', views.transaction_log, name='transaction_log'),
+    path('load_document_series/', views.load_series_number, name='ajax_load_doc_number'),
 ]

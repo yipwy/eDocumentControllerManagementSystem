@@ -34,5 +34,5 @@ class OrderDetail(models.Model):
         verbose_name_plural     = 'Order Details'
     header                   = models.ForeignKey(OrderHeader, on_delete=models.CASCADE)
     container                = models.ForeignKey(Container, on_delete=models.SET_NULL, null=True)
-    barcode                     = models.CharField(max_length=20, null=True)
+    barcode                  = models.CharField(max_length=20, null=True)
 

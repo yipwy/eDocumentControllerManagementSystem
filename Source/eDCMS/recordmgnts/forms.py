@@ -1,7 +1,6 @@
 from django import forms
 from .models import Container, OrderHeader
-from generals.models import Warehouse
-from accounts.models import Profile
+from generals.models import Warehouse, DocumentType
 
 
 class ContainerForm(forms.ModelForm):
@@ -19,21 +18,16 @@ class ContainerForm(forms.ModelForm):
 
 
 class ContainerTransactionForm(forms.ModelForm):
-
     class Meta:
         model = OrderHeader
         fields = ['doc_type', 'doc_serial_number', 'created_by', 'branch', 'department', 'created_date']
         labels = {
-            'doc_serial_number': 'Document Serial Number',
             'doc_type': 'Document Type',
             'created_by': 'User',
         }
 
     def __init__(self, *args, **kwargs):
-        super(ContainerTransactionForm,self).__init__(*args, **kwargs)
-        # self.fields['doc_type'].widget = forms.TextInput(attrs={
-        #     'readonly': True
-        # })
+        super(ContainerTransactionForm, self).__init__(*args, **kwargs)
         self.fields['created_by'].widget = forms.TextInput(attrs={
             'readonly': True,
         })
