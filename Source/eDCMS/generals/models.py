@@ -16,7 +16,7 @@ class DocumentType(models.Model):
     modify_date = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
-        return self.document_description
+        return self.document_code
 
 
 class SeriesNumber(models.Model):
@@ -35,7 +35,7 @@ class SeriesNumber(models.Model):
     modify_date = models.DateTimeField(default=datetime.now, blank=True)
 
     def __str__(self):
-        return self.series_description
+        return self.series_code
 
 
 class Branch(models.Model):
