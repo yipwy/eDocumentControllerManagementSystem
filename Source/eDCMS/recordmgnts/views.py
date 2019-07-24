@@ -89,9 +89,8 @@ def containerUpdate(request, pk):
 
 
 @login_required
-def transactionlog(request):
+def transaction_log(request):
     initial_data ={
-        'doc_serial_number': DocumentType.objects.get(pk=1).document_number_seriesId,
         'department': request.user.departmentId,
         'branch': request.user.branchId,
         'created_by': request.user.username,
@@ -104,6 +103,12 @@ def transactionlog(request):
     else:
         form = ContainerTransactionForm(initial=initial_data)
 
-    return render(request,'recordmgnts/container_transaction.html', {'form': form})
+    return render(request, 'recordmgnts/container_transaction.html', {'form': form})
+
+
+def load_series_number(request):
+    document_id = request.GET.get('doc_type')
+    document_series_number = DocumentType.objects.filter(pk=document_id)
+    return render(request, 'recordmgnts/doc_series_number.html', {'document_series_number': document_series_number})
 
 
