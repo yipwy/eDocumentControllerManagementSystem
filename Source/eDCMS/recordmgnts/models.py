@@ -5,7 +5,7 @@ from datetime import datetime
 class Container(models.Model):
     class Meta:
         verbose_name_plural     = 'Containers'
-    container_serial_number     = models.CharField(max_length=20)
+    container_serial_number     = models.CharField(max_length=20, unique=True)
     container_description       = models.CharField(max_length=100)
     is_active                   = models.BooleanField(default=False)
     created_by                  = models.CharField(max_length=20)
@@ -15,14 +15,14 @@ class Container(models.Model):
     warehouse                   = models.ForeignKey('generals.Warehouse', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.container_description
+        return self.container_serial_number
 
 
 class OrderHeader(models.Model):
     class Meta:
         verbose_name_plural     = 'Order Headers'
     doc_type                    = models.ForeignKey('generals.DocumentType', on_delete=models.CASCADE)
-    doc_serial_number           = models.CharField(max_length=20)
+    doc_serial_number           = models.CharField(max_length=20, unique=True)
     created_by                  = models.CharField(max_length=20)
     department                  = models.CharField(max_length=50)
     branch                      = models.CharField(max_length=50)

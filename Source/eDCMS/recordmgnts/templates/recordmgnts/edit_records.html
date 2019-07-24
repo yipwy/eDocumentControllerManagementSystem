@@ -9,7 +9,7 @@
     </ol>
 </div>
 <div class="container" style="margin-top:30px">
-<form method="POST">
+<form method="POST" id="saveform">
     {% csrf_token %}
     {% for field in form %}
         <div class="form-group">
@@ -18,7 +18,7 @@
         </div>
     {% endfor %}
 <!-- Trigger the modal with a button -->
-  <button type="button" class="btn btn-info btn-lg " data-toggle="modal" data-target="#addDoc">Update</button>
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#addDoc" >Update</button>
 </form>
 </div>
     <!-- Modal -->
@@ -32,17 +32,21 @@
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-          <p>Please press confirm to update.</p>
+          <p>Please press 'Save Changes' to update.</p>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-success" id="confirmUpdateButtonModal">Save changes</button>
+          <input type="button" class="btn btn-success" id="confirmUpdateButtonModal" value="Save Changes"/>
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
       </div>
     </div>
  </div>
-<script>
-
+<script type="text/javascript">
+    window.onload = function(){
+        document.getElementById('confirmUpdateButtonModal').onclick = function(event){
+            document.getElementById('saveform').submit();
+        }
+    }
 </script>
 
 {% endblock content %}
