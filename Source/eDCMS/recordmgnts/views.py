@@ -9,7 +9,6 @@ from django.db.models import Q
 from django.utils import timezone
 from generals.models import DocumentType
 
-
 @login_required
 def showContainer(request):
 
@@ -22,14 +21,14 @@ def showHeader(request):
 
     allHeader = OrderHeader.objects.all()
     context = {'allHeader': allHeader}
-    return render(request, 'recordmgnts/records.html', context)
+    return render(request, 'recordmgnts/transaction_log.html', context)
 
 
 def showDetail(request):
 
     allDetail = OrderDetail.objects.all()
     context = {'allDetail': allDetail}
-    return render(request, 'recordmgnts/records.html', context)
+    return render(request, 'recordmgnts/transaction_log.html', context)
 
 
 def addContainer(request):
@@ -86,7 +85,7 @@ def containerUpdate(request, pk):
         container.save()
         return redirect('recordmgnts:records')
 
-    return render(request,template_name, {'form':form})
+    return render(request, template_name, {'form': form})
 
 
 @login_required
