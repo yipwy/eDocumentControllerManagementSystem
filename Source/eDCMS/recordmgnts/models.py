@@ -23,7 +23,7 @@ class OrderHeader(models.Model):
         verbose_name_plural     = 'Order Headers'
     doc_type                    = models.ForeignKey('generals.DocumentType', on_delete=models.CASCADE)
     doc_serial_number           = models.CharField(max_length=20)
-    created_by                  = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)
+    created_by                  = models.CharField(max_length=20)
     department                  = models.CharField(max_length=50)
     branch                      = models.CharField(max_length=50)
     created_date                = models.DateTimeField(default=datetime.now, blank=True)

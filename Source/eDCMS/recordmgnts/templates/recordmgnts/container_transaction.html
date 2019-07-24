@@ -1,0 +1,20 @@
+{% extends 'accounts/base.html' %}
+{% load widget_tweaks %}
+{% block title %}eDCMS-Add documents{% endblock title %}
+{% block content %}
+
+<div class="container" style="margin-top:30px">
+    <header><h2>Transaction header</h2></header>
+    <hr>
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <b>{{field.label_tag}}</b>
+            {% render_field field class="form-control" %}
+        </div>
+        {% endfor %}
+        <hr>
+        <button type="submit" class="btn btn-success col-md-2">Add</button>
+    </form>
+{% endblock content %}

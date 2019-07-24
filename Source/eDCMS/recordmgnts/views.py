@@ -1,13 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
-from .forms import ContainerForm
+from .forms import ContainerForm, ContainerTransactionForm
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
-
+from generals.models import DocumentType
 
 
 @login_required
@@ -87,5 +87,24 @@ def containerUpdate(request, pk):
         return redirect('recordmgnts:records')
 
     return render(request,template_name, {'form':form})
+
+
+@login_required
+def transactionlog(request):
+    initial_data ={
+        'doc_serial_number': DocumentType.objects.get(pk=1).document_number_seriesId,
+        'department': request.user.departmentId,
+        'branch': request.user.branchId,
+        'created_by': request.user.username,
+    }
+
+    if request.method == 'POST':
+        form = ContainerTransactionForm(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = ContainerTransactionForm(initial=initial_data)
+
+    return render(request,'recordmgnts/container_transaction.html', {'form': form})
 
 

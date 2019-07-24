@@ -4,15 +4,16 @@
 
 
 <div class="container-left col-md-6 col-sm-6">
-    <h1 style="border-bottom:1px solid black">Details</h1>
+    <h1 style="border-bottom:1px solid black">Container Details</h1>
     <p><b>Container Serial Number: </b>{{ object.container_serial_number }}</p>
     <p><b>Container Description: </b>{{ object.container_description }}</p>
-    <p><b>Active: </b>{{ object.is_active }}</p>
+    <p><b>Active: </b>{{ object.is_active |yesno:"Yes,No"}}</p>
     <p><b>Created by: </b>{{ object.created_by }}</p>
     <p><b>Created date: </b>{{ object.created_date }}</p>
     <p><b>Modify by: </b>{{ object.modify_by }}</p>
     <p><b>Modify Date: </b>{{ object.modify_date }}</p>
     <p><b>Warehouse: </b>{{ object.warehouse }}</p>
+    <button class="btn btn-info" onclick="window.location.href='{% url 'recordmgnts:records' %}';">Back</button>
 
 </div>
 
