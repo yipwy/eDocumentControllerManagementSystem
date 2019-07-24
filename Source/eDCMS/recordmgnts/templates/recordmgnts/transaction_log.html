@@ -1,0 +1,64 @@
+{% extends 'accounts/base.html' %}
+{% block title %}eDCMS-Transaction Log{% endblock title %}
+{% block content %}
+<section>
+    <div class="container-fluid">
+        <!---Header table--->
+        <div class="row">
+            <div class="col align-self-center">
+                <button class="btn btn-info" style="float:right;margin-top:30px" onclick="window.location.href='#';">Add</button>
+                <div class="table-responsive">
+                    <h3>Order Header</h3>
+                     <table class="table table-hover table-bordered table-condensed">
+                        <tr>
+                            <th> Doc Type </th><th> Doc Serial Number </th><th> Created by? </th><th> Department </th><th> Branch </th><th> Created Date </th><th> Modify </th><th> Delete </th><th> View </th>
+                        </tr>
+                         {% for OrderHeader in allHeader %}
+                         <tr>
+                             <td>{{ OrderHeader.doc_type }}</td><td>{{ OrderHeader.doc_serial_number }}</td><td>{{ OrderHeader.created_by }}</td><td>{{ OrderHeader.department }}</td><td>{{ OrderHeader.branch }}</td><td>{{ OrderHeader.created_date }}</td><td><button onclick="window.location.href='#';">Modify</button></td><td><button id="del" onclick="delFunction()">Delete</button>
+                                    <script>
+                                        function delFunction(){
+                                            var txt;
+                                            if (confirm("Ok to confirm")){
+                                                window.alert("You have deleted a data");
+                                           }else{}
+                                        }
+                                    </script></td><td><button onclick="window.location.href='#';">View</button></td>
+                         </tr>
+                         {% endfor %}
+                     </table>
+                </div>
+            </div>
+        </div>
+    <!---Detail table--->
+        <div class="row">
+            <div class="col align-self-center">
+                <button class="btn btn-info" style="float:right;margin-top:30px" onclick="window.location.href='#';">Add</button>
+                <div class="table-responsive">
+                    <h3>Order Detail</h3>
+                     <table class="table table-hover table-bordered table-condensed">
+                        <tr>
+                            <th> Header </th><th> Container </th><th> Barcode </th><th> Modify </th><th> Delete </th><th> View </th>
+                        </tr>
+                         {% for OrderDetail in allDetail %}
+                         <tr>
+                             <td>{{ OrderDetail.header }}</td><td>{{ OrderDetail.container }}</td><td>{{ OrderDetail.barcode }}</td><td><button onclick="window.location.href='#';">Modify</button></td><td><button id="del" onclick="delFunction()">Delete</button>
+                                    <script>
+                                        function delFunction(){
+                                            var txt;
+                                            if (confirm("Ok to confirm")){
+                                                window.alert("You have deleted a data");
+                                           }else{}
+                                        }
+                                    </script></td><td><button onclick="window.location.href='#';">View</button></td>
+                         </tr>
+                         {% endfor %}
+                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}
