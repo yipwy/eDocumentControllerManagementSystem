@@ -1,14 +1,14 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
-from .forms import ContainerForm, ContainerTransactionForm
+from .forms import ContainerForm, ContainerTransactionForm, TransactionDetailForm
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
 from generals.models import DocumentType
-from django.core.paginator import Paginator,  EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 @login_required
@@ -100,25 +100,31 @@ def containerUpdate(request, pk):
 
 @login_required
 def transaction_log(request):
-    initial_data = {
+    initial_header_data ={
         'department': request.user.departmentId,
         'branch': request.user.branchId,
         'created_by': request.user.username,
     }
 
     if request.method == 'POST':
-        form = ContainerTransactionForm(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = ContainerTransactionForm(initial=initial_data)
+        header_form = ContainerTransactionForm(request.POST)
+        detail_form = TransactionDetailForm(request.POST)
+        if header_form.is_valid():
+            new_header = header_form.save(commit=False)
 
-    return render(request, 'recordmgnts/container_transaction.html', {'form': form})
+            if detail_form.is_valid():
+                new_header.save()
+                new_detail = detail_form.save(commit=False)
+                new_detail.header = new_header
+                new_detail.save()
+    else:
+        header_form = ContainerTransactionForm(initial=initial_header_data)
+        detail_form = TransactionDetailForm()
+
+    return render(request, 'recordmgnts/container_transaction.html', {'header_form': header_form, 'detail_form': detail_form})
 
 
 def load_series_number(request):
     document_id = request.GET.get('doc_type')
-    document_series_number = DocumentType.objects.filter(pk=document_id)
-    return render(request, 'recordmgnts/doc_series_number.html', {'document_series_number': document_series_number})
-
-
+    document_series_number = DocumentType.objects.get(pk=document_id)
+    return HttpResponse(document_series_number.document_number_seriesId)

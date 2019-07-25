@@ -18,3 +18,6 @@
 
 7) search input
     src :https://wsvincent.com/django-search/
+
+8) to create two objects of different models simultaneously
+    src :https://www.djangosnippets.org/snippets/1399/
