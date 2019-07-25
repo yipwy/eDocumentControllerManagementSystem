@@ -11,7 +11,7 @@
         {% for field in header_form.visible_fields %}
         <div class="form-group">
             <b>{{ field.label_tag }}</b>
-            {% if form.is_bound %}
+            {% if header_form.is_bound %}
             {% if field.errors %}
             {% render_field field class="form-control is-invalid" %}
             {% for error in field.errors %}
@@ -20,7 +20,7 @@
             </div>
             {% endfor %}
             {% else %}
-            {% render_field field class="form-control is-valid" %}
+            {% render_field field class="form-control" %}
             {% endif %}
             {% else %}
             {% render_field field class="form-control" %}
@@ -31,8 +31,9 @@
             <header><h3>Details</h3></header>
             <hr>
             <div class="form-row form-group">
-            {% for field in detail_form.visible_fields %}
-
+                {{ detail_form.management_form }}
+            {% for form in detail_form %}
+            {% for field in form.visible_fields %}
                 <b>{{ field.label_tag }}</b>
                 {% if form.is_bound %}
                 {% if field.errors %}
@@ -46,7 +47,7 @@
                 {% endfor %}
                 {% else %}
                 <div class="form-group col-md-5">
-                    {% render_field field class="form-control is-valid" %}
+                    {% render_field field class="form-control" %}
                 </div>
                 {% endif %}
                 {% else %}
@@ -54,6 +55,7 @@
                     {% render_field field class="form-control" %}
                 </div>
                 {% endif %}
+                {% endfor %}
                 {% endfor %}
 
         </div>
