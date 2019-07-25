@@ -61,7 +61,6 @@ class MyPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
         return super(MyPasswordResetCompleteView, self).get(request, *args, **kwargs)
 
 
-
 class MyPasswordChangeView(SuccessMessageMixin, auth_views.PasswordChangeView):
     form_class = ChangePasswordForm
     success_url = reverse_lazy('accounts:profile_page')
