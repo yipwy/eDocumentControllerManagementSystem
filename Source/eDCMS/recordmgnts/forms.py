@@ -1,16 +1,13 @@
 from django import forms
-from .models import Container, OrderHeader
+from .models import Container, OrderHeader, OrderDetail
 from generals.models import Warehouse, DocumentType
 
 
 class ContainerForm(forms.ModelForm):
     warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
-    container_serial_number = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
-    container_description = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
-    is_active = forms.BooleanField(required=False,
-                                   label='Available?')
+    container_serial_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
+    container_description = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
+    is_active = forms.BooleanField(required=False, label='Available?')
 
     class Meta:
         model = Container
@@ -24,6 +21,7 @@ class ContainerTransactionForm(forms.ModelForm):
         labels = {
             'doc_type': 'Document Type',
             'created_by': 'User',
+            'doc_serial_number' : 'Document Serial Number'
         }
 
     def __init__(self, *args, **kwargs):
@@ -43,3 +41,9 @@ class ContainerTransactionForm(forms.ModelForm):
         self.fields['created_date'].widget = forms.TextInput(attrs={
             'readonly': True,
         })
+
+
+class TransactionDetailForm(forms.ModelForm):
+    class Meta:
+        model = OrderDetail
+        exclude = ['header']

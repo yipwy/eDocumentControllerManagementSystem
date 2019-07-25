@@ -1,37 +1,80 @@
 {% extends 'accounts/base.html' %}
 {% load widget_tweaks %}
-{% block title %}eDCMS-Add documents{% endblock title %}
+{% block title %}eDCMS-Transaction Log{% endblock title %}
 {% block content %}
 
 <div class="container" style="margin-top:30px">
-    <header><h2>Transaction header</h2></header>
+    <h3>Header</h3>
     <hr>
     <form method="POST" id="orderHeaderForm" data-docnum-url="{% url 'recordmgnts:ajax_load_doc_number' %}">
         {% csrf_token %}
-        {% for field in form %}
+        {% for field in header_form.visible_fields %}
         <div class="form-group">
-            <b>{{field.label_tag}}</b>
+            <b>{{ field.label_tag }}</b>
+            {% if form.is_bound %}
+            {% if field.errors %}
+            {% render_field field class="form-control is-invalid" %}
+            {% for error in field.errors %}
+            <div class="invalid-feedback">
+                {{ error }}
+            </div>
+            {% endfor %}
+            {% else %}
+            {% render_field field class="form-control is-valid" %}
+            {% endif %}
+            {% else %}
             {% render_field field class="form-control" %}
+            {% endif %}
         </div>
         {% endfor %}
-        <hr>
+        <br>
+            <header><h3>Details</h3></header>
+            <hr>
+            <div class="form-row form-group">
+            {% for field in detail_form.visible_fields %}
+
+                <b>{{ field.label_tag }}</b>
+                {% if form.is_bound %}
+                {% if field.errors %}
+                <div class="form-group col-md-5">
+                    {% render_field field class="form-control is-invalid" %}
+                </div>
+                {% for error in field.errors %}
+                <div class="invalid-feedback">
+                    {{ error }}
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="form-group col-md-5">
+                    {% render_field field class="form-control is-valid" %}
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="form-group col-md-5">
+                    {% render_field field class="form-control" %}
+                </div>
+                {% endif %}
+                {% endfor %}
+
+        </div>
         <button type="submit" class="btn btn-success col-md-2">Add</button>
     </form>
 </div>
 
+
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
     $("#id_doc_type").change(function () {
-      var url = $("#orderHeaderForm").attr("data-docnum-url");  // get the url of the `load_cities` view
-      var documentId = $(this).val();  // get the selected country ID from the HTML input
+      var url = $("#orderHeaderForm").attr("data-docnum-url");  // get the url of the `load_series_number` view
+      var documentId = $(this).val();  // get the selected documentType ID from the HTML input
 
       $.ajax({                       // initialize an AJAX request
-        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        url: url,                    // set the url of the request
         data: {
-          'doc_type': documentId       // add the country id to the GET parameters
+          'doc_type': documentId       // add the documentType id to the GET parameters
         },
-        success: function (data) {   // `data` is the return of the `load_cities` view function
-          $("#id_doc_serial_number").attr("value",data);  // replace the contents of the city input with the data that came from the server
+        success: function (data) {   // `data` is the return of the `load_series_number` view function
+          $("#id_doc_serial_number").attr("value",data);  // add attribute value to the input with id #id_doc_serial_number
         }
       });
 
