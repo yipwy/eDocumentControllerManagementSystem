@@ -9,12 +9,23 @@ from django.db.models import Q
 from django.utils import timezone
 from django.forms import modelformset_factory
 from generals.models import DocumentType
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
 
 @login_required
 def showContainer(request):
 
     allContainer = Container.objects.all()
-    context = {'allContainer': allContainer}
+    paginator = Paginator(allContainer, 10)  # Show 25 contacts per page
+    page = request.GET.get('page')
+    try:
+        query_sets = paginator.page(page)
+    except PageNotAnInteger:
+        query_sets = paginator.page(1)
+    except EmptyPage:
+        query_sets = paginator.page(paginator.num_pages)
+    context = {'allContainer': query_sets}
     return render(request, 'recordmgnts/records.html', context)
 
 
@@ -42,6 +53,8 @@ def addContainer(request):
             container.modify_by = str(request.user)
             container.save()
             return render(request, 'recordmgnts/success_added.html')
+        else:
+            messages.error(request, 'The serial number already exist.')
     else:
         form = ContainerForm()
     return render(request, 'recordmgnts/new_container.html', {'form': form})
@@ -84,6 +97,7 @@ def containerUpdate(request, pk):
         container.modify_date = timezone.now()
         container.modify_by = str(request.user)
         container.save()
+        messages.success(request, 'Successfully updated')
         return redirect('recordmgnts:records')
 
     return render(request, template_name, {'form': form})
