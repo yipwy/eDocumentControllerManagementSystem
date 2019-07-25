@@ -8,12 +8,22 @@ from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
 from generals.models import DocumentType
+from django.core.paginator import Paginator,  EmptyPage, PageNotAnInteger
+
 
 @login_required
 def showContainer(request):
 
     allContainer = Container.objects.all()
-    context = {'allContainer': allContainer}
+    paginator = Paginator(allContainer, 10)  # Show 25 contacts per page
+    page = request.GET.get('page')
+    try:
+        query_sets = paginator.page(page)
+    except PageNotAnInteger:
+        query_sets = paginator.page(1)
+    except EmptyPage:
+        query_sets = paginator.page(paginator.num_pages)
+    context = {'allContainer': query_sets}
     return render(request, 'recordmgnts/records.html', context)
 
 
@@ -90,7 +100,7 @@ def containerUpdate(request, pk):
 
 @login_required
 def transaction_log(request):
-    initial_data ={
+    initial_data = {
         'department': request.user.departmentId,
         'branch': request.user.branchId,
         'created_by': request.user.username,
