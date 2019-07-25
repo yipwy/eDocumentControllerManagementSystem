@@ -1,12 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
-from .forms import ContainerForm, ContainerTransactionForm, TransactionDetailForm
+from .forms import ContainerForm, ContainerTransactionForm
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
+from django.forms import modelformset_factory
 from generals.models import DocumentType
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -109,23 +110,25 @@ def transaction_log(request):
         'branch': request.user.branchId,
         'created_by': request.user.username,
     }
-
+    DetailFormSet = modelformset_factory(OrderDetail, fields=['container', 'barcode'], extra=5)
     if request.method == 'POST':
         header_form = ContainerTransactionForm(request.POST)
-        detail_form = TransactionDetailForm(request.POST)
+        detail_form_set = DetailFormSet(request.POST)
+
         if header_form.is_valid():
             new_header = header_form.save(commit=False)
 
-            if detail_form.is_valid():
+            if detail_form_set.is_valid():
                 new_header.save()
-                new_detail = detail_form.save(commit=False)
-                new_detail.header = new_header
-                new_detail.save()
+                instances = detail_form_set.save(commit=False)
+                for instance in instances:
+                    instance.header = new_header
+                    instance.save()
     else:
         header_form = ContainerTransactionForm(initial=initial_header_data)
-        detail_form = TransactionDetailForm()
+        detail_form_set = DetailFormSet(queryset=OrderDetail.objects.none())
 
-    return render(request, 'recordmgnts/container_transaction.html', {'header_form': header_form, 'detail_form': detail_form})
+    return render(request, 'recordmgnts/container_transaction.html', {'header_form': header_form, 'detail_form': detail_form_set})
 
 
 def load_series_number(request):

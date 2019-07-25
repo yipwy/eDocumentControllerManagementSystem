@@ -21,3 +21,7 @@
 
 8) to create two objects of different models simultaneously
     src :https://www.djangosnippets.org/snippets/1399/
+
+9) django formset to insert multiple records to database from one form
+    src :https://medium.com/@adandan01/django-inline-formsets-example-mybook-420cc4b6225d
+    src :https://django.readthedocs.io/en/2.2.x/topics/forms/formsets.html

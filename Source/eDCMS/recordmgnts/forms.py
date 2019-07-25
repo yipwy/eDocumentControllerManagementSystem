@@ -43,7 +43,3 @@ class ContainerTransactionForm(forms.ModelForm):
         })
 
 
-class TransactionDetailForm(forms.ModelForm):
-    class Meta:
-        model = OrderDetail
-        exclude = ['header']
