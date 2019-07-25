@@ -88,6 +88,9 @@ body{
     margin-top:25px
 
 }
+.container-centre{
+    margin:30px auto;
+}
 
 #services p{
     padding-top:15px;
