@@ -96,6 +96,7 @@ def containerUpdate(request, pk):
         container.modify_date = timezone.now()
         container.modify_by = str(request.user)
         container.save()
+        messages.success(request, 'Successfully updated')
         return redirect('recordmgnts:records')
 
     return render(request, template_name, {'form': form})
