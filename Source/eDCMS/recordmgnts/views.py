@@ -11,6 +11,7 @@ from generals.models import DocumentType
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
+
 @login_required
 def showContainer(request):
 
@@ -51,6 +52,8 @@ def addContainer(request):
             container.modify_by = str(request.user)
             container.save()
             return render(request, 'recordmgnts/success_added.html')
+        else:
+            messages.error(request, 'The serial number already exist.')
     else:
         form = ContainerForm()
     return render(request, 'recordmgnts/new_container.html', {'form': form})

@@ -1,6 +1,7 @@
 from django import forms
 from .models import Container, OrderHeader, OrderDetail
 from generals.models import Warehouse, DocumentType
+from django.core.exceptions import ValidationError
 
 
 class ContainerForm(forms.ModelForm):
@@ -12,6 +13,12 @@ class ContainerForm(forms.ModelForm):
     class Meta:
         model = Container
         fields = ['container_serial_number', 'container_description', 'is_active', 'warehouse']
+
+    # def clean_container_serial_number(self):
+    #     container_serial_number = self.cleaned_data['container_serial_number']
+    #     if Container.objects.filter(container_serial_number=container_serial_number).exists():
+    #         raise ValidationError("This serial number already exists")
+    #     return container_serial_number
 
 
 class ContainerTransactionForm(forms.ModelForm):
