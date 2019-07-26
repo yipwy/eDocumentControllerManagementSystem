@@ -28,16 +28,22 @@
         </div>
         {% endfor %}
         <br>
-            <header><h3>Details</h3></header>
+            <header>
+                <h3>Details</h3>
+            </header>
+        {{ detail_form.management_form }}
+        <a class="add-form-row" style="float:right; margin-top:-15px;" href="">+Add containers</a>
             <hr>
-            <div class="form-row form-group">
-                {{ detail_form.management_form }}
+
+            <div class="form-group">
+
             {% for form in detail_form %}
             {% for field in form.visible_fields %}
-                <b>{{ field.label_tag }}</b>
+
                 {% if form.is_bound %}
                 {% if field.errors %}
-                <div class="form-group col-md-5">
+                <div class="form-group form-row  col">
+                    <b>{{ field.label_tag }}</b>
                     {% render_field field class="form-control is-invalid" %}
                 </div>
                 {% for error in field.errors %}
@@ -46,12 +52,14 @@
                 </div>
                 {% endfor %}
                 {% else %}
-                <div class="form-group col-md-5">
+                <div class="form-group form-row col">
+                    <b>{{ field.label_tag }}</b>
                     {% render_field field class="form-control" %}
                 </div>
                 {% endif %}
                 {% else %}
-                <div class="form-group col-md-5">
+                <div class="form-group form-row col">
+                    <b>{{ field.label_tag }}</b>
                     {% render_field field class="form-control" %}
                 </div>
                 {% endif %}
@@ -59,7 +67,7 @@
                 {% endfor %}
 
         </div>
-        <button type="submit" class="btn btn-success col-md-2">Add</button>
+        <button type="submit" class="btn btn-success col-md-2">Submit</button>
     </form>
 </div>
 
@@ -81,5 +89,34 @@
       });
 
     });
+
+
+    function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val(); //initial total number of forms displayed
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() { //set the name and id for each new input addded
+        var name = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('');
+    });
+    newElement.find('label').each(function() { //set label for each new input added
+        var forValue = $(this).attr('for');
+        if (forValue) {
+          forValue = forValue.replace('-' + (total-1) + '-', '-' + total + '-');
+          $(this).attr({'for': forValue});
+        }
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total); //set total number of forms displayed to hidden input id_form-TOTAL_FORMS variable
+    $(selector).after(newElement)
+    return false;
+}
+
+    $(document).on('click', '.add-form-row', function(e){
+    e.preventDefault();
+    cloneMore('.form-row:last', 'form'); // .form-row:last selects the last form-row class
+    return false;
+});
+
   </script>
 {% endblock content %}

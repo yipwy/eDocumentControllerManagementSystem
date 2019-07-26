@@ -110,7 +110,7 @@ def transaction_log(request):
         'branch': request.user.branchId,
         'created_by': request.user.username,
     }
-    DetailFormSet = modelformset_factory(OrderDetail, fields=['container', 'barcode'], extra=5)
+    DetailFormSet = modelformset_factory(OrderDetail, fields=['container'], extra=1)
     if request.method == 'POST':
         header_form = ContainerTransactionForm(request.POST)
         detail_form_set = DetailFormSet(request.POST)
@@ -123,6 +123,10 @@ def transaction_log(request):
                 instances = detail_form_set.save(commit=False)
                 for instance in instances:
                     instance.header = new_header
+                    q = Container.objects.get(pk=instance.container.id)
+                    instance.barcode = q.container_serial_number
+                    q.is_active = False
+                    q.save()
                     instance.save()
     else:
         header_form = ContainerTransactionForm(initial=initial_header_data)
