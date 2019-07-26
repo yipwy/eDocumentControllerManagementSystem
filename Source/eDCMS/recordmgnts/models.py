@@ -7,12 +7,13 @@ class Container(models.Model):
         verbose_name_plural     = 'Containers'
     container_serial_number     = models.CharField(max_length=20, unique=True)
     container_description       = models.CharField(max_length=100)
-    is_active                   = models.BooleanField(default=False)
+    status                      = models.BooleanField(default=False)
     created_by                  = models.CharField(max_length=20)
     created_date                = models.DateTimeField(default=datetime.now, blank=True)
     modify_by                   = models.CharField(max_length=20)
     modify_date                 = models.DateTimeField(default=datetime.now, blank=True)
     warehouse                   = models.ForeignKey('generals.Warehouse', on_delete=models.CASCADE)
+    location                    = models.ForeignKey('generals.Location', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.container_serial_number
