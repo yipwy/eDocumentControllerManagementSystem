@@ -25,3 +25,9 @@
 9) django formset to insert multiple records to database from one form
     src :https://medium.com/@adandan01/django-inline-formsets-example-mybook-420cc4b6225d
     src :https://django.readthedocs.io/en/2.2.x/topics/forms/formsets.html
+
+10) adding forms input dynamically
+    src :https://medium.com/all-about-django/adding-forms-dynamically-to-a-django-formset-375f1090c2b0
+
+11) dependant drop down list in django
+    src :https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html

@@ -8,8 +8,10 @@ from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
 from django.forms import modelformset_factory
-from generals.models import DocumentType
+from generals.models import DocumentType, SeriesNumber
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from datetime import datetime
+from pprint import pprint
 
 
 
@@ -105,10 +107,12 @@ def containerUpdate(request, pk):
 
 @login_required
 def transaction_log(request):
+    now = datetime.now()
     initial_header_data ={
         'department': request.user.departmentId,
         'branch': request.user.branchId,
         'created_by': request.user.username,
+        # 'created_date': now.strftime("%d/%m/%Y"),
     }
     DetailFormSet = modelformset_factory(OrderDetail, fields=['container'], extra=1)
     if request.method == 'POST':
@@ -120,6 +124,13 @@ def transaction_log(request):
 
             if detail_form_set.is_valid():
                 new_header.save()
+
+                # calls function that takes a SeriesNumber object as parameter, returns instance of new SeriesNumber
+                new_doc_series_number = create_new_doc_series_number(new_header.doc_type.document_number_seriesId)
+
+                create_new_doctype(new_header.doc_type.document_code[0], new_header.doc_type.document_code[1:],
+                                   new_doc_series_number)
+
                 instances = detail_form_set.save(commit=False)
                 for instance in instances:
                     instance.header = new_header
@@ -139,3 +150,21 @@ def load_series_number(request):
     document_id = request.GET.get('doc_type')
     document_series_number = DocumentType.objects.get(pk=document_id)
     return HttpResponse(document_series_number.document_number_seriesId)
+
+
+def create_new_doc_series_number(doc_series_number):  # create a new SeriesNumber and returns the instance of it
+    new_series_code = str("%04d" % doc_series_number.next_number)
+    new_next_number = doc_series_number.next_number + 1
+    new_doc_series_number = SeriesNumber(series_code=new_series_code,next_number=new_next_number, is_active=True)
+    new_doc_series_number.save()
+    return new_doc_series_number  # return an instance of the newly created SeriesNumber
+
+
+def create_new_doctype(doctype, counter, new_doc_series_number): # create a new doctype when the current doctype is used
+    if doctype is 'O':  # doctype == 'O' is a check out, doctype is the first letter of the current document_code
+        counter = int(counter) + 1
+        counter = "%04d" % counter  # returns a 4 digit counter e.g(0001 instead of 1)
+        new_doc_code = 'O' + counter  # increments the counter and combine with letter 'O'
+        new_doctype = DocumentType(document_code=new_doc_code, document_description="Document Check Out", is_active=True,
+                                   document_number_seriesId=new_doc_series_number)
+        new_doctype.save()
