@@ -18,9 +18,12 @@ def mylogin(request):
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            # correct username and password login the user
-            login(request, user)
-            return redirect('accounts:home')
+            if user.is_active is None:
+                messages.warning(request, f'Account is not activated.')
+            else:
+                # correct username and password login the user
+                login(request, user)
+                return redirect('accounts:home')
 
         else:
             messages.warning(request, f'Incorrect username or password.')
