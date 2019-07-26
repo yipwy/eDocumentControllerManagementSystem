@@ -1,0 +1,40 @@
+{% extends 'accounts/base.html' %}
+{% load widget_tweaks %}
+{% block title %}eDCMS-Add documents{% endblock title %}
+{% block content %}
+ <head>
+       {% if messages %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert" style="padding:30px">
+            {% for message in messages %}
+<!--                {% if message.tags %}-->
+<!--                    class="{{ message.tags }}"-->
+<!--                {% endif %}-->
+                <strong>{{ message }}</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            {% endfor %}
+            </div>
+        {% endif %}
+ </head>
+<body>
+<div class ="container" style="margin-top:30px">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'recordmgnts:records' %}">Records</a></li>
+        <li class="breadcrumb-item active">New container</li>
+    </ol>
+</div>
+<div class="container" style="margin-top:30px">
+<form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+        <div class="form-group">
+            <b>{{field.label_tag}}</b>
+            {% render_field field class="form-control" %}
+        </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-success col-md-2">Add</button>
+</form>
+</div>
+</body>
+{% endblock content %}

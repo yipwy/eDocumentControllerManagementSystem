@@ -13,5 +13,15 @@
 5) if css external style sheet changes does not reflect in browser, hard refresh your browser
     src :https://stackoverflow.com/questions/18543776/why-is-my-css-not-updating-in-web-browser
 
-6) django signals to create user profile
-    src :https://medium.com/@bencleary/django-user-profiles-f5c9aedb70db
+6) using bootstrap modal to delete records
+    src :https://elennion.wordpress.com/2018/10/08/bootstrap-4-delete-confirmation-modal-for-list-of-items/
+
+7) search input
+    src :https://wsvincent.com/django-search/
+
+8) to create two objects of different models simultaneously
+    src :https://www.djangosnippets.org/snippets/1399/
+
+9) django formset to insert multiple records to database from one form
+    src :https://medium.com/@adandan01/django-inline-formsets-example-mybook-420cc4b6225d
+    src :https://django.readthedocs.io/en/2.2.x/topics/forms/formsets.html

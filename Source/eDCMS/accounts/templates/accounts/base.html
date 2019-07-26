@@ -29,10 +29,10 @@
         {% else %}
         <div class="navbar-brand" style="margin-left:-50px"><img src="{% static 'accounts/huayanglogo.png' %}"></div>
         {% endif %}
+        {% if user.is_authenticated %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fa fa-bars"></i>
         </button>
-        {% if user.is_authenticated %}
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -62,7 +62,7 @@
                         <a href="{% url 'recordmgnts:records' %}">View</a>
                     </li>
                     <li>
-                        <a href="#">Transaction Log</a>
+                        <a href="{% url 'recordmgnts:transaction_log' %}">Transaction Log</a>
                     </li>
                 </ul>
             </li>
@@ -73,6 +73,8 @@
             {% endif %}
         </ul>
     </div>
+
+    <div id="overlay" onclick="off()"></div>
 
 
     <div id="content-wrap">
@@ -93,7 +95,12 @@
 <script>
     function toggleSidebar(){
         document.getElementById("sidebar").classList.toggle('active');
-        document.getElementById("content-wrap").classList.toggle('active');
+        document.getElementById("overlay").classList.toggle('active');
+    }
+
+    function off(){
+        document.getElementById("sidebar").classList.toggle('active');
+        document.getElementById("overlay").classList.toggle('active');
     }
 </script>
 </body>

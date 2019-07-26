@@ -88,6 +88,9 @@ body{
     margin-top:25px
 
 }
+.container-centre{
+    margin:30px auto;
+}
 
 #services p{
     padding-top:15px;
@@ -146,6 +149,7 @@ body{
     transform: translateY(8px);
 }
 
+
 /*-----record/table-----*/
 #cont-table{
     margin-top: 100px;
@@ -196,6 +200,7 @@ body{
     background:#151719;
     left:-250px;
     transition: all 500ms linear;
+    z-index:22;
 }
 
 #sidebar ul li a {
@@ -219,10 +224,6 @@ body{
     left:0px;
 }
 
-#content-wrap.active{
-    margin-left:250px;
-
-}
 
 #sidebar ul li{
     color:rgba(230,230,230,0.9);
@@ -235,6 +236,7 @@ body{
     position:absolute;
     left:25px;
     top:25px;
+    cursor:pointer;
 }
 
 .toggle-btn span{
@@ -243,6 +245,7 @@ body{
     height:5px;
     background:#151719;
     margin:5px 0px;
+
 }
 
 #sidebar ul ul a {
@@ -257,6 +260,26 @@ body{
     transition: all 0.3s;
 }
 
+#overlay {
+  position: fixed; /* Sit on top of the page content */
+  display: none; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  transition: all 500ms ease;
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+}
+
+#overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+/*--- Search bar ---*/
 
 .search-bar input[type=text] {
   padding: 10px;
@@ -278,3 +301,11 @@ body{
   border-left: none;
   cursor: pointer;
 }
+
+.search-bar button:hover{
+    background: black;
+    opacity:0.5;
+    transition: all 0.3s;
+
+}
+

@@ -1,0 +1,122 @@
+{% extends 'accounts/base.html' %}
+{% load widget_tweaks %}
+{% block title %}eDCMS-Transaction Log{% endblock title %}
+{% block content %}
+
+<div class="container" style="margin-top:30px">
+    <h3>Header</h3>
+    <hr>
+    <form method="POST" id="orderHeaderForm" data-docnum-url="{% url 'recordmgnts:ajax_load_doc_number' %}">
+        {% csrf_token %}
+        {% for field in header_form.visible_fields %}
+        <div class="form-group">
+            <b>{{ field.label_tag }}</b>
+            {% if header_form.is_bound %}
+            {% if field.errors %}
+            {% render_field field class="form-control is-invalid" %}
+            {% for error in field.errors %}
+            <div class="invalid-feedback">
+                {{ error }}
+            </div>
+            {% endfor %}
+            {% else %}
+            {% render_field field class="form-control" %}
+            {% endif %}
+            {% else %}
+            {% render_field field class="form-control" %}
+            {% endif %}
+        </div>
+        {% endfor %}
+        <br>
+            <header>
+                <h3>Details</h3>
+            </header>
+        {{ detail_form.management_form }}
+        <a class="add-form-row" style="float:right; margin-top:-15px;" href="">+Add containers</a>
+            <hr>
+
+            <div class="form-group">
+
+            {% for form in detail_form %}
+            {% for field in form.visible_fields %}
+
+                {% if form.is_bound %}
+                {% if field.errors %}
+                <div class="form-group form-row  col">
+                    <b>{{ field.label_tag }}</b>
+                    {% render_field field class="form-control is-invalid" %}
+                </div>
+                {% for error in field.errors %}
+                <div class="invalid-feedback">
+                    {{ error }}
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="form-group form-row col">
+                    <b>{{ field.label_tag }}</b>
+                    {% render_field field class="form-control" %}
+                </div>
+                {% endif %}
+                {% else %}
+                <div class="form-group form-row col">
+                    <b>{{ field.label_tag }}</b>
+                    {% render_field field class="form-control" %}
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% endfor %}
+
+        </div>
+        <button type="submit" class="btn btn-success col-md-2">Submit</button>
+    </form>
+</div>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+    $("#id_doc_type").change(function () {
+      var url = $("#orderHeaderForm").attr("data-docnum-url");  // get the url of the `load_series_number` view
+      var documentId = $(this).val();  // get the selected documentType ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request
+        data: {
+          'doc_type': documentId       // add the documentType id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_series_number` view function
+          $("#id_doc_serial_number").attr("value",data);  // add attribute value to the input with id #id_doc_serial_number
+        }
+      });
+
+    });
+
+
+    function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val(); //initial total number of forms displayed
+    newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() { //set the name and id for each new input addded
+        var name = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
+        var id = 'id_' + name;
+        $(this).attr({'name': name, 'id': id}).val('');
+    });
+    newElement.find('label').each(function() { //set label for each new input added
+        var forValue = $(this).attr('for');
+        if (forValue) {
+          forValue = forValue.replace('-' + (total-1) + '-', '-' + total + '-');
+          $(this).attr({'for': forValue});
+        }
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total); //set total number of forms displayed to hidden input id_form-TOTAL_FORMS variable
+    $(selector).after(newElement)
+    return false;
+}
+
+    $(document).on('click', '.add-form-row', function(e){
+    e.preventDefault();
+    cloneMore('.form-row:last', 'form'); // .form-row:last selects the last form-row class
+    return false;
+});
+
+  </script>
+{% endblock content %}
