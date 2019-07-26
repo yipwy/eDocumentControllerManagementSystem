@@ -15,4 +15,5 @@ urlpatterns = [
     path('records/edit_records/<int:pk>/', views.containerUpdate, name='edit_records'),
     path('transaction/', views.transaction_log, name='transaction_log'),
     path('load_document_series/', views.load_series_number, name='ajax_load_doc_number'),
+    path('ajax/load-locations/', views.load_locations, name='ajax_load_locations'),
 ]

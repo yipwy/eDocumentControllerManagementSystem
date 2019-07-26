@@ -1,17 +1,31 @@
 from django import forms
 from .models import Container, OrderHeader, OrderDetail
-from generals.models import Warehouse, DocumentType
+from generals.models import Warehouse, DocumentType, Location
 
 
 class ContainerForm(forms.ModelForm):
     warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
     container_serial_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
-    container_description = forms.CharField(widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
-    is_active = forms.BooleanField(required=False, label='Available?')
+    container_description = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
+    status = forms.BooleanField(required=False, label='Status of container')
 
     class Meta:
         model = Container
-        fields = ['container_serial_number', 'container_description', 'is_active', 'warehouse']
+        fields = ['container_serial_number', 'container_description', 'status', 'warehouse', 'location']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['location'].queryset = Location.objects.none()
+
+        if 'warehouse' in self.data:
+            try:
+                warehouse_id = int(self.data.get('warehouse'))
+                self.fields['location'].queryset = Location.objects.filter(pk=warehouse_id)
+            except (ValueError, TypeError):
+                pass
+        elif self.instance.pk:
+            self.fields['location'].queryset = self.instance.warehouse.location_set
 
 
 class ContainerTransactionForm(forms.ModelForm):
@@ -21,7 +35,7 @@ class ContainerTransactionForm(forms.ModelForm):
         labels = {
             'doc_type': 'Document Type',
             'created_by': 'User',
-            'doc_serial_number' : 'Document Serial Number'
+            'doc_serial_number': 'Document Serial Number'
         }
 
     def __init__(self, *args, **kwargs):

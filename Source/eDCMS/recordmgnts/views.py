@@ -8,16 +8,15 @@ from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
 from django.forms import modelformset_factory
-from generals.models import DocumentType
+from generals.models import DocumentType, Location
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
 
 
 @login_required
 def showContainer(request):
 
     allContainer = Container.objects.all()
-    paginator = Paginator(allContainer, 10)  # Show 25 contacts per page
+    paginator = Paginator(allContainer, 5)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
         query_sets = paginator.page(page)
@@ -54,10 +53,16 @@ def addContainer(request):
             container.save()
             return render(request, 'recordmgnts/success_added.html')
         else:
-            messages.error(request, 'The serial number already exist.')
+            messages.error(request, 'Error.')
     else:
         form = ContainerForm()
     return render(request, 'recordmgnts/new_container.html', {'form': form})
+
+
+def load_locations(request):
+    warehouse_id = request.GET.get('warehouse')
+    locations = Location.objects.filter(pk=warehouse_id)
+    return render(request, 'recordmgnts/location_dropdown.html', {'locations': locations})
 
 
 class ContainerDetailView(LoginRequiredMixin, DetailView):
@@ -105,7 +110,7 @@ def containerUpdate(request, pk):
 
 @login_required
 def transaction_log(request):
-    initial_header_data ={
+    initial_header_data = {
         'department': request.user.departmentId,
         'branch': request.user.branchId,
         'created_by': request.user.username,
@@ -135,3 +140,6 @@ def load_series_number(request):
     document_id = request.GET.get('doc_type')
     document_series_number = DocumentType.objects.get(pk=document_id)
     return HttpResponse(document_series_number.document_number_seriesId)
+
+
+
