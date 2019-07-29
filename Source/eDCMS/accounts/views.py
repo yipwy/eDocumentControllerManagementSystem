@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from .models import Profile
 from generals.models import Branch, Department
+from pprint import pprint
 
 
 def mylogin(request):

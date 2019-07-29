@@ -41,31 +41,30 @@ class DocumentType(models.Model):
 class Branch(models.Model):
     class Meta:
         verbose_name_plural     = "Branches"
-    branch_name                 = models.CharField(max_length=20)
+    branch                      = models.CharField(max_length=30, unique=True)
 
     def __str__(self):
-        return self.branch_name
+        return self.branch
 
 
 class Company(models.Model):
     class Meta:
         verbose_name_plural     = "Companies"
-    company_name                = models.CharField(max_length=30, unique=True, null=False)
+    company                     = models.CharField(max_length=30, unique=True, null=False)
 
     def __str__(self):
-        return self.company_name
+        return self.company
 
 
 class Department(models.Model):
     class Meta:
         verbose_name_plural     = "Departments"
     head_of_department          = models.CharField(max_length=30, unique=True, null=False)
-    department_name             = models.CharField(max_length=40, null=False)
+    department                  = models.CharField(max_length=40, null=False)
     branch                      = models.ForeignKey('Branch', on_delete=models.CASCADE)
-    company                     = models.ForeignKey('Company', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.department_name
+        return self.department
 
 
 class Warehouse(models.Model):

@@ -9,10 +9,10 @@ from django.contrib.auth.models import AbstractUser
 class Profile(AbstractUser):
     class Meta:
         verbose_name_plural = 'Profiles'
-    company          = models.CharField(max_length=50)
+    company          = models.CharField(max_length=30, unique=True, null=False)
     contact          = models.CharField(max_length=20, null=True)
-    branch           = models.CharField(max_length=20)
-    department       = models.CharField(max_length=50)
+    branch           = models.ForeignKey('generals.Branch', on_delete=models.CASCADE)
+    department       = models.ForeignKey('generals.Department', on_delete=models.CASCADE)
     created_by       = models.CharField(max_length=20)
     modify_by        = models.CharField(max_length=20)
     modify_date      = models.DateTimeField(default=datetime.now, blank=True)

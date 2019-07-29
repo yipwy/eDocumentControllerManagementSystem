@@ -3,7 +3,7 @@ from .models import Profile
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('username', 'contact', 'branchId', 'departmentId', 'is_superuser', 'is_staff')
+    list_display = ('username', 'contact', 'branch', 'department', 'is_superuser', 'is_staff')
 
 
 admin.site.register(Profile, ProfileAdmin)

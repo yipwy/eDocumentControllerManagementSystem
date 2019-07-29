@@ -43,6 +43,7 @@
                     {% endfor %}
                     <button class="btn btn-outline-success form-control" type="submit" style="margin-top:20px">Sign Up</button>
                 </form>
+                <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
                 <script>
                         $("#id_branch").change(function () {
                           var url = $("#DepartmentForm").attr("data-departments-url");
@@ -54,7 +55,7 @@
                               'branch': branchId
                             },
                             success: function (data) {
-                              $("#id_branch").html(data);
+                              $("#id_department").html(data);
                             }
                           });
 

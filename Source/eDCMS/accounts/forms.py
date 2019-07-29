@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm, PasswordChangeForm
 from .models import Profile
-from generals.models import Department, Branch
+from generals.models import Department, Branch, Company
 
 # DEPARTMENT_CHOICES = [
 #     ('HR', 'HR'),
@@ -30,9 +30,9 @@ class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(label="Email Address")
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput())
     password2 = forms.CharField(label="Password Confirmation", widget=forms.PasswordInput())
-    department = forms.CharField(label="Department")
+    department = forms.ModelChoiceField(queryset=Department.objects.all(), required=True)
     company = forms.CharField(label="Company")
-    branch = forms.CharField(label="Branch")
+    branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True)
 
     class Meta(UserCreationForm):
         model = Profile
