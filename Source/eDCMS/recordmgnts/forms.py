@@ -29,13 +29,15 @@ class ContainerForm(forms.ModelForm):
 
 
 class ContainerTransactionForm(forms.ModelForm):
+    doc_type = forms.ModelChoiceField(queryset=DocumentType.objects.filter(is_active=True))
+
     class Meta:
         model = OrderHeader
         fields = ['doc_type', 'doc_serial_number', 'created_by', 'branch', 'department', 'created_date']
         labels = {
             'doc_type': 'Document Type',
             'created_by': 'User',
-            'doc_serial_number': 'Document Serial Number'
+            'doc_serial_number': 'Document Code'
         }
 
     def __init__(self, *args, **kwargs):
