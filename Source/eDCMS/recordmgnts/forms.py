@@ -7,7 +7,7 @@ class ContainerForm(forms.ModelForm):
     #  warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
     container_serial_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
     container_description = forms.CharField(required=False,
-        widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
+                                    widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
     status = forms.BooleanField(required=False, label='Status of container')
 
     class Meta:

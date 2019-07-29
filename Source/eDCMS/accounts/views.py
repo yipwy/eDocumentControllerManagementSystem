@@ -8,6 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.utils import timezone
 from .models import Profile
+from generals.models import Branch, Department
 
 
 def mylogin(request):
@@ -46,6 +47,12 @@ def signup(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'accounts/signup.html', {'form': form})
+
+
+def load_department(request):
+    branch_id = request.GET.get('branch')
+    departments = Department.objects.filter(branch=branch_id)
+    return render(request, 'accounts/dept_dropdown_list.html', {'departments': departments})
 
 
 class MyPasswordResetView(auth_views.PasswordResetView):

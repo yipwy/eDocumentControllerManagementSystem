@@ -16,7 +16,7 @@
             <div class="border-bottom mb-4"><h2 style="text-align:center">Create an account</h2></div>
                 </header>
             <article class="card-body">
-                <form method="post">
+                <form method="post" id="DepartmentForm" data-departments-url="{% url 'accounts:ajax_load_department' %}" novalidate>
                     {% csrf_token %}
                     {% for field in form.visible_fields %}
                     <div class="form-group">
@@ -42,9 +42,25 @@
                     </div>
                     {% endfor %}
                     <button class="btn btn-outline-success form-control" type="submit" style="margin-top:20px">Sign Up</button>
-            </form>
+                </form>
+                <script>
+                        $("#id_branch").change(function () {
+                          var url = $("#DepartmentForm").attr("data-departments-url");
+                          var branchId = $(this).val();
 
-        </article>
+                          $.ajax({
+                            url: url,
+                            data: {
+                              'branch': branchId
+                            },
+                            success: function (data) {
+                              $("#id_branch").html(data);
+                            }
+                          });
+
+                        });
+                </script>
+            </article>
 
             <div class="border-top pt-3" style="text-align:center">
                 <small class="text-muted">Have an account? <a class="ml-2" href="{% url 'accounts:login' %}">Login</a></small>

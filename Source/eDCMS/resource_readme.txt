@@ -31,3 +31,12 @@
 
 11) dependant drop down list in django
     src :https://simpleisbetterthancomplex.com/tutorial/2018/01/29/how-to-implement-dependent-or-chained-dropdown-list-with-django.html
+
+12) Date Format Validation
+    src :https://www.julienphalip.com/blog/a-simple-site-wide-per-user-date-format/
+
+13) Select date/time
+    src :https://community.webfaction.com/questions/13326/how-to-show-selected-date-and-time-format-from-settings-django
+
+13) Django docs on datetime formats
+    src :https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date

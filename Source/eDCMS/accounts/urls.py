@@ -16,4 +16,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile_page'),
     path('profile_update/', views.update_profile, name='profile_update'),
     path('password_change/', views.MyPasswordChangeView.as_view(), name='password_change'),
+    path('ajax/load-department/', views.load_department, name='ajax_load_department'),
 ]
