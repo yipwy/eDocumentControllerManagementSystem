@@ -114,8 +114,8 @@ def containerUpdate(request, pk):
 def transaction_log(request):
     now = datetime.now()
     initial_header_data = {
-        'department': request.user.departmentId,
-        'branch': request.user.branchId,
+        'department': request.user.department,
+        'branch': request.user.branch,
         'created_by': request.user.username,
         # 'created_date': now.strftime("%d/%m/%Y"),
     }
