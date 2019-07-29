@@ -8,7 +8,7 @@ class DocumentType(models.Model):
 
     document_code = models.CharField(max_length=20, unique=True)
     document_description = models.CharField(max_length=50)
-    document_number_seriesId = models.ForeignKey('SeriesNumber', null=True, blank=True, on_delete=models.CASCADE)
+    # document_number_seriesId = models.ForeignKey('SeriesNumber', null=True, blank=True, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     created_by = models.CharField(max_length=20)
     created_date = models.DateTimeField(default=datetime.now, blank=True)
@@ -19,23 +19,23 @@ class DocumentType(models.Model):
         return self.document_description
 
 
-class SeriesNumber(models.Model):
-    class Meta:
-        verbose_name_plural = 'SeriesNumbers'
-
-    series_code = models.CharField(max_length=20, unique=True)
-    # series_description = models.CharField(max_length=50)
-    starting_number = models.IntegerField(default=1)
-    ending_number = models.IntegerField(default=9999)
-    next_number = models.IntegerField()
-    is_active = models.BooleanField(default=False)
-    created_by = models.CharField(max_length=20)
-    created_date = models.DateTimeField(default=datetime.now, blank=True)
-    # modify_by = models.CharField(max_length=20)
-    # modify_date = models.DateTimeField(default=datetime.now, blank=True)
-
-    def __str__(self):
-        return self.series_code
+# class SeriesNumber(models.Model):
+#     class Meta:
+#         verbose_name_plural = 'SeriesNumbers'
+#
+#     series_code = models.CharField(max_length=20, unique=True)
+#     # series_description = models.CharField(max_length=50)
+#     starting_number = models.IntegerField(default=1)
+#     ending_number = models.IntegerField(default=9999)
+#     next_number = models.IntegerField()
+#     is_active = models.BooleanField(default=False)
+#     created_by = models.CharField(max_length=20)
+#     created_date = models.DateTimeField(default=datetime.now, blank=True)
+#     # modify_by = models.CharField(max_length=20)
+#     # modify_date = models.DateTimeField(default=datetime.now, blank=True)
+#
+#     def __str__(self):
+#         return self.series_code
 
 
 class Branch(models.Model):

@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
 from django.forms import modelformset_factory
-from generals.models import DocumentType, SeriesNumber, Location
+from generals.models import DocumentType, Location
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
 from pprint import pprint
@@ -128,13 +128,12 @@ def transaction_log(request):
             new_header = header_form.save(commit=False)
 
             if detail_form_set.is_valid():
+                current_doctype = new_header.doc_type
+                current_doctype.is_active = False  # set used document type to inactive
+                current_doctype.save()
                 new_header.save()
-
-                # calls function that takes a SeriesNumber object as parameter, returns instance of new SeriesNumber
-                new_doc_series_number = create_new_doc_series_number(new_header.doc_type.document_number_seriesId)
-
-                create_new_doctype(new_header.doc_type.document_code[0], new_header.doc_type.document_code[1:],
-                                   new_doc_series_number)
+                #  create a new doctype with new doc_code
+                create_new_doctype(new_header.doc_type.document_code[0], new_header.doc_type.document_code[1:])
 
                 instances = detail_form_set.save(commit=False)
                 for instance in instances:
@@ -154,22 +153,30 @@ def transaction_log(request):
 def load_series_number(request):
     document_id = request.GET.get('doc_type')
     document_series_number = DocumentType.objects.get(pk=document_id)
-    return HttpResponse(document_series_number.document_number_seriesId)
+    return HttpResponse(document_series_number.document_code)
 
 
-def create_new_doc_series_number(doc_series_number):  # create a new SeriesNumber and returns the instance of it
-    new_series_code = str("%04d" % doc_series_number.next_number)
-    new_next_number = doc_series_number.next_number + 1
-    new_doc_series_number = SeriesNumber(series_code=new_series_code, next_number=new_next_number, is_active=True)
-    new_doc_series_number.save()
-    return new_doc_series_number  # return an instance of the newly created SeriesNumber
+# def create_new_doc_series_number(doc_series_number):  # create a new SeriesNumber and returns the instance of it
+#     new_series_code = str("%04d" % doc_series_number.next_number)
+#     new_next_number = doc_series_number.next_number + 1
+#     new_doc_series_number = SeriesNumber(series_code=new_series_code, next_number=new_next_number, is_active=True)
+#     new_doc_series_number.save()
+#     return new_doc_series_number  # return an instance of the newly created SeriesNumber
 
 
-def create_new_doctype(doctype, counter, new_doc_series_number): # create a new doctype when the current doctype is used
+def create_new_doctype(doctype, counter): #  new_doc_series_number): # create a new doctype when the current doctype is used
     if doctype is 'O':  # doctype == 'O' is a check out, doctype is the first letter of the current document_code
         counter = int(counter) + 1
         counter = "%04d" % counter  # returns a 4 digit counter e.g(0001 instead of 1)
         new_doc_code = 'O' + counter  # increments the counter and combine with letter 'O'
-        new_doctype = DocumentType(document_code=new_doc_code, document_description="Document Check Out", is_active=True,
-                                   document_number_seriesId=new_doc_series_number)
+        new_doctype = DocumentType(document_code=new_doc_code, document_description="Document Check Out", is_active=True
+                                   )
+        new_doctype.save()
+
+    if doctype is 'I':  # doctype == 'I' is a check in, doctype is the first letter of the current document_code
+        counter = int(counter) + 1
+        counter = "%04d" % counter  # returns a 4 digit counter e.g(0001 instead of 1)
+        new_doc_code = 'I' + counter  # increments the counter and combine with letter 'O'
+        new_doctype = DocumentType(document_code=new_doc_code, document_description="Document Check In", is_active=True
+                                   )
         new_doctype.save()
