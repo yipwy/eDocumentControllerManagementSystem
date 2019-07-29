@@ -55,7 +55,7 @@ def addContainer(request):
             container.save()
             return render(request, 'recordmgnts/success_added.html')
         else:
-            messages.error(request, 'Error.')
+            messages.error(request, 'Adding unsuccessful')
     else:
         form = ContainerForm()
     return render(request, 'recordmgnts/new_container.html', {'form': form})

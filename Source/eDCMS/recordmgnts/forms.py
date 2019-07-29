@@ -6,7 +6,7 @@ from generals.models import Warehouse, DocumentType, Location
 class ContainerForm(forms.ModelForm):
     #  warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
     container_serial_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
-    container_description = forms.CharField(
+    container_description = forms.CharField(required=False,
         widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
     status = forms.BooleanField(required=False, label='Status of container')
 
@@ -59,3 +59,15 @@ class ContainerTransactionForm(forms.ModelForm):
         })
 
 
+# class FormWithFormattedDates(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         date_format = None
+#         if 'date_format' in kwargs:
+#             date_format = kwargs['date_format']
+#             del kwargs['date_format']
+#         super(FormWithFormattedDates, self).__init__(*args, **kwargs)
+#         if date_format is not None:
+#             for (field_name, field) in self.fields.items():
+#                 if isinstance(field, forms.fields.DateField):
+#                     field.input_format = [date_format]
+#                     field.widget = forms.widgets.DateTimeInput(format=date_format)

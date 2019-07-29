@@ -4,11 +4,8 @@
 {% block content %}
  <head>
        {% if messages %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert" style="padding:30px">
+            <div class="alert alert-dark alert-dismissible fade show" role="alert" style="padding:30px">
             {% for message in messages %}
-<!--                {% if message.tags %}-->
-<!--                    class="{{ message.tags }}"-->
-<!--                {% endif %}-->
                 <strong>{{ message }}</strong>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -27,11 +24,28 @@
 <div class="container" style="margin-top:30px">
 <form method="POST" id="contForm" data-locations-url="{% url 'recordmgnts:ajax_load_locations' %}" novalidate>
     {% csrf_token %}
-    {% for field in form %}
-        <div class="form-group">
-            <b>{{field.label_tag}}</b>
-            {% render_field field class="form-control" %}
-        </div>
+    {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        <b>{{ field.label_tag }}</b>
+                        {% if form.is_bound %}
+                        {% if field.errors %}
+                        {% render_field field class="form-control is-invalid" %}
+                        {% for error in field.errors %}
+                        <div class="invalid-feedback">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        {% render_field field class="form-control is-valid" %}
+                        {% endif %}
+                        {% else %}
+                        {% render_field field class="form-control" %}
+                        {% endif %}
+
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
     {% endfor %}
     <button type="submit" class="btn btn-success col-md-2">Add</button>
 </form>
