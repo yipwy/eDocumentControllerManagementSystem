@@ -16,4 +16,5 @@ urlpatterns = [
     path('transaction/', views.transaction_log, name='transaction_log'),
     path('load_document_series/', views.load_series_number, name='ajax_load_doc_number'),
     path('ajax/load-locations/', views.load_locations, name='ajax_load_locations'),
+    path('ajax/load-containers/', views.load_containers, name='ajax_load_containers'),
 ]

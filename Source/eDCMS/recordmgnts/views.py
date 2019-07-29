@@ -132,15 +132,20 @@ def transaction_log(request):
                 current_doctype.is_active = False  # set used document type to inactive
                 current_doctype.save()
                 new_header.save()
+                doc_type = new_header.doc_type.document_code[0]
+                doc_num = new_header.doc_type.document_code[1:]
                 #  create a new doctype with new doc_code
-                create_new_doctype(new_header.doc_type.document_code[0], new_header.doc_type.document_code[1:])
+                create_new_doctype(doc_type, doc_num)
 
                 instances = detail_form_set.save(commit=False)
                 for instance in instances:
                     instance.header = new_header
                     q = Container.objects.get(pk=instance.container.id)
                     instance.barcode = q.container_serial_number
-                    q.is_active = False
+                    if doc_type is 'O':
+                        q.status = False
+                    elif doc_type is 'I':
+                        q.status = True
                     q.save()
                     instance.save()
     else:
@@ -151,7 +156,7 @@ def transaction_log(request):
 
 
 def load_series_number(request):
-    document_id = request.GET.get('doc_type')
+    document_id = request.GET.get('doc_id')
     document_series_number = DocumentType.objects.get(pk=document_id)
     return HttpResponse(document_series_number.document_code)
 
@@ -180,3 +185,16 @@ def create_new_doctype(doctype, counter): #  new_doc_series_number): # create a 
         new_doctype = DocumentType(document_code=new_doc_code, document_description="Document Check In", is_active=True
                                    )
         new_doctype.save()
+
+
+def load_containers(request):
+    document = request.GET.get('doc_type')
+    doc_type = document[0]
+    x = request.GET.get('form_num')
+    pprint(x)
+    if doc_type is 'O':
+        containers = Container.objects.filter(status=True)
+    elif doc_type is 'I':
+        containers = Container.objects.filter(status=False)
+
+    return render(request, 'recordmgnts/container_dropdown.html', {'containers': containers})
