@@ -81,15 +81,38 @@
       $.ajax({                       // initialize an AJAX request
         url: url,                    // set the url of the request
         data: {
-          'doc_type': documentId       // add the documentType id to the GET parameters
+          'doc_id': documentId       // add the documentType id to the GET parameters
         },
         success: function (data) {   // `data` is the return of the `load_series_number` view function
           $("#id_doc_serial_number").attr("value",data);  // add attribute value to the input with id #id_doc_serial_number
+          get_container(data);
         }
       });
 
     });
 
+    function get_container(data) {
+      var form_num = $("#id_form-TOTAL_FORMS").val();
+      var forms_arr = [];
+
+      for (var i = 0; i < form_num; i++){
+        forms_arr[i] = '#id_form-' + i.toString() + '-container';
+       }
+
+      $.ajax({
+        url: "{% url 'recordmgnts:ajax_load_containers' %}",
+        data: {
+          'doc_type': data,
+          'form_num': form_num
+        },
+        success: function(data){
+          for (var i = 0; i < form_num; i++){
+            $(forms_arr[i]).html(data)
+          }
+        }
+      });
+
+    };
 
     function cloneMore(selector, prefix) {
     var newElement = $(selector).clone(true);
