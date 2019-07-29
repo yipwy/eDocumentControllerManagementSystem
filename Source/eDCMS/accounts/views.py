@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import UserRegistrationForm, PasswordResetForm, ChangePasswordForm, CustomUserChangeForm
@@ -6,6 +6,8 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
+from django.utils import timezone
+from .models import Profile
 
 
 def mylogin(request):
@@ -85,9 +87,12 @@ def profile(request):
 @login_required
 def update_profile(request):
     if request.method == 'POST':
+        prof = get_object_or_404(Profile)
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
+            prof = form.save()
+            prof.modify_date = timezone.now()
+            prof.save()
             messages.success(request, f'Your profile has been updated.')
             return redirect('accounts:profile_page')
 

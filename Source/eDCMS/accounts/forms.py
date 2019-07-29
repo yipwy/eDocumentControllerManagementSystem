@@ -60,3 +60,17 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm):
         model = Profile
         fields = ('username', 'email', 'contact', 'departmentId', 'companyId', 'branchId', 'is_superuser', 'is_staff')
+
+
+# class FormWithFormattedDates(forms.ModelForm):
+#     def __init__(self, *args, **kwargs):
+#         date_format = None
+#         if 'date_format' in kwargs:
+#             date_format = kwargs['date_format']
+#             del kwargs['date_format']
+#         super(FormWithFormattedDates, self).__init__(*args, **kwargs)
+#         if date_format is not None:
+#             for (field_name, field) in self.fields.items():
+#                 if isinstance(field, forms.fields.DateField):
+#                     field.input_format = [date_format]
+#                     field.widget = forms.widgets.DateTimeInput(format=date_format)
