@@ -8,18 +8,17 @@ from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
 from django.forms import modelformset_factory
-from generals.models import DocumentType, SeriesNumber
+from generals.models import DocumentType, SeriesNumber, Location
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import datetime
 from pprint import pprint
-
 
 
 @login_required
 def showContainer(request):
 
     allContainer = Container.objects.all()
-    paginator = Paginator(allContainer, 10)  # Show 25 contacts per page
+    paginator = Paginator(allContainer, 5)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
         query_sets = paginator.page(page)
@@ -56,10 +55,16 @@ def addContainer(request):
             container.save()
             return render(request, 'recordmgnts/success_added.html')
         else:
-            messages.error(request, 'The serial number already exist.')
+            messages.error(request, 'Error.')
     else:
         form = ContainerForm()
     return render(request, 'recordmgnts/new_container.html', {'form': form})
+
+
+def load_locations(request):
+    warehouse_id = request.GET.get('warehouse')
+    locations = Location.objects.filter(warehouse=warehouse_id)
+    return render(request, 'recordmgnts/location_dropdown.html', {'locations': locations})
 
 
 class ContainerDetailView(LoginRequiredMixin, DetailView):
@@ -108,7 +113,7 @@ def containerUpdate(request, pk):
 @login_required
 def transaction_log(request):
     now = datetime.now()
-    initial_header_data ={
+    initial_header_data = {
         'department': request.user.departmentId,
         'branch': request.user.branchId,
         'created_by': request.user.username,
@@ -155,7 +160,7 @@ def load_series_number(request):
 def create_new_doc_series_number(doc_series_number):  # create a new SeriesNumber and returns the instance of it
     new_series_code = str("%04d" % doc_series_number.next_number)
     new_next_number = doc_series_number.next_number + 1
-    new_doc_series_number = SeriesNumber(series_code=new_series_code,next_number=new_next_number, is_active=True)
+    new_doc_series_number = SeriesNumber(series_code=new_series_code, next_number=new_next_number, is_active=True)
     new_doc_series_number.save()
     return new_doc_series_number  # return an instance of the newly created SeriesNumber
 

@@ -4,7 +4,7 @@ from generals.models import Warehouse, DocumentType, Location
 
 
 class ContainerForm(forms.ModelForm):
-    warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
+    #  warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
     container_serial_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
     container_description = forms.CharField(
         widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
@@ -21,7 +21,7 @@ class ContainerForm(forms.ModelForm):
         if 'warehouse' in self.data:
             try:
                 warehouse_id = int(self.data.get('warehouse'))
-                self.fields['location'].queryset = Location.objects.filter(pk=warehouse_id)
+                self.fields['location'].queryset = Location.objects.filter(warehouse=warehouse_id)
             except (ValueError, TypeError):
                 pass
         elif self.instance.pk:
