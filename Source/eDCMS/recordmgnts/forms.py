@@ -1,6 +1,7 @@
 from django import forms
 from .models import Container, OrderHeader, OrderDetail
 from generals.models import Warehouse, DocumentType, Location
+from pprint import pprint
 
 
 class ContainerForm(forms.ModelForm):
@@ -29,15 +30,17 @@ class ContainerForm(forms.ModelForm):
 
 
 class ContainerTransactionForm(forms.ModelForm):
-    doc_type = forms.ModelChoiceField(queryset=DocumentType.objects.filter(is_active=True))
+    doc_type = forms.ModelChoiceField(queryset=DocumentType.objects.filter(is_active=True), label='<b>Document Type:</b>')
 
     class Meta:
         model = OrderHeader
         fields = ['doc_type', 'doc_serial_number', 'created_by', 'branch', 'department', 'created_date']
         labels = {
-            'doc_type': 'Document Type',
-            'created_by': 'User',
-            'doc_serial_number': 'Document Code'
+            'created_by': '<b>User:</b>',
+            'doc_serial_number': '<b>Document Code:</b>',
+            'branch': '<b>Branch:</b>',
+            'department': '<b>Department:</b>',
+            'created_date': '<b>Created Date:</b>',
         }
 
     def __init__(self, *args, **kwargs):
@@ -71,3 +74,12 @@ class ContainerTransactionForm(forms.ModelForm):
 #                 if isinstance(field, forms.fields.DateField):
 #                     field.input_format = [date_format]
 #                     field.widget = forms.widgets.DateTimeInput(format=date_format)
+
+class RequiredFormSet(forms.BaseModelFormSet):
+    def __init__(self, *args, **kwargs):
+        super(RequiredFormSet, self).__init__(*args, **kwargs)
+        self.forms[0].empty_permitted = False
+
+    def clean(self):
+        cleaned_data = super(RequiredFormSet, self).clean()
+        # pprint(cleaned_data)

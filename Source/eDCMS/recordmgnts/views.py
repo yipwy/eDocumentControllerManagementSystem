@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
-from .forms import ContainerForm, ContainerTransactionForm
+from .forms import ContainerForm, ContainerTransactionForm, RequiredFormSet
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -119,7 +119,7 @@ def transaction_log(request):
         'created_by': request.user.username,
         # 'created_date': now.strftime("%d/%m/%Y"),
     }
-    DetailFormSet = modelformset_factory(OrderDetail, fields=['container'])
+    DetailFormSet = modelformset_factory(OrderDetail, fields=['container'], formset=RequiredFormSet)
     if request.method == 'POST':
         header_form = ContainerTransactionForm(request.POST)
         detail_form_set = DetailFormSet(request.POST)
@@ -128,6 +128,8 @@ def transaction_log(request):
             new_header = header_form.save(commit=False)
 
             if detail_form_set.is_valid():
+                pprint(header_form.cleaned_data)
+                pprint(detail_form_set.cleaned_data)
                 current_doctype = new_header.doc_type
                 current_doctype.is_active = False  # set used document type to inactive
                 current_doctype.save()

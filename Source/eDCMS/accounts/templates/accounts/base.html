@@ -53,24 +53,21 @@
 
     <div id="sidebar">
         <ul class="list-unstyled components">
-            <li><a href="#">Dashboard</a></li>
+            <li><a href="#" onclick="toggleSidebar()">Dashboard</a></li>
             <!--list with dropdown-->
             <li>
                 <a href="#docSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Document Management</a>
                 <ul class="collapse list-unstyled" id="docSubMenu">
                     <li>
-                        <a href="{% url 'recordmgnts:records' %}">View</a>
+                        <a href="{% url 'recordmgnts:records' %}" onclick="toggleSidebar()">View</a>
                     </li>
                     <li>
-                        <a href="{% url 'recordmgnts:transaction_log' %}">Transaction Log</a>
+                        <a href="{% url 'recordmgnts:transaction_log' %}" onclick="toggleSidebar()">Transaction Log</a>
                     </li>
                 </ul>
             </li>
             <!--end list with dropdown-->
-            <li><a href="#">Mailings</a></li>
-            {% if user.is_superuser and user.is_staff %}
-            <li><a href="/admin/">Admin Site</a></li>
-            {% endif %}
+            <li><a href="#" class="redirect-links" onclick="toggleSidebar()">Mailings</a></li>
         </ul>
     </div>
 
