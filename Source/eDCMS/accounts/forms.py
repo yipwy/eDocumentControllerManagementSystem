@@ -20,6 +20,13 @@ from generals.models import Department, Branch, Company
 #     ('Johor', 'Johor'),
 #     ('Penang', 'Penang'),
 # ]
+COMPANY_CHOICES = [
+     ('---------',  '---------'),
+     ('Huayang', 'Huayang'),
+     ('Agro-Mod Industries', 'Agro-Mod Industries'),
+     ('Bison Holdings', 'Bison Holdings'),
+     ('G Land Development', 'G Land Development'),
+ ]
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -31,7 +38,7 @@ class UserRegistrationForm(UserCreationForm):
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput())
     password2 = forms.CharField(label="Password Confirmation", widget=forms.PasswordInput())
     department = forms.ModelChoiceField(queryset=Department.objects.all(), required=True)
-    company = forms.CharField(label="Company")
+    company = forms.CharField(label="Company", widget=forms.Select(choices=COMPANY_CHOICES))
     branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True)
 
     class Meta(UserCreationForm):
@@ -50,7 +57,7 @@ class UserRegistrationForm(UserCreationForm):
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
-            self.fields['department'].queryset = self.instance.warehouse.branch_set.order_by('name')
+            self.fields['department'].queryset = self.instance.warehouse.branch_set.order_by('department')
 
 
 class PasswordResetForm(SetPasswordForm):
@@ -84,9 +91,9 @@ class CustomUserChangeForm(UserChangeForm):
     username = forms.CharField(label="Username")
     contact = forms.CharField(label="Contact Number")
     email = forms.EmailField(label="Email Address")
-    department = forms.CharField(label="Department")
-    company = forms.CharField(label="Company")
-    branch = forms.CharField(label="Branch")
+    department = forms.ModelChoiceField(queryset=Department.objects.all(), required=True)
+    company = forms.CharField(label="Company", widget=forms.Select(choices=COMPANY_CHOICES))
+    branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True)
     is_superuser = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
     is_staff = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
 
@@ -105,7 +112,7 @@ class CustomUserChangeForm(UserChangeForm):
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
-            self.fields['department'].queryset = self.instance.branch.department_set.order_by('name')
+            self.fields['department'].queryset = self.instance.branch.department_set.order_by('department')
 
 # class FormWithFormattedDates(forms.ModelForm):
 #     def __init__(self, *args, **kwargs):
