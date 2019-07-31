@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
-from .forms import ContainerForm, ContainerTransactionForm, RequiredFormSet
+from .forms import ContainerForm, ContainerTransactionForm, RequiredFormSet, OrderDetailForm
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -119,7 +119,7 @@ def transaction_log(request):
         'created_by': request.user.username,
         # 'created_date': now.strftime("%d/%m/%Y"),
     }
-    DetailFormSet = modelformset_factory(OrderDetail, fields=['container'], formset=RequiredFormSet)
+    DetailFormSet = modelformset_factory(OrderDetail, form=OrderDetailForm, formset=RequiredFormSet, extra=3)
     if request.method == 'POST':
         header_form = ContainerTransactionForm(request.POST)
         detail_form_set = DetailFormSet(request.POST)
@@ -128,8 +128,6 @@ def transaction_log(request):
             new_header = header_form.save(commit=False)
 
             if detail_form_set.is_valid():
-                pprint(header_form.cleaned_data)
-                pprint(detail_form_set.cleaned_data)
                 current_doctype = new_header.doc_type
                 current_doctype.is_active = False  # set used document type to inactive
                 current_doctype.save()
@@ -150,6 +148,10 @@ def transaction_log(request):
                         q.status = True
                     q.save()
                     instance.save()
+                messages.success(request, 'Transaction made successfully.')
+            elif detail_form_set.is_valid() is False:
+                print('form error mou')
+                header_form = ContainerTransactionForm(initial=initial_header_data)
     else:
         header_form = ContainerTransactionForm(initial=initial_header_data)
         detail_form_set = DetailFormSet(queryset=OrderDetail.objects.none())
@@ -192,8 +194,6 @@ def create_new_doctype(doctype, counter): #  new_doc_series_number): # create a 
 def load_containers(request):
     document = request.GET.get('doc_type')
     doc_type = document[0]
-    x = request.GET.get('form_num')
-    pprint(x)
     if doc_type is 'O':
         containers = Container.objects.filter(status=True)
     elif doc_type is 'I':

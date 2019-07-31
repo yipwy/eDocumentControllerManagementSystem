@@ -80,6 +80,15 @@ class RequiredFormSet(forms.BaseModelFormSet):
         super(RequiredFormSet, self).__init__(*args, **kwargs)
         self.forms[0].empty_permitted = False
 
-    def clean(self):
-        cleaned_data = super(RequiredFormSet, self).clean()
-        # pprint(cleaned_data)
+
+class OrderDetailForm(forms.ModelForm):
+    my_default_errors = {
+        'required': 'This field cannot be left empty.',
+        'invalid': 'Enter a valid value.',
+    }
+
+    container = forms.ModelChoiceField(queryset=Container.objects.all(), error_messages=my_default_errors)
+
+    class Meta:
+        model = OrderDetail
+        fields = ['container']

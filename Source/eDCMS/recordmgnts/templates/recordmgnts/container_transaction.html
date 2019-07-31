@@ -5,6 +5,16 @@
 {% block content %}
 
 <div class="container" style="margin-top:30px;">
+    <div class="col-md-5" style="margin:auto;">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible text-center" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <small class="text-muted">{{ message }}</small>
+    </div>
+    {% endfor %}
+    {% endif %}
+    </div>
     <form method="POST" id="orderHeaderForm" data-docnum-url="{% url 'recordmgnts:ajax_load_doc_number' %}">
                 <h3>Header</h3>
                 <hr>
