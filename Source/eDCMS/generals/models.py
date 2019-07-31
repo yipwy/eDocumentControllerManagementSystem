@@ -50,7 +50,7 @@ class Branch(models.Model):
 class Company(models.Model):
     class Meta:
         verbose_name_plural     = "Companies"
-    company                     = models.CharField(max_length=30, unique=True, null=False)
+    company                     = models.CharField(max_length=30, null=True)
 
     def __str__(self):
         return self.company

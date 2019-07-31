@@ -40,3 +40,6 @@
 
 13) Django docs on datetime formats
     src :https://docs.djangoproject.com/en/dev/ref/templates/builtins/#date
+
+14) Custom action buttons in django admin
+    src :https://medium.com/@hakibenita/how-to-add-custom-action-buttons-to-django-admin-8d266f5b0d41
