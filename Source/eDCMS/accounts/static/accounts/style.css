@@ -199,7 +199,7 @@ body{
     height:100%;
     background:#151719;
     left:-250px;
-    transition: all 500ms linear;
+    transition: all 250ms linear;
     z-index:22;
 }
 
@@ -214,6 +214,13 @@ body{
     background: #F1F2F2;
 
 }
+
+/*
+#sidebar ul a:active{
+    background:green;
+}
+*/
+
 
 /*#sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;

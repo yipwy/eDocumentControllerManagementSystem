@@ -119,7 +119,7 @@ def transaction_log(request):
         'created_by': request.user.username,
         # 'created_date': now.strftime("%d/%m/%Y"),
     }
-    DetailFormSet = modelformset_factory(OrderDetail, fields=['container'], extra=1)
+    DetailFormSet = modelformset_factory(OrderDetail, fields=['container'])
     if request.method == 'POST':
         header_form = ContainerTransactionForm(request.POST)
         detail_form_set = DetailFormSet(request.POST)
