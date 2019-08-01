@@ -92,3 +92,13 @@ class OrderDetailForm(forms.ModelForm):
     class Meta:
         model = OrderDetail
         fields = ['container']
+
+
+class TransactionFormView(forms.Form):
+    doc_type = forms.CharField(label="<b>Document Type:</b>", widget=forms.TextInput(attrs={'readonly': True}))
+    doc_serial_number = forms.CharField(label="<b>Document Code:</b>", widget=forms.TextInput(attrs={'readonly': True}))
+    created_by = forms.CharField(label="<b>User:</b>", widget=forms.TextInput(attrs={'readonly': True}))
+    branch = forms.CharField(label="<b>Branch:</b>", widget=forms.TextInput(attrs={'readonly': True}))
+    department = forms.CharField(label="<b>Department:</b>", widget=forms.TextInput(attrs={'readonly': True}))
+    created_date = forms.CharField(label="<b>Created Date:</b>", widget=forms.TextInput(attrs={'readonly': True}))
+    container = forms.CharField(label="<b>Container:</b>", widget=forms.TextInput(attrs={'readonly': True}))

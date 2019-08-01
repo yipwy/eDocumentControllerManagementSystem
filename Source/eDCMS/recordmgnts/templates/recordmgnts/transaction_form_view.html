@@ -1,0 +1,44 @@
+{% extends 'accounts/base.html' %}
+{% load widget_tweaks %}
+{% load crispy_forms_tags %}
+{% block title %}eDCMS-Transaction Log{% endblock title %}
+{% block content %}
+
+<div class="container" style="margin-top:30px;">
+    <form method="GET" id="orderHeaderForm" data-docnum-url="{% url 'recordmgnts:ajax_load_doc_number' %}">
+        <h3>Header</h3>
+        <hr>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.doc_type | as_crispy_field }}
+                    {{ form.doc_serial_number | as_crispy_field }}
+                    {{ form.created_by | as_crispy_field }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    {{ form.branch | as_crispy_field }}
+                    {{ form.department | as_crispy_field }}
+                    {{ form.created_date | as_crispy_field }}
+                </div>
+            </div>
+        </div>
+        <br>
+        <header>
+            <h3>Details</h3>
+        </header>
+        <hr>
+        {% for detail in details %}
+        <div class="form-group">
+            <b>Container:</b>
+            <input type="text" value="{{ detail.container }}" readonly class="form-control">
+        </div>
+        {% endfor %}
+    </form>
+    <button class="btn btn-info" onclick="window.location.href='{% url 'recordmgnts:order_transaction_history_view' %}'">
+        Back
+    </button>
+</div>
+
+{% endblock content %}
