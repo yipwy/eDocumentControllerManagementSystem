@@ -43,3 +43,7 @@
 
 14) Custom action buttons in django admin
     src :https://medium.com/@hakibenita/how-to-add-custom-action-buttons-to-django-admin-8d266f5b0d41
+
+
+15) Overriding default form error message
+    src :https://stackoverflow.com/questions/1481771/django-override-default-form-error-messages

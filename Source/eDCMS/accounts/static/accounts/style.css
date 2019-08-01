@@ -223,8 +223,7 @@ body{
 
 
 /*#sidebar ul li.active > a, a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
+    background: #F1F2F2;
 }*/
 
 #sidebar.active{
@@ -316,3 +315,8 @@ body{
 
 }
 
+tr th{
+    text-align:center;
+
+
+}
