@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Container
 from simple_history.admin import SimpleHistoryAdmin
+from django.contrib.admin.models import LogEntry
 
 
 class ContainerAdmin(SimpleHistoryAdmin):
@@ -10,5 +11,6 @@ class ContainerAdmin(SimpleHistoryAdmin):
 
 
 admin.site.register(Container, ContainerAdmin)
+admin.site.register(LogEntry)
 admin.site.site_url = '/home'
 

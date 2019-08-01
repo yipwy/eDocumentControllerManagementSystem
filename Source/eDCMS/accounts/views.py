@@ -144,7 +144,9 @@ def dashboard_view(request):
         'xAxis': {'categories': categories},
         'yAxis': {
             'title': {
-                'text': 'No.of users'}},
+                'text': 'No.of users'},
+            'tickInterval': 1
+                },
         'plotOptions': {
             'column': {
                 'pointPadding': 0.2,
