@@ -200,3 +200,18 @@ def load_containers(request):
         containers = Container.objects.filter(status=False)
 
     return render(request, 'recordmgnts/container_dropdown.html', {'containers': containers})
+
+
+def transaction_history_view(request):
+    current_user = request.user.username
+    order_header = OrderHeader.objects.filter(created_by=current_user)
+    paginator = Paginator(order_header, 5)  # Show 25 contacts per page
+    page = request.GET.get('page')
+    try:
+        query_sets = paginator.page(page)
+    except PageNotAnInteger:
+        query_sets = paginator.page(1)
+    except EmptyPage:
+        query_sets = paginator.page(paginator.num_pages)
+    context = {'order_header': query_sets}
+    return render(request, 'recordmgnts/transaction_history.html', context)
