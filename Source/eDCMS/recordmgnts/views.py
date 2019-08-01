@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Container, OrderHeader, OrderDetail
 from django.contrib.auth.decorators import login_required
-from .forms import ContainerForm, ContainerTransactionForm, RequiredFormSet, OrderDetailForm
+from .forms import ContainerForm, ContainerTransactionForm, RequiredFormSet, OrderDetailForm, TransactionFormView
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -202,9 +202,10 @@ def load_containers(request):
     return render(request, 'recordmgnts/container_dropdown.html', {'containers': containers})
 
 
+@login_required
 def transaction_history_view(request):
     current_user = request.user.username
-    order_header = OrderHeader.objects.filter(created_by=current_user)
+    order_header = OrderHeader.objects.filter(created_by=current_user).order_by('-created_date')
     paginator = Paginator(order_header, 5)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
@@ -215,3 +216,21 @@ def transaction_history_view(request):
         query_sets = paginator.page(paginator.num_pages)
     context = {'order_header': query_sets}
     return render(request, 'recordmgnts/transaction_history.html', context)
+
+
+@login_required
+def transaction_form_view(request, id):
+    current_order_header = OrderHeader.objects.get(id=id)
+    current_order_details = OrderDetail.objects.filter(header=current_order_header)
+    display_data = {
+        'doc_type': current_order_header.doc_type.document_description,
+        'doc_serial_number': current_order_header.doc_type.document_code,
+        'department': current_order_header.department,
+        'branch': current_order_header.branch,
+        'created_by': current_order_header.created_by,
+        'created_date': current_order_header.created_date,
+    }
+    form = TransactionFormView(initial=display_data)
+    context = {'form': form, 'details': current_order_details}
+    return render(request, 'recordmgnts/transaction_form_view.html', context)
+
