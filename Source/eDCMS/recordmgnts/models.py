@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime
+from simple_history.models import HistoricalRecords
 
 
 class Container(models.Model):
@@ -14,7 +15,7 @@ class Container(models.Model):
     modify_date                 = models.DateTimeField(default=datetime.now, blank=True)
     warehouse                   = models.ForeignKey('generals.Warehouse', on_delete=models.CASCADE)
     location                    = models.ForeignKey('generals.Location', on_delete=models.CASCADE)
-
+    history = HistoricalRecords(table_name='container_history')
     # permissions = (
     #     ('view', 'View container'),
     #     ('edit', 'Edit container'),
