@@ -1,0 +1,13 @@
+{% extends 'accounts/base.html' %}
+{% block title %} Dashboard {% endblock title %}
+{% block content %}
+
+ <div class="border" id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+      <script src="https://code.highcharts.com/highcharts.src.js"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+      <script>
+          Highcharts.chart('container', {{ chart|safe }});
+      </script>
+
+
+{% endblock content %}
