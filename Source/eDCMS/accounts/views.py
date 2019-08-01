@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
-from django.utils import timezone
+from accounts.models import Profile
 from .models import Profile
 from generals.models import Branch, Department
 from pprint import pprint
@@ -22,7 +22,7 @@ def mylogin(request):
         user = authenticate(username=username, password=password)
 
         if user is not None:
-            if user.is_active is None:
+            if user.is_active is None and user.is_superuser is None:
                 messages.warning(request, f'Account is not activated.')
             else:
                 # correct username and password login the user
@@ -95,15 +95,16 @@ def profile(request):
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-        prof = get_object_or_404(Profile)
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
-            prof = form.save()
-            prof.modify_date = timezone.now()
-            prof.save()
+            fs = form.save()
+            fs.modify_by = str(request.user)
+            fs.save()
             messages.success(request, f'Your profile has been updated.')
             return redirect('accounts:profile_page')
 
     else:
         form = CustomUserChangeForm(instance=request.user)
     return render(request, 'accounts/profile_update_form.html', {'form': form})
+
+

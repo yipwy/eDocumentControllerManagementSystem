@@ -90,9 +90,9 @@ class CustomUserChangeForm(UserChangeForm):
     username = forms.CharField(label="Username")
     contact = forms.CharField(label="Contact Number")
     email = forms.EmailField(label="Email Address")
-    department = forms.ModelChoiceField(queryset=Department.objects.all(), required=True)
+    department = forms.ModelChoiceField(queryset=Department.objects.filter(), required=True)
     company = forms.CharField(label="Company", widget=forms.Select(choices=COMPANY_CHOICES))
-    branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True)
+    branch = forms.ModelChoiceField(queryset=Branch.objects.filter(), required=True)
     is_superuser = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
     is_staff = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
 
@@ -100,18 +100,18 @@ class CustomUserChangeForm(UserChangeForm):
         model = Profile
         fields = ('username', 'email', 'contact', 'branch', 'department', 'company', 'is_superuser', 'is_staff')
 
-        # def __init__(self, *args, **kwargs):
-        #     super().__init__(*args, **kwargs)
-        #     self.fields['department'].queryset = Department.objects.none()
-        #
-        #     if 'branch' in self.data:
-        #         try:
-        #             branch = int(self.data.get('branch'))
-        #             self.fields['department'].queryset = Department.objects.filter(branch=branch)
-        #         except (ValueError, TypeError):
-        #             pass  # invalid input from the client; ignore and fallback to empty City queryset
-        #     elif self.instance.pk:
-        #         self.fields['department'].queryset = self.instance.branch.department_set.order_by('department')
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['department'].queryset = Department.objects.none()
+
+        if 'branch' in self.data:
+            try:
+                branch = int(self.data.get('branch'))
+                self.fields['department'].queryset = Department.objects.filter(branch=branch)
+            except (ValueError, TypeError):
+                pass  # invalid input from the client; ignore and fallback to empty City queryset
+        elif self.instance.pk:
+            self.fields['department'].queryset = self.instance.branch.department_set.order_by('department')
 
 
 # class FormWithFormattedDates(forms.ModelForm):
