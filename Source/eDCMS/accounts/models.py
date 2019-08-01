@@ -15,7 +15,7 @@ class Profile(AbstractUser):
     department       = models.ForeignKey('generals.Department', on_delete=models.CASCADE)
     created_by       = models.CharField(max_length=20)
     modify_by        = models.CharField(max_length=20)
-    modify_date      = models.DateTimeField(default=datetime.now, blank=True)
+    modify_date      = models.DateTimeField(auto_now=True, null=False)
     is_active        = models.BooleanField(default=False, null=True, blank=True)
     is_superuser     = models.BooleanField(default=False, null=True, blank=True)
     is_staff         = models.BooleanField(default=False, null=True, blank=True)
