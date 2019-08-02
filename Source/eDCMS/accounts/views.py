@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .forms import UserRegistrationForm, PasswordResetForm, ChangePasswordForm, CustomUserChangeForm
@@ -10,6 +10,8 @@ from accounts.models import Profile
 from .models import Profile
 from generals.models import Branch, Department
 from pprint import pprint
+import json
+from django.db.models import Count, Q
 
 
 def mylogin(request):
@@ -108,3 +110,52 @@ def update_profile(request):
     return render(request, 'accounts/profile_update_form.html', {'form': form})
 
 
+def dashboard_view(request):
+    dataset = Profile.objects \
+        .values('is_active') \
+        .annotate(is_active_count=Count('is_active', filter=Q(is_active=True)),
+                  not_is_active_count=Count('is_active', filter=Q(is_active=False))) \
+        .order_by('is_active')
+
+    categories = list()
+    is_active_series_data = list()
+    not_is_active_series_data = list()
+
+    for entry in dataset:
+        categories.append('%s Active' % entry['is_active'])
+        is_active_series_data.append(entry['is_active_count'])
+        not_is_active_series_data.append(entry['not_is_active_count'])
+
+    is_active_series = {
+        'name': 'Active user',
+        'data': is_active_series_data,
+        'color': 'green'
+    }
+
+    not_is_active_series = {
+        'name': 'Inactive user',
+        'data': not_is_active_series_data,
+        'color': 'red'
+    }
+
+    chart = {
+        'chart': {'type': 'column'},
+        'title': {'text': 'Active user on Current Platform'},
+        'xAxis': {'categories': categories},
+        'yAxis': {
+            'title': {
+                'text': 'No.of users'},
+            'tickInterval': 1
+                },
+        'plotOptions': {
+            'column': {
+                'pointPadding': 0.2,
+                'borderWidth': 0
+            }
+        },
+        'series': [is_active_series, not_is_active_series]
+    }
+
+    dump = json.dumps(chart)
+
+    return render(request, 'accounts/dashboard.html', {'chart': dump})
