@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {% block title %}eDCMS-Transaction Log{% endblock title %}
 {% block content %}
-
+{% spaceless %}
 <div class="container" style="margin-top:30px;">
     <div class="col-md-5" style="margin:auto;">
     {% if messages %}
@@ -49,7 +49,7 @@
                 {% if field.errors %}
                 <div class="form-group form-rows">
                     <b>{{ field.label_tag }}</b>
-                    {% render_field field class="form-control is-invalid" %}
+                    {% render_field field class="form-control is-invalid container-select" %}
                 {% for error in field.errors %}
                 <div class="invalid-feedback">
                     {{ error }}
@@ -59,13 +59,13 @@
                 {% else %}
                 <div class="form-group form-rows">
                     <b>{{ field.label_tag }}</b>
-                    {% render_field field class="form-control" %}
+                    {% render_field field class="form-control container-select" %}
                 </div>
                 {% endif %}
                 {% else %}
                 <div class="form-group form-rows">
                     <b>{{ field.label_tag }}</b>
-                    {% render_field field class="form-control" %}
+                    {% render_field field class="form-control container-select" %}
                 </div>
                 {% endif %}
                 {% endfor %}
@@ -95,6 +95,30 @@
 
     });
 
+    var counter = 1;
+
+    $(".container-select").change(function(){
+        var unique_class = 'option_' + $(this).attr('id');
+        var selected_option = $(this).val();
+        $(this).addClass("selected");
+        $(".container-select option[value=" + selected_option + "]").attr('class', unique_class);
+        $(".container-select option[value=" + selected_option + "]").hide();
+
+        $(".selected").change(function(){
+            var unique_class = 'option_' + $(this).attr('id');
+<!--            var previous_option = $(this).children("." + unique_class).val();-->
+            $("." + unique_class).removeAttr("style");
+<!--            $(".container-select option[value=" + previous_option + "]").show();-->
+            $("." + unique_class).removeAttr('class');
+<!--            $(".selected-option-1").removeAttr("style");-->
+            var new_option = $(this).val();
+<!--            $(this).children("option:selected").addClass("selected-option");-->
+            $(".container-select option[value=" + new_option + "]").attr('class', unique_class);
+            $(".container-select option[value=" + new_option + "]").hide();
+        });
+    })
+
+
     function get_container(data) {
       var form_num = $("#id_form-TOTAL_FORMS").val();
       var forms_arr = [];
@@ -107,7 +131,7 @@
         url: "{% url 'recordmgnts:ajax_load_containers' %}",
         data: {
           'doc_type': data,
-          'form_num': form_num
+          'form_num': form_num,
         },
         success: function(data){
           for (var i = 0; i < form_num; i++){
@@ -146,4 +170,5 @@
 });
 
   </script>
+{% endspaceless %}
 {% endblock content %}
