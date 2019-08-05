@@ -44,9 +44,11 @@
 14) Custom action buttons in django admin
     src :https://medium.com/@hakibenita/how-to-add-custom-action-buttons-to-django-admin-8d266f5b0d41
 
-
 15) Overriding default form error message
     src :https://stackoverflow.com/questions/1481771/django-override-default-form-error-messages
 
 16) Adding number of months from current date
     src :https://stackoverflow.com/questions/546321/how-do-i-calculate-the-date-six-months-from-the-current-date-using-the-datetime
+
+17) django get_context_data and get_queryset methods
+    src :https://stackoverflow.com/questions/36950416/when-to-use-get-get-queryset-get-context-data-in-django

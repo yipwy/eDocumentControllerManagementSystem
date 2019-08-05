@@ -92,9 +92,16 @@ class SearchContainerView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         object_list = Container.objects.filter(
-            Q(container_serial_number__icontains=query) | Q(container_description__icontains=query)
+            Q(container_serial_number__icontains=query) & Q(department=self.request.user.department.id) |
+            Q(container_description__icontains=query) & Q(department=self.request.user.department.id)
         )
         return object_list
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super(SearchContainerView, self).get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
 
 
 def containerUpdate(request, pk):
@@ -198,7 +205,7 @@ def load_containers(request):
     document = request.GET.get('doc_type')
     doc_type = document[0]
     if doc_type is 'O':
-        containers = Container.objects.filter(status=True)
+        containers = Container.objects.filter(status=True, department=request.user.department)
     elif doc_type is 'I':
         container_instance = ContainerInstance.objects.values_list('container', flat=True).filter(status=False, user=request.user)
         containers = Container.objects.filter(id__in=container_instance)
