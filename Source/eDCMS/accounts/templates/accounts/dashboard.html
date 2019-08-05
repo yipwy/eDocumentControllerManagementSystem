@@ -2,12 +2,37 @@
 {% block title %} Dashboard {% endblock title %}
 {% block content %}
 
- <div class="border" id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<nav style="margin-top: 30px">
+  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+    <a class="nav-item nav-link active" id="nav-user-tab" data-toggle="tab" href="#user-charts" role="tab" aria-controls="nav-user" aria-selected="true">No.of Users</a>
+    <a class="nav-item nav-link" id="nav-records-tab" data-toggle="tab" href="#nav-records" role="tab" aria-controls="nav-records" aria-selected="false">Container Records</a>
+    <a class="nav-item nav-link" id="nav-transaction-tab" data-toggle="tab" href="#nav-transaction" role="tab" aria-controls="nav-transaction" aria-selected="false">Transaction</a>
+  </div>
+</nav>
+
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active" id="user-charts" role="tabpanel" aria-labelledby="nav-user-tab">
+      <div class="border" id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
       <script src="https://code.highcharts.com/highcharts.src.js"></script>
       <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
       <script>
           Highcharts.chart('container', {{ chart|safe }});
       </script>
+  </div>
+  <div class="tab-pane fade" id="nav-records" role="tabpanel" aria-labelledby="nav-records-tab">
+      <p>Upcoming next</p>
+  </div>
+  <div class="tab-pane fade" id="nav-transaction" role="tabpanel" aria-labelledby="nav-transaction-tab">
+      <p>Will be ready soon</p>
+  </div>
+</div>
+
+<!-- <div class="border" id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>-->
+<!--      <script src="https://code.highcharts.com/highcharts.src.js"></script>-->
+<!--      <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
+<!--      <script>-->
+<!--          Highcharts.chart('container', {{ chart|safe }});-->
+<!--      </script>-->
 
 
 {% endblock content %}

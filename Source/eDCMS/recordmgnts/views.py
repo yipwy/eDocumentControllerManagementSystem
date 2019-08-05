@@ -8,11 +8,13 @@ from django.contrib import messages
 from django.db.models import Q
 from django.utils import timezone
 from django.forms import modelformset_factory
-from generals.models import DocumentType, Location
+from generals.models import DocumentType, Bay
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import *
 from dateutil.relativedelta import relativedelta
 from pprint import pprint
+from django.db.models.functions import Concat
+from django.db.models import Value as V, CharField
 
 
 @login_required
@@ -65,8 +67,8 @@ def addContainer(request):
 
 def load_locations(request):
     warehouse_id = request.GET.get('warehouse')
-    locations = Location.objects.filter(warehouse=warehouse_id)
-    return render(request, 'recordmgnts/location_dropdown.html', {'locations': locations})
+    bays = Bay.objects.filter(warehouse=warehouse_id)
+    return render(request, 'recordmgnts/location_dropdown.html', {'bays': bays})
 
 
 class ContainerDetailView(LoginRequiredMixin, DetailView):
@@ -259,4 +261,5 @@ def create_container_instance(doctype, container, user, date):
         container_instance_object.save()
 
 
-
+def concat_location(bay, row, column):
+    return str(bay) + str(row) + str(column)

@@ -14,7 +14,9 @@ class Container(models.Model):
     modify_by                   = models.CharField(max_length=20)
     modify_date                 = models.DateTimeField(default=datetime.now, blank=True)
     warehouse                   = models.ForeignKey('generals.Warehouse', on_delete=models.CASCADE)
-    location                    = models.ForeignKey('generals.Location', on_delete=models.CASCADE)
+    bay                         = models.ForeignKey('generals.Bay', on_delete=models.CASCADE)
+    row                         = models.CharField(max_length=10, null=True)
+    column                      = models.CharField(max_length=10, null=True)
     department                  = models.ForeignKey('generals.Department', on_delete=models.CASCADE, null=True)
     history = HistoricalRecords(table_name='container_history')
 

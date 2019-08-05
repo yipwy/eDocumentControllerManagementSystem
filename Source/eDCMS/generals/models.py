@@ -77,11 +77,11 @@ class Warehouse(models.Model):
         return self.warehouse_id
 
 
-class Location(models.Model):
+class Bay(models.Model):
     class Meta:
         verbose_name_plural     = "Locations"
-    location_id                 = models.CharField(max_length=15, null=False, unique=True)
+    bay_id                 = models.CharField(max_length=15, null=True, unique=True)
     warehouse                   = models.ForeignKey('Warehouse', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.location_id
+        return self.bay_id
