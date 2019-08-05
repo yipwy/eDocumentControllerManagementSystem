@@ -110,7 +110,7 @@ def update_profile(request):
     return render(request, 'accounts/profile_update_form.html', {'form': form})
 
 
-def dashboard_view(request):
+def dashboard_viewUser(request):
     dataset = Profile.objects \
         .values('is_active') \
         .annotate(is_active_count=Count('is_active', filter=Q(is_active=True)),
