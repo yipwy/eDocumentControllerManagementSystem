@@ -15,7 +15,7 @@ class Container(models.Model):
     modify_date                 = models.DateTimeField(default=datetime.now, blank=True)
     warehouse                   = models.ForeignKey('generals.Warehouse', on_delete=models.CASCADE)
     location                    = models.ForeignKey('generals.Location', on_delete=models.CASCADE)
-    # department                  = models.ForeignKey('generals.Department', on_delete=models.CASCADE)
+    department                  = models.ForeignKey('generals.Department', on_delete=models.CASCADE, null=True)
     history = HistoricalRecords(table_name='container_history')
 
     def __str__(self):
