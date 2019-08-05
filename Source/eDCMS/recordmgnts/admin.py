@@ -5,8 +5,8 @@ from django.contrib.admin.models import LogEntry
 
 
 class ContainerAdmin(SimpleHistoryAdmin):
-    list_display = ('container_serial_number', 'container_description', 'status', 'created_by', 'created_date',
-                    'modify_by', 'modify_date', 'warehouse', 'location')
+    list_display = ('container_serial_number', 'container_description', 'status', 'created_by', 'department',
+                    'created_date', 'modify_by', 'modify_date', 'warehouse', 'location')
     history_list_display = ["status"]
 
 

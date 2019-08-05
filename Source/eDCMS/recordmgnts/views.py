@@ -17,7 +17,7 @@ from pprint import pprint
 @login_required
 def showContainer(request):
 
-    allContainer = Container.objects.all()
+    allContainer = Container.objects.filter(department=request.user.department)
     paginator = Paginator(allContainer, 5)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
@@ -45,13 +45,14 @@ def showDetail(request):
 
 
 def addContainer(request):
-
+    # args = {'department': request.user.department}
     if request.method == 'POST':
         form = ContainerForm(request.POST)
         if form.is_valid():
             container = form.save()
             container.created_by = str(request.user)
             container.modify_by = str(request.user)
+            container.department = request.user.department
             container.save()
             return render(request, 'recordmgnts/success_added.html')
         else:
