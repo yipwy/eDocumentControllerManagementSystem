@@ -150,7 +150,6 @@ def transaction_log(request):
                     instance.save()
                 messages.success(request, 'Transaction made successfully.')
             elif detail_form_set.is_valid() is False:
-                print('form error mou')
                 header_form = ContainerTransactionForm(initial=initial_header_data)
     else:
         header_form = ContainerTransactionForm(initial=initial_header_data)

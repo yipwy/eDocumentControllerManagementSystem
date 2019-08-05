@@ -104,7 +104,7 @@
         $(".container-select option[value=" + selected_option + "]").attr('class', unique_class);
         $(".container-select option[value=" + selected_option + "]").hide();
 
-        $(".selected").change(function(){
+        $(".selected").click(function(){
             var unique_class = 'option_' + $(this).attr('id');
 <!--            var previous_option = $(this).children("." + unique_class).val();-->
             $("." + unique_class).removeAttr("style");
