@@ -47,3 +47,6 @@
 
 15) Overriding default form error message
     src :https://stackoverflow.com/questions/1481771/django-override-default-form-error-messages
+
+16) Adding number of months from current date
+    src :https://stackoverflow.com/questions/546321/how-do-i-calculate-the-date-six-months-from-the-current-date-using-the-datetime

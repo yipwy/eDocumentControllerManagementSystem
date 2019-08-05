@@ -1,6 +1,6 @@
 from django.db import models
-from datetime import datetime
 from simple_history.models import HistoricalRecords
+from datetime import *
 
 
 class Container(models.Model):
@@ -39,3 +39,18 @@ class OrderDetail(models.Model):
     header                   = models.ForeignKey(OrderHeader, on_delete=models.CASCADE)
     container                = models.ForeignKey(Container, on_delete=models.SET_NULL, null=True)
     barcode                  = models.CharField(max_length=20, null=True)
+
+
+class ContainerInstance(models.Model):
+    class Meta:
+        verbose_name_plural     = 'Container Instances'
+    container = models.ForeignKey(Container, on_delete=models.SET_NULL, null=True)
+    due_date  = models.DateField(null=True)
+    user      = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)
+    status    = models.BooleanField(null=True)
+
+    @property
+    def is_overdue(self):
+        if date.today() > self.due_date:
+            return True
+        return False

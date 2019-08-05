@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
-from .models import Container, OrderHeader, OrderDetail
+from .models import Container, OrderHeader, OrderDetail, ContainerInstance
 from django.contrib.auth.decorators import login_required
 from .forms import ContainerForm, ContainerTransactionForm, RequiredFormSet, OrderDetailForm, TransactionFormView
 from django.views.generic import DetailView, ListView
@@ -10,7 +10,8 @@ from django.utils import timezone
 from django.forms import modelformset_factory
 from generals.models import DocumentType, Location
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from datetime import datetime
+from datetime import *
+from dateutil.relativedelta import relativedelta
 from pprint import pprint
 
 
@@ -101,7 +102,7 @@ def containerUpdate(request, pk):
     form = ContainerForm(request.POST or None, instance=container)
     if form.is_valid():
         container = form.save()
-        container.modify_date = timezone.now()
+        container.modify_date = datetime.now()
         container.modify_by = str(request.user)
         container.save()
         messages.success(request, 'Successfully updated')
@@ -112,12 +113,12 @@ def containerUpdate(request, pk):
 
 @login_required
 def transaction_log(request):
-    now = datetime.now()
+    now = date.today()
     initial_header_data = {
         'department': request.user.department,
         'branch': request.user.branch,
         'created_by': request.user.username,
-        # 'created_date': now.strftime("%d/%m/%Y"),
+        'created_date': now.strftime("%d/%m/%Y"),
     }
     DetailFormSet = modelformset_factory(OrderDetail, form=OrderDetailForm, formset=RequiredFormSet, extra=3)
     if request.method == 'POST':
@@ -126,6 +127,7 @@ def transaction_log(request):
 
         if header_form.is_valid():
             new_header = header_form.save(commit=False)
+            new_header.created_date = datetime.now()
 
             if detail_form_set.is_valid():
                 current_doctype = new_header.doc_type
@@ -139,6 +141,7 @@ def transaction_log(request):
 
                 instances = detail_form_set.save(commit=False)
                 for instance in instances:
+                    create_container_instance(doc_type, instance.container, request.user, new_header.created_date)
                     instance.header = new_header
                     q = Container.objects.get(pk=instance.container.id)
                     instance.barcode = q.container_serial_number
@@ -196,8 +199,8 @@ def load_containers(request):
     if doc_type is 'O':
         containers = Container.objects.filter(status=True)
     elif doc_type is 'I':
-        containers = Container.objects.filter(status=False)
-
+        container_instance = ContainerInstance.objects.values_list('container', flat=True).filter(status=False, user=request.user)
+        containers = Container.objects.filter(id__in=container_instance)
     return render(request, 'recordmgnts/container_dropdown.html', {'containers': containers})
 
 
@@ -232,4 +235,20 @@ def transaction_form_view(request, id):
     form = TransactionFormView(initial=display_data)
     context = {'form': form, 'details': current_order_details}
     return render(request, 'recordmgnts/transaction_form_view.html', context)
+
+
+def create_container_instance(doctype, container, user, date):
+    #  to record checked out document due date and return status
+    if doctype is 'O':
+        status = False
+        due_date = date + relativedelta(months=+3)
+        container_instance = ContainerInstance(container=container, user=user, due_date=due_date, status=status)
+        container_instance.save()
+
+    if doctype is 'I':
+        container_instance_object = ContainerInstance.objects.get(container=container, status=False, user=user)
+        container_instance_object.status = True
+        container_instance_object.save()
+
+
 

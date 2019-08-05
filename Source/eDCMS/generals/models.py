@@ -9,7 +9,7 @@ class DocumentType(models.Model):
     document_code = models.CharField(max_length=20, unique=True)
     document_description = models.CharField(max_length=50)
     # document_number_seriesId = models.ForeignKey('SeriesNumber', null=True, blank=True, on_delete=models.CASCADE)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created_by = models.CharField(max_length=20)
     created_date = models.DateTimeField(default=datetime.now, blank=True)
     # modify_by = models.CharField(max_length=20)
