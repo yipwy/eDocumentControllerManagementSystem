@@ -16,7 +16,7 @@
                         </tr>
                         {% for container in object_list %}
                         <tr>
-                            <td>{{ container.container_serial_number }}</td><td>{{ container.container_description }}</td><td>{{ container.status |yesno:"Yes,No"  }}</td><td>{{ container.created_by }}</td><td>{{ container.created_date }}</td><td>{{ container.modify_by }}</td><td>{{ container.modify_date }}</td><td>{{ container.warehouse }}</td><td>{{ container.location }}</td>
+                            <td>{{ container.container_serial_number }}</td><td>{{ container.container_description }}</td><td>{{ container.status |yesno:"Yes,No"  }}</td><td>{{ container.created_by }}</td><td>{{ container.created_date }}</td><td>{{ container.modify_by }}</td><td>{{ container.modify_date }}</td><td>{{ container.warehouse }}</td><td>{{ container.bay }}</td>
                         </tr>
                         {% endfor %}
 

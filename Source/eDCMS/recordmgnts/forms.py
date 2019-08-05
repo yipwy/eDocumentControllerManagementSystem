@@ -1,7 +1,22 @@
 from django import forms
 from .models import Container, OrderHeader, OrderDetail
-from generals.models import Warehouse, DocumentType, Location
+from generals.models import Warehouse, DocumentType, Bay
 from pprint import pprint
+
+ROW = (
+    ('', '--------'),
+    ('1', '1'),
+    ('2', '2'),
+    ('3', '3'),
+    ('4', '4'),
+    ('5', '5')
+)
+
+COL = (
+    ('', '--------'),
+    ('1', '1'),
+    ('2', '2')
+)
 
 
 class ContainerForm(forms.ModelForm):
@@ -10,23 +25,25 @@ class ContainerForm(forms.ModelForm):
     container_description = forms.CharField(required=False,
                                     widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
     status = forms.BooleanField(required=False, label='Status of container')
+    row = forms.ChoiceField(choices=ROW)
+    column = forms.ChoiceField(choices=COL)
 
     class Meta:
         model = Container
-        fields = ['container_serial_number', 'container_description', 'status', 'warehouse', 'location']
+        fields = ['container_serial_number', 'container_description', 'status', 'warehouse', 'bay', 'row', 'column']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['location'].queryset = Location.objects.none()
+        self.fields['bay'].queryset = Bay.objects.none()
 
         if 'warehouse' in self.data:
             try:
                 warehouse_id = int(self.data.get('warehouse'))
-                self.fields['location'].queryset = Location.objects.filter(warehouse=warehouse_id)
+                self.fields['bay'].queryset = Bay.objects.filter(warehouse=warehouse_id)
             except (ValueError, TypeError):
                 pass
         elif self.instance.pk:
-            self.fields['location'].queryset = self.instance.warehouse.location_set
+            self.fields['bay'].queryset = self.instance.warehouse.bay_set
 
 
 class ContainerTransactionForm(forms.ModelForm):
