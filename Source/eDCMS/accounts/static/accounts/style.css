@@ -75,7 +75,8 @@ body{
 /*------services section------*/
 
 #services{
-    padding: 70px 0 40px 20px;
+   /* padding: 70px 0 40px 20px; */
+   padding : 70px 40px;
 }
 
 #services #headers{
@@ -168,7 +169,8 @@ body{
 }
 
 .footer-box p{
-    margin-left:-20px
+    margin-left:-20px;
+    padding-right:10px;
 }
 
 #page-container {

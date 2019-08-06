@@ -8,7 +8,7 @@ class Container(models.Model):
         verbose_name_plural     = 'Containers'
     container_serial_number     = models.CharField(max_length=20, unique=True)
     container_description       = models.CharField(max_length=100)
-    status                      = models.BooleanField(default=False)
+    status                      = models.BooleanField(default=True)
     created_by                  = models.CharField(max_length=20)
     created_date                = models.DateTimeField(default=datetime.now, blank=True)
     modify_by                   = models.CharField(max_length=20)

@@ -70,7 +70,7 @@
                 </ul>
             </li>
             <!--end list with dropdown-->
-            <li><a href="#" class="redirect-links" onclick="toggleSidebar()">Mailings</a></li>
+            <li><a href="{% url 'mailings:mailings-view' %}" onclick="toggleSidebar()">Mailings</a></li>
         </ul>
     </div>
 
@@ -82,9 +82,9 @@
     </div>
 
    <div id="footer">
-        <div class="container">
+        <div class="container ml-3">
             <div class="row">
-                <div class="col-md-6 footer-box">
+                <div class=" col-lg col- footer-box">
                         <img src="{% static 'accounts/huayanglogo.png' %}">
                         <p>© Copyright 2018 Hua Yang Berhad. All Rights Reserved.</p>
                 </div>
