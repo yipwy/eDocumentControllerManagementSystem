@@ -21,7 +21,7 @@ from django.db.models import Value as V, CharField
 def showContainer(request):
 
     allContainer = Container.objects.filter(department=request.user.department)
-    paginator = Paginator(allContainer, 5)  # Show 25 contacts per page
+    paginator = Paginator(allContainer, 2)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
         query_sets = paginator.page(page)
