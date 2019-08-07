@@ -140,3 +140,15 @@ AUTH_USER_MODEL = 'accounts.Profile'
 LOGIN_URL = 'accounts:login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+#email settings
+
+EMAIL_HOST           = 'smtp.gmail.com'
+EMAIL_PORT           = 587
+EMAIL_HOST_USER      = 'edcmshyb@gmail.com'
+EMAIL_HOST_PASSWORD  = 'user@123'
+EMAIL_USE_TLS        = True
+DEFAULT_FROM_EMAIL   = EMAIL_HOST_USER
+EMAIL_FROM           = EMAIL_HOST_USER
+EMAIL_SUBJECT_PREFIX = '[Project] '
+EMAIL_BACKEND        = 'django.core.mail.backends.smtp.EmailBackend'
