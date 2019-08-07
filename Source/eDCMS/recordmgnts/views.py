@@ -15,6 +15,7 @@ from dateutil.relativedelta import relativedelta
 from pprint import pprint
 from django.db.models.functions import Concat
 from django.db.models import Value as V, CharField
+from django.core.mail import send_mail
 
 
 @login_required
@@ -263,3 +264,26 @@ def create_container_instance(doctype, container, user, date):
 
 def concat_location(bay, row, column):
     return str(bay) + str(row) + str(column)
+
+
+def send_due_date_email(request):
+    checked_out_containers = ContainerInstance.objects.filter(status=False)
+    user_list = [container.user for container in checked_out_containers if container.is_overdue]
+    unique_user_list = list(set(user_list))
+    for user in unique_user_list:
+        containers_by_user = ContainerInstance.objects.filter(status=False, user=user)
+        overdue_containers = [str(container.container.container_serial_number) for container in containers_by_user
+                              if container.is_overdue]
+        containers = ', '.join(overdue_containers)
+        message = "According to our records, the items listed below which are currently checked out by you are overdue."\
+                  "Please check in these containers at their respective warehouses as soon as possible.\n" \
+                  "The containers are " + containers + \
+                  "\nThis is an automated email, please do not reply."
+
+        send_mail('Container Check Out Overdue',
+                  message,
+                  'edcmshyb@gmail.com',
+                  [user.email],
+                  fail_silently=False
+                  )
+    return render(request, 'recordmgnts/index.html')
