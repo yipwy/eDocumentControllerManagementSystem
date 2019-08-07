@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from accounts.models import Profile
 from .models import Profile
 from generals.models import Branch, Department
+from recordmgnts.models import Container
 from pprint import pprint
 import json
 from django.db.models import Count, Q
@@ -159,3 +160,72 @@ def dashboard_viewUser(request):
     dump = json.dumps(chart)
 
     return render(request, 'accounts/dashboard.html', {'chart': dump})
+
+
+def dashboard_viewContainer(request):
+    dataset = Container.objects \
+        .values('department') \
+        .annotate(IT_count=Count('department', filter=Q(department='IT')),
+                  Sales_count=Count('department', filter=Q(department='Sales')),
+                  Admin_count=Count('department', filter=Q(department='Admin')),
+                  HR_count=Count('department', filter=Q(department='HR')),) \
+        .order_by('department')
+
+    categories = list()
+    IT_series_data = list()
+    Sales_series_data = list()
+    Admin_series_data = list()
+    HR_series_data = list()
+
+    for entry in dataset:
+        categories.append('%s Department' % entry['department'])
+        IT_series_data.append(entry['IT_count'])
+        Sales_series_data.append(entry['Sales_count'])
+        Admin_series_data.append(entry['Admin_count'])
+        HR_series_data.append(entry['HR_count'])
+
+    IT_series = {
+        'name': 'IT',
+        'data': IT_series_data,
+        'color': 'green'
+    }
+
+    Sales_series = {
+        'name': 'Sales',
+        'data': Sales_series_data,
+        'color': 'yellow'
+    }
+
+    Admin_series = {
+        'name': 'Admin',
+        'data': Admin_series_data,
+        'color': 'red'
+    }
+
+    HR_series = {
+        'name': 'HR',
+        'data': HR_series_data,
+        'color': 'blue'
+    }
+
+    chart2 = {
+        'chart': {'type': 'column'},
+        'title': {'text': 'Containers per department'},
+        'xAxis': {'categories': categories},
+        'yAxis': {
+            'title': {
+                'text': 'No.of containers'},
+            'tickInterval': 1
+                },
+        'plotOptions': {
+            'column': {
+                'pointPadding': 0.2,
+                'borderWidth': 0
+            }
+        },
+        'series': [IT_series, Sales_series, Admin_series, HR_series]
+    }
+
+    dump = json.dumps(chart2)
+
+    return render(request, 'accounts/dashboard.html', {'chart2': dump})
