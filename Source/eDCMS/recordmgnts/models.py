@@ -50,6 +50,7 @@ class ContainerInstance(models.Model):
     due_date  = models.DateField(null=True)
     user      = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)
     status    = models.BooleanField(null=True)
+    email_sent = models.BooleanField(default=False, null=True)
 
     @property
     def is_overdue(self):

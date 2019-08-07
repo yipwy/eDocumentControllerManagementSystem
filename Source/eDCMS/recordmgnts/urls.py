@@ -19,5 +19,4 @@ urlpatterns = [
     path('ajax/load-containers/', views.load_containers, name='ajax_load_containers'),
     path('transaction/history/', views.transaction_history_view, name='order_transaction_history_view'),
     path('transaction/history/<int:id>/', views.transaction_form_view, name='order_transaction_details_view'),
-    path('email/send', views.send_due_date_email, name='check_out_due_email'),
 ]

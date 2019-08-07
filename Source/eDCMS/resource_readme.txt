@@ -52,3 +52,6 @@
 
 17) django get_context_data and get_queryset methods
     src :https://stackoverflow.com/questions/36950416/when-to-use-get-get-queryset-get-context-data-in-django
+
+18) creating custom commands in django
+    src :https://simpleisbetterthancomplex.com/tutorial/2018/08/27/how-to-create-custom-django-management-commands.html
