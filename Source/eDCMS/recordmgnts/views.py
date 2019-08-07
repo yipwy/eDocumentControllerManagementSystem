@@ -22,7 +22,7 @@ from django.core.mail import send_mail
 def showContainer(request):
 
     allContainer = Container.objects.filter(department=request.user.department)
-    paginator = Paginator(allContainer, 5)  # Show 25 contacts per page
+    paginator = Paginator(allContainer, 2)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
         query_sets = paginator.page(page)

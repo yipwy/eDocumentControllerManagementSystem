@@ -75,7 +75,8 @@ body{
 /*------services section------*/
 
 #services{
-    padding: 70px 0 40px 20px;
+   /* padding: 70px 0 40px 20px; */
+   padding : 70px 40px;
 }
 
 #services #headers{
@@ -164,16 +165,23 @@ body{
 /*-----footer------*/
 .footer-box img{
     width: 120px;
-    margin: 10px 0 15px -20px;
+    margin: 0px 0 0px -20px;
 }
 
-.footer-box p{
-    margin-left:-20px
+.footer-box span{
+    margin-left:-20px;
+    padding-right:10px;
+    font-size:13px;
 }
 
 #page-container {
   position: relative;
   min-height: 100vh;
+  padding:0px;
+  width:100%;
+  height:100%;
+  overflow-x:hidden;
+  overflow-y:hidden;
 }
 
 #content-wrap {
@@ -186,9 +194,10 @@ body{
 #footer  {
   background-image: linear-gradient(to right, #E5E4E4,#B7B7B7);
   position: absolute;
+  margin-top:25px;
   bottom: 0;
   width: 100%;
-  height: 8rem;            /* Footer height */
+  height: /*8rem*/90px;            /* Footer height */
 }
 
 

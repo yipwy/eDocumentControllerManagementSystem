@@ -24,13 +24,13 @@ class ContainerForm(forms.ModelForm):
     container_serial_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
     container_description = forms.CharField(required=False,
                                     widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
-    status = forms.BooleanField(required=False, label='Status of container')
+    # status = forms.BooleanField(required=False, label='Status of container')
     row = forms.ChoiceField(choices=ROW)
     column = forms.ChoiceField(choices=COL)
 
     class Meta:
         model = Container
-        fields = ['container_serial_number', 'container_description', 'status', 'warehouse', 'bay', 'row', 'column']
+        fields = ['container_serial_number', 'container_description', 'warehouse', 'bay', 'row', 'column']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

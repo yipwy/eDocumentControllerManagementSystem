@@ -15,15 +15,12 @@
 
 <body>
 
-<div id="page-container">
-
+<div class="container-fluid" id="page-container">
    <header id="nav-bar">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         {% if user.is_authenticated %}
         <div class="toggle-btn" onclick="toggleSidebar()">
-            <span></span>
-            <span></span>
-            <span></span>
+            <i class="fa fa-bars"></i>
         </div>
         <div class="navbar-brand" href="{% url 'accounts:home' %}"><img src="{% static 'accounts/huayanglogo.png' %}"></div>
         {% else %}
@@ -70,7 +67,7 @@
                 </ul>
             </li>
             <!--end list with dropdown-->
-            <li><a href="#" class="redirect-links" onclick="toggleSidebar()">Mailings</a></li>
+            <li><a href="{% url 'mailings:mailings-view' %}" onclick="toggleSidebar()">Mailings</a></li>
         </ul>
     </div>
 
@@ -82,11 +79,11 @@
     </div>
 
    <div id="footer">
-        <div class="container">
+        <div class="container ml-3">
             <div class="row">
-                <div class="col-md-6 footer-box">
-                        <img src="{% static 'accounts/huayanglogo.png' %}">
-                        <p>© Copyright 2018 Hua Yang Berhad. All Rights Reserved.</p>
+                <div class=" col-lg footer-box">
+                        <img src="{% static 'accounts/huayanglogo.png' %}"><br>
+                        <span>© Copyright 2018 Hua Yang Berhad. All Rights Reserved.</span>
                 </div>
             </div>
         </div>
