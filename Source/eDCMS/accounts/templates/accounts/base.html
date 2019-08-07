@@ -50,7 +50,7 @@
 
     <div id="sidebar">
         <ul class="list-unstyled components">
-            <li><a href="{% url 'accounts:dashboard' %}" onclick="toggleSidebar()">Dashboard</a></li>
+            <li><a href="{% url 'accounts:dashboard' %}" onclick="toggleSidebar()">Dashboard   <span class="badge badge-warning" style="height:18px;">Beta</span></a></li>
             <!--list with dropdown-->
             <li>
                 <a href="#docSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Document Management</a>
@@ -67,7 +67,8 @@
                 </ul>
             </li>
             <!--end list with dropdown-->
-            <li><a href="{% url 'mailings:mailings-view' %}" onclick="toggleSidebar()">Mailings</a></li>
+<!--            <li><a href="#" onclick="toggleSidebar()">Mailings</a></li>-->
+                <li><a href="#" data-toggle="popover" data-trigger="focus" data-content="Currently unavailable">Mailings</a></li>
         </ul>
     </div>
 
@@ -99,6 +100,10 @@
         document.getElementById("sidebar").classList.toggle('active');
         document.getElementById("overlay").classList.toggle('active');
     }
+
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
 </script>
 </body>
 </html>
