@@ -24,11 +24,11 @@ class Command(BaseCommand):
                 containers_by_user = ContainerInstance.objects.filter(status=False, user=user, email_sent=False)
                 overdue_containers = [str(container.container.container_serial_number) for container in containers_by_user
                                       if container.is_overdue]
-                containers = ', '.join(overdue_containers)
+                containers = '\n '.join(overdue_containers)
                 message = "According to our records, the items listed below which are currently " \
                           "checked out by you are overdue." \
-                          "Please check in these containers at their respective warehouses as soon as possible.\n" \
-                          "The containers are " + containers + \
+                          "Please check in these containers at their respective warehouses as soon as possible.\n\n" \
+                          "The containers are: " + containers + \
                           "\nThis is an automated email, please do not reply."
 
                 send_mail('Container Check Out Overdue',

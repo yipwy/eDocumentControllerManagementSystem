@@ -260,7 +260,10 @@ def create_container_instance(doctype, container, user, date):
         container_instance_object = ContainerInstance.objects.get(container=container, status=False, user=user)
         previous_email_sent = container_instance_object.email_sent
         container_instance_object.status = True
-        container_instance_object.email_sent = previous_email_sent
+        if previous_email_sent is not True:
+            container_instance_object.email_sent = False
+        else:
+            container_instance_object.email_sent = True
         container_instance_object.save()
 
 
