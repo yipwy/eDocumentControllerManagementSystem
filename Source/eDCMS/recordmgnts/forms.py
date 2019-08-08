@@ -98,6 +98,23 @@ class RequiredFormSet(forms.BaseModelFormSet):
         self.forms[0].empty_permitted = False
 
 
+class ListTextWidget(forms.TextInput):
+    def __init__(self, data_list, name, *args, **kwargs):
+        super(ListTextWidget, self).__init__(*args, **kwargs)
+        self._name = name
+        self._list = data_list
+        self.attrs.update({'list':'list__%s' % self._name})
+
+    def render(self, name, value, attrs=None, renderer=None):
+        text_html = super(ListTextWidget, self).render(name, value, attrs=attrs)
+        data_list = '<datalist id="list__%s">' % self._name
+        for item in self._list:
+            data_list += '<option value="%s">' % item
+        data_list += '</datalist>'
+
+        return text_html + data_list
+
+
 class OrderDetailForm(forms.ModelForm):
     my_default_errors = {
         'required': 'This field cannot be left empty.',
@@ -105,6 +122,11 @@ class OrderDetailForm(forms.ModelForm):
     }
 
     container = forms.ModelChoiceField(queryset=Container.objects.all(), error_messages=my_default_errors)
+
+    # def __init__(self, *args, **kwargs):
+    #     _data_list = kwargs.pop('data_list', None)
+    #     super(OrderDetailForm, self).__init__(*args, **kwargs)
+    #     self.fields['container'].widget = ListTextWidget(data_list=_data_list, name='container')
 
     class Meta:
         model = OrderDetail
@@ -119,3 +141,4 @@ class TransactionFormView(forms.Form):
     department = forms.CharField(label="<b>Department:</b>", widget=forms.TextInput(attrs={'readonly': True}))
     created_date = forms.CharField(label="<b>Created Date:</b>", widget=forms.TextInput(attrs={'readonly': True}))
     container = forms.CharField(label="<b>Container:</b>", widget=forms.TextInput(attrs={'readonly': True}))
+
