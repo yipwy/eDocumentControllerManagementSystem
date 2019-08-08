@@ -47,10 +47,16 @@
           </script>
         </div>
         <div class="carousel-item">
+            <div class="border" id="container2" style="min-width: 100px; height: 400px; margin: 0 auto;"></div>
+                  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+                  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+                  <script>
+                      Highcharts.chart('container2', {{ chart2|safe }});
+                  </script>
 <!--          <img src="https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwje6MXG_O3jAhU56nMBHdzvBi8QjRx6BAgBEAU&url=https%3A%2F%2Fwww.237showbiz.com%2Fnews%2Ffwd-why-underground-artists-find-it-difficult-to-blow%2F&psig=AOvVaw23x0oMNajb-KOKsZW8F7ss&ust=1565171549206096">-->
-          <div class="carousel-caption">
-              <h3>Upcoming Next</h3>
-          </div>
+<!--          <div class="carousel-caption">-->
+<!--              <h3>Upcoming Next</h3>-->
+<!--          </div>-->
         </div>
         <div class="carousel-item">
           <div class="carousel-caption" >
@@ -60,12 +66,14 @@
       </div>
 
       <!-- Left and right controls -->
-      <a class="carousel-control-prev" href="#charts" data-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </a>
-      <a class="carousel-control-next" href="#charts" data-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </a>
+    <a class="carousel-control-prev" href="#charts" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+    <a class="carousel-control-next" href="#charts" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
 
 </div>
 </body>
