@@ -13,6 +13,7 @@ from recordmgnts.models import Container
 from pprint import pprint
 import json
 from django.db.models import Count, Q
+from django.views import View
 
 
 def mylogin(request):
@@ -111,121 +112,149 @@ def update_profile(request):
     return render(request, 'accounts/profile_update_form.html', {'form': form})
 
 
-def dashboard_viewUser(request):
-    dataset = Profile.objects \
-        .values('is_active') \
-        .annotate(is_active_count=Count('is_active', filter=Q(is_active=True)),
-                  not_is_active_count=Count('is_active', filter=Q(is_active=False))) \
-        .order_by('is_active')
+class dashboard_view(View):
+    template_name = 'accounts/dashboard.html'
 
-    categories = list()
-    is_active_series_data = list()
-    not_is_active_series_data = list()
+    def get(self, request, *args, **kwargs):
+        dataset = Profile.objects \
+            .values('is_active') \
+            .annotate(is_active_count=Count('is_active', filter=Q(is_active=True)),
+                      not_is_active_count=Count('is_active', filter=Q(is_active=False))) \
+            .order_by('is_active')
 
-    for entry in dataset:
-        categories.append('%s Active' % entry['is_active'])
-        is_active_series_data.append(entry['is_active_count'])
-        not_is_active_series_data.append(entry['not_is_active_count'])
+        categories = list()
+        is_active_series_data = list()
+        not_is_active_series_data = list()
 
-    is_active_series = {
-        'name': 'Active user',
-        'data': is_active_series_data,
-        'color': 'green'
-    }
+        for entry in dataset:
+            categories.append('%s Active' % entry['is_active'])
+            is_active_series_data.append(entry['is_active_count'])
+            not_is_active_series_data.append(entry['not_is_active_count'])
 
-    not_is_active_series = {
-        'name': 'Inactive user',
-        'data': not_is_active_series_data,
-        'color': 'red'
-    }
+        is_active_series = {
+            'name': 'Active user',
+            'data': is_active_series_data,
+            'color': 'green'
+        }
 
-    chart = {
-        'chart': {'type': 'column'},
-        'title': {'text': 'Active user on Current Platform'},
-        'xAxis': {'categories': categories},
-        'yAxis': {
-            'title': {
-                'text': 'No.of users'},
-            'tickInterval': 1
-                },
-        'plotOptions': {
-            'column': {
-                'pointPadding': 0.2,
-                'borderWidth': 0
-            }
-        },
-        'series': [is_active_series, not_is_active_series]
-    }
+        not_is_active_series = {
+            'name': 'Inactive user',
+            'data': not_is_active_series_data,
+            'color': 'red'
+        }
 
-    dump = json.dumps(chart)
+        chart = {
+            'chart': {'type': 'column'},
+            'title': {'text': 'Active user on Current Platform'},
+            'xAxis': {'categories': categories},
+            'yAxis': {
+                'title': {
+                    'text': 'No.of users'},
+                'tickInterval': 1
+                    },
+            'plotOptions': {
+                'column': {
+                    'pointPadding': 0.2,
+                    'borderWidth': 0
+                }
+            },
+            'series': [is_active_series, not_is_active_series]
+        }
 
-    return render(request, 'accounts/dashboard.html', {'chart': dump})
+        dump = json.dumps(chart)
 
+        return render(request, self.template_name, {'chart': dump})
 
-def dashboard_viewContainer(request):
-    dataset = Container.objects \
-        .values('department') \
-        .annotate(IT_count=Count('department', filter=Q(department='IT')),
-                  Sales_count=Count('department', filter=Q(department='Sales')),
-                  Admin_count=Count('department', filter=Q(department='Admin')),
-                  HR_count=Count('department', filter=Q(department='HR')),) \
-        .order_by('department')
+    def post(self, request, *args, **kwargs):
+        dataset = Department.objects \
+            .values('department') \
+            .annotate(IT_count=Count('department', filter=Q(department="IT")),
+                      Sales_count=Count('department', filter=Q(department="Sales")),
+                      Admin_count=Count('department', filter=Q(department="Admin")),
+                      HR_count=Count('department', filter=Q(department="HR"))) \
+            .order_by('department')
 
-    categories = list()
-    IT_series_data = list()
-    Sales_series_data = list()
-    Admin_series_data = list()
-    HR_series_data = list()
+        categories = list()
+        IT_series_data = list()
+        Sales_series_data = list()
+        Admin_series_data = list()
+        HR_series_data = list()
 
-    for entry in dataset:
-        categories.append('%s Department' % entry['department'])
-        IT_series_data.append(entry['IT_count'])
-        Sales_series_data.append(entry['Sales_count'])
-        Admin_series_data.append(entry['Admin_count'])
-        HR_series_data.append(entry['HR_count'])
+        for entry in dataset:
+            categories.append('%s Department' % entry['department'])
+            IT_series_data.append(entry['IT_count'])
+            Sales_series_data.append(entry['Sales_count'])
+            Admin_series_data.append(entry['Admin_count'])
+            HR_series_data.append(entry['HR_count'])
 
-    IT_series = {
-        'name': 'IT',
-        'data': IT_series_data,
-        'color': 'green'
-    }
+        IT_series = {
+            'name': 'IT',
+            'data': IT_series_data,
+            'color': 'green'
+        }
 
-    Sales_series = {
-        'name': 'Sales',
-        'data': Sales_series_data,
-        'color': 'yellow'
-    }
+        Sales_series = {
+            'name': 'Sales',
+            'data': Sales_series_data,
+            'color': 'yellow'
+        }
 
-    Admin_series = {
-        'name': 'Admin',
-        'data': Admin_series_data,
-        'color': 'red'
-    }
+        Admin_series = {
+            'name': 'Admin',
+            'data': Admin_series_data,
+            'color': 'red'
+        }
 
-    HR_series = {
-        'name': 'HR',
-        'data': HR_series_data,
-        'color': 'blue'
-    }
+        HR_series = {
+            'name': 'HR',
+            'data': HR_series_data,
+            'color': 'blue'
+        }
 
-    chart2 = {
-        'chart': {'type': 'column'},
-        'title': {'text': 'Containers per department'},
-        'xAxis': {'categories': categories},
-        'yAxis': {
-            'title': {
-                'text': 'No.of containers'},
-            'tickInterval': 1
-                },
-        'plotOptions': {
-            'column': {
-                'pointPadding': 0.2,
-                'borderWidth': 0
-            }
-        },
-        'series': [IT_series, Sales_series, Admin_series, HR_series]
-    }
+        chart2 = {
+            'chart': {'type': 'column'},
+            'title': {'text': 'Containers per department'},
+            'xAxis': {'categories': categories},
+            'yAxis': {
+                'title': {
+                    'text': 'No.of containers'},
+                'tickInterval': 1
+                    },
+            'plotOptions': {
+                'column': {
+                    'pointPadding': 0.2,
+                    'borderWidth': 0
+                }
+            },
+            'series': [IT_series, Sales_series, Admin_series, HR_series]
+        }
 
-    dump = json.dumps(chart2)
+        dump2 = json.dumps(chart2)
 
-    return render(request, 'accounts/dashboard.html', {'chart2': dump})
+        return render(request, self.template_name, {'chart2': dump2})
+
+# def json_chart(request):
+#     return render(request, 'accounts/dashboard.html')
+#
+#
+# def dashboard_viewDepartment(request):
+#     dataset = Department.objects \
+#         .values('department') \
+#         .exclude(department='') \
+#         .annotate(total=Count('department')) \
+#         .order_by('department')
+#
+#     port_display_name = dict()
+#     for port_tuple in Department.PORT_CHOICES:
+#         port_display_name[port_tuple[0]] = port_tuple[1]
+#
+#     chart = {
+#         'chart': {'type': 'pie'},
+#         'title': {'text': 'Titanic Survivors by Ticket Class'},
+#         'series': [{
+#             'name': 'Department',
+#             'data': list(map(lambda row: {'name': port_display_name[row['department']], 'y': row['total']}, dataset))
+#         }]
+#     }
+#
+#     return JsonResponse(chart)
