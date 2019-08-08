@@ -9,7 +9,6 @@ from django.urls import reverse_lazy
 from accounts.models import Profile
 from .models import Profile
 from generals.models import Branch, Department
-from recordmgnts.models import Container
 from pprint import pprint
 import json
 from django.db.models import Count, Q
@@ -120,31 +119,39 @@ class dashboard_view(View):
             .values('is_active') \
             .annotate(is_active_count=Count('is_active', filter=Q(is_active=True)),
                       not_is_active_count=Count('is_active', filter=Q(is_active=False))) \
-            .order_by('is_active')
 
         categories = list()
         is_active_series_data = list()
         not_is_active_series_data = list()
 
         for entry in dataset:
-            categories.append('%s Active' % entry['is_active'])
+            categories.append('User')
             is_active_series_data.append(entry['is_active_count'])
             not_is_active_series_data.append(entry['not_is_active_count'])
 
         is_active_series = {
             'name': 'Active user',
             'data': is_active_series_data,
-            'color': 'green'
+            'color': '#23CE3F'
         }
 
         not_is_active_series = {
             'name': 'Inactive user',
             'data': not_is_active_series_data,
-            'color': 'red'
+            'color': '#FB3A3A'
         }
 
         chart = {
-            'chart': {'type': 'column'},
+            'chart': {
+                'type': 'column',
+                'backgroundColor': '#E3F0E6',
+                'options3d': {
+                    'enabled': "true",
+                    'alpha': 10,
+                    'beta': 15,
+                    'depth': 50,
+                }
+            },
             'title': {'text': 'Active user on Current Platform'},
             'xAxis': {'categories': categories},
             'yAxis': {
@@ -155,7 +162,8 @@ class dashboard_view(View):
             'plotOptions': {
                 'column': {
                     'pointPadding': 0.2,
-                    'borderWidth': 0
+                    'borderWidth': 0,
+                    'depth': 60,
                 }
             },
             'series': [is_active_series, not_is_active_series]
@@ -212,7 +220,16 @@ class dashboard_view(View):
         }
 
         chart2 = {
-            'chart': {'type': 'column'},
+            'chart': {
+                'type': 'column',
+                'backgroundColor': '#E3F0E6',
+                'option3d': {
+                    'enabled': "true",
+                    'alpha': 10,
+                    'beta': 15,
+                    'depth': 50,
+                }
+            },
             'title': {'text': 'Containers per department'},
             'xAxis': {'categories': categories},
             'yAxis': {
@@ -223,10 +240,12 @@ class dashboard_view(View):
             'plotOptions': {
                 'column': {
                     'pointPadding': 0.2,
-                    'borderWidth': 0
+                    'borderWidth': 0,
+                    'depth': 60,
                 }
             },
-            'series': [IT_series, Sales_series, Admin_series, HR_series]
+            'series': [IT_series, Sales_series, Admin_series, HR_series],
+            'colorByPoint': "true",
         }
 
         dump2 = json.dumps(chart2)

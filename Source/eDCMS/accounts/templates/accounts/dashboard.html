@@ -27,8 +27,7 @@
 <!--  </div>-->
 <!--</div>-->
 <body>
-<script src="https://code.highcharts.com/highcharts.src.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 <div id="charts" class="carousel slide" data-ride="carousel" style="margin-top:30px;">
 
       <!-- Indicators -->
@@ -41,14 +40,18 @@
       <!-- The slideshow -->
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <div class="border" id="container" style="min-width: 100px; height: 400px; margin: 0 auto;"></div>
+            <script src="https://code.highcharts.com/highcharts.src.js"></script>
+            <script src="https://code.highcharts.com/highcharts-3d.js"><script>
+            <script src="http://code.highcharts.com/modules/exporting.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+          <div class="border" id="container" style="min-width: 100px;max-width:800px; max-height: 700px; min-height:500px; margin: 0 auto;"></div>
 
           <script>
               Highcharts.chart('container', {{ chart|safe }});
           </script>
         </div>
         <div class="carousel-item">
-            <div class="border" id="container2" style="min-width: 100px; height: 400px; margin: 0 auto;"></div>
+            <div class="border" id="container2" style="min-width: 100px;max-width:800px; max-height: 700px; min-height:500px; margin: 0 auto;"></div>
                   <script>
                       Highcharts.chart('container2', {{ chart2|safe }});
                   </script>
@@ -63,7 +66,7 @@
 <!--            </script>-->
         </div>
         <div class="carousel-item">
-            <div class="border" id="container3" style="min-width: 100px; height: 400px; margin: 0 auto;"></div>
+            <div class="border" id="container3" style="min-width: 100px;max-width:800px; max-height: 700px; min-height:500px; margin: 0 auto;"></div>
           <div class="carousel-caption" >
               <h3>Currently Unavailable</h3>
           </div>
