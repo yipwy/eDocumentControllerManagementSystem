@@ -13,6 +13,8 @@ from pprint import pprint
 import json
 from django.db.models import Count, Q
 from django.views import View
+from django.http import JsonResponse
+from django.views.generic import TemplateView
 
 
 def mylogin(request):
@@ -111,146 +113,233 @@ def update_profile(request):
     return render(request, 'accounts/profile_update_form.html', {'form': form})
 
 
-class dashboard_view(View):
+# class dashboard_view(View):
+#     template_name = 'accounts/dashboard.html'
+class DashboardView(TemplateView):
     template_name = 'accounts/dashboard.html'
 
-    def get(self, request, *args, **kwargs):
-        dataset = Profile.objects \
-            .values('is_active') \
-            .annotate(is_active_count=Count('is_active', filter=Q(is_active=True)),
-                      not_is_active_count=Count('is_active', filter=Q(is_active=False))) \
+    def get_dept(self):
+            dataset = Department.objects.all() \
+                .values('department') \
+                .annotate(IT_count=Count('department', filter=Q(department="IT")),
+                          Sales_count=Count('department', filter=Q(department="Sales")),
+                          Admin_count=Count('department', filter=Q(department="Admin")),
+                          HR_count=Count('department', filter=Q(department="HR"))) \
+                .order_by('department')
 
-        categories = list()
-        is_active_series_data = list()
-        not_is_active_series_data = list()
+            categories = list()
+            IT_series_data = list()
+            Sales_series_data = list()
+            Admin_series_data = list()
+            HR_series_data = list()
 
-        for entry in dataset:
-            categories.append('User')
-            is_active_series_data.append(entry['is_active_count'])
-            not_is_active_series_data.append(entry['not_is_active_count'])
+            for entry in dataset:
+                categories.append('%s Department' % entry['department'])
+                IT_series_data.append(entry['IT_count'])
+                Sales_series_data.append(entry['Sales_count'])
+                Admin_series_data.append(entry['Admin_count'])
+                HR_series_data.append(entry['HR_count'])
 
-        is_active_series = {
-            'name': 'Active user',
-            'data': is_active_series_data,
-            'color': '#23CE3F'
-        }
+            IT_series = {
+                'name': 'IT',
+                'data': IT_series_data,
+                'color': 'green'
+            }
 
-        not_is_active_series = {
-            'name': 'Inactive user',
-            'data': not_is_active_series_data,
-            'color': '#FB3A3A'
-        }
+            Sales_series = {
+                'name': 'Sales',
+                'data': Sales_series_data,
+                'color': 'yellow'
+            }
 
-        chart = {
-            'chart': {
-                'type': 'column',
-                'backgroundColor': '#E3F0E6',
-                'options3d': {
-                    'enabled': "true",
-                    'alpha': 10,
-                    'beta': 15,
-                    'depth': 50,
-                }
-            },
-            'title': {'text': 'Active user on Current Platform'},
-            'xAxis': {'categories': categories},
-            'yAxis': {
-                'title': {
-                    'text': 'No.of users'},
-                'tickInterval': 1
-                    },
-            'plotOptions': {
-                'column': {
-                    'pointPadding': 0.2,
-                    'borderWidth': 0,
-                    'depth': 60,
-                }
-            },
-            'series': [is_active_series, not_is_active_series]
-        }
+            Admin_series = {
+                'name': 'Admin',
+                'data': Admin_series_data,
+                'color': 'red'
+            }
 
-        dump = json.dumps(chart)
+            HR_series = {
+                'name': 'HR',
+                'data': HR_series_data,
+                'color': 'blue'
+            }
 
-        return render(request, self.template_name, {'chart': dump})
+            chart2 = {
+                'chart': {
+                    'type': 'column',
+                    'backgroundColor': '#E3F0E6',
+                    'option3d': {
+                        'enabled': "true",
+                        'alpha': 10,
+                        'beta': 15,
+                        'depth': 50,
+                    }
+                },
+                'title': {'text': 'Containers per department'},
+                'xAxis': {'categories': categories},
+                'yAxis': {
+                    'title': {
+                        'text': 'No.of containers'},
+                    'tickInterval': 1
+                        },
+                'plotOptions': {
+                    'column': {
+                        'pointPadding': 0.2,
+                        'borderWidth': 0,
+                        'depth': 60,
+                    }
+                },
+                'series': [IT_series, Sales_series, Admin_series, HR_series],
+                'colorByPoint': "true",
+            }
 
-    def post(self, request, *args, **kwargs):
-        dataset = Department.objects \
-            .values('department') \
-            .annotate(IT_count=Count('department', filter=Q(department="IT")),
-                      Sales_count=Count('department', filter=Q(department="Sales")),
-                      Admin_count=Count('department', filter=Q(department="Admin")),
-                      HR_count=Count('department', filter=Q(department="HR"))) \
-            .order_by('department')
+            dump2 = json.dumps(chart2)
 
-        categories = list()
-        IT_series_data = list()
-        Sales_series_data = list()
-        Admin_series_data = list()
-        HR_series_data = list()
+            return dump2
 
-        for entry in dataset:
-            categories.append('%s Department' % entry['department'])
-            IT_series_data.append(entry['IT_count'])
-            Sales_series_data.append(entry['Sales_count'])
-            Admin_series_data.append(entry['Admin_count'])
-            HR_series_data.append(entry['HR_count'])
+    def get_profile(self):
+            dataset = Profile.objects \
+                .values('is_active') \
+                .annotate(is_active_count=Count('is_active', filter=Q(is_active=True)),
+                          not_is_active_count=Count('is_active', filter=Q(is_active=False))) \
 
-        IT_series = {
-            'name': 'IT',
-            'data': IT_series_data,
-            'color': 'green'
-        }
+            # categories = list('User')
+            is_active_series_data = list()
+            not_is_active_series_data = list()
 
-        Sales_series = {
-            'name': 'Sales',
-            'data': Sales_series_data,
-            'color': 'yellow'
-        }
+            for entry in dataset:
+                # categories.append('User')
+                is_active_series_data.append(entry['is_active_count'])
+                not_is_active_series_data.append(entry['not_is_active_count'])
 
-        Admin_series = {
-            'name': 'Admin',
-            'data': Admin_series_data,
-            'color': 'red'
-        }
+            is_active_series = {
+                'name': 'Active user',
+                'data': is_active_series_data,
+                'color': '#23CE3F'
+            }
 
-        HR_series = {
-            'name': 'HR',
-            'data': HR_series_data,
-            'color': 'blue'
-        }
+            not_is_active_series = {
+                'name': 'Inactive user',
+                'data': not_is_active_series_data,
+                'color': '#FB3A3A'
+            }
 
-        chart2 = {
-            'chart': {
-                'type': 'column',
-                'backgroundColor': '#E3F0E6',
-                'option3d': {
-                    'enabled': "true",
-                    'alpha': 10,
-                    'beta': 15,
-                    'depth': 50,
-                }
-            },
-            'title': {'text': 'Containers per department'},
-            'xAxis': {'categories': categories},
-            'yAxis': {
-                'title': {
-                    'text': 'No.of containers'},
-                'tickInterval': 1
-                    },
-            'plotOptions': {
-                'column': {
-                    'pointPadding': 0.2,
-                    'borderWidth': 0,
-                    'depth': 60,
-                }
-            },
-            'series': [IT_series, Sales_series, Admin_series, HR_series],
-            'colorByPoint': "true",
-        }
+            chart = {
+                'chart': {
+                    'type': 'column',
+                    'backgroundColor': '#E3F0E6',
+                    'options3d': {
+                        'enabled': "true",
+                        'alpha': 10,
+                        'beta': 15,
+                        'depth': 50,
+                    }
+                },
+                'title': {'text': 'Active user on Current Platform'},
+                'xAxis': {'categories': ['Active', 'Inactive']},
+                'yAxis': {
+                    'title': {
+                        'text': 'No.of users'},
+                    'tickInterval': 1
+                        },
+                'plotOptions': {
+                    'column': {
+                        'pointPadding': 0.2,
+                        'borderWidth': 0,
+                        'depth': 60,
+                    }
+                },
+                'series': [is_active_series, not_is_active_series]
+            }
 
-        dump2 = json.dumps(chart2)
+            dump = json.dumps(chart)
 
-        return render(request, self.template_name, {'chart2': dump2})
+            return dump
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['chart'] = self.get_profile()
+        context['chart2'] = self.get_dept()
+        return context
+
+    # def post(self, request, *args, **kwargs):
+    #     dataset = Department.objects \
+    #         .values('department') \
+    #         .annotate(IT_count=Count('department', filter=Q(department="IT")),
+    #                   Sales_count=Count('department', filter=Q(department="Sales")),
+    #                   Admin_count=Count('department', filter=Q(department="Admin")),
+    #                   HR_count=Count('department', filter=Q(department="HR"))) \
+    #         .order_by('department')
+    #
+    #     categories = list()
+    #     IT_series_data = list()
+    #     Sales_series_data = list()
+    #     Admin_series_data = list()
+    #     HR_series_data = list()
+    #
+    #     for entry in dataset:
+    #         categories.append('%s Department' % entry['department'])
+    #         IT_series_data.append(entry['IT_count'])
+    #         Sales_series_data.append(entry['Sales_count'])
+    #         Admin_series_data.append(entry['Admin_count'])
+    #         HR_series_data.append(entry['HR_count'])
+    #
+    #     IT_series = {
+    #         'name': 'IT',
+    #         'data': IT_series_data,
+    #         'color': 'green'
+    #     }
+    #
+    #     Sales_series = {
+    #         'name': 'Sales',
+    #         'data': Sales_series_data,
+    #         'color': 'yellow'
+    #     }
+    #
+    #     Admin_series = {
+    #         'name': 'Admin',
+    #         'data': Admin_series_data,
+    #         'color': 'red'
+    #     }
+    #
+    #     HR_series = {
+    #         'name': 'HR',
+    #         'data': HR_series_data,
+    #         'color': 'blue'
+    #     }
+    #
+    #     chart2 = {
+    #         'chart': {
+    #             'type': 'column',
+    #             'backgroundColor': '#E3F0E6',
+    #             'option3d': {
+    #                 'enabled': "true",
+    #                 'alpha': 10,
+    #                 'beta': 15,
+    #                 'depth': 50,
+    #             }
+    #         },
+    #         'title': {'text': 'Containers per department'},
+    #         'xAxis': {'categories': categories},
+    #         'yAxis': {
+    #             'title': {
+    #                 'text': 'No.of containers'},
+    #             'tickInterval': 1
+    #                 },
+    #         'plotOptions': {
+    #             'column': {
+    #                 'pointPadding': 0.2,
+    #                 'borderWidth': 0,
+    #                 'depth': 60,
+    #             }
+    #         },
+    #         'series': [IT_series, Sales_series, Admin_series, HR_series],
+    #         'colorByPoint': "true",
+    #     }
+    #
+    #     dump2 = json.dumps(chart2)
+    #
+    #     return render(request, self.template_name, {'chart2': dump2})
 
 # def json_chart(request):
 #     return render(request, 'accounts/dashboard.html')
