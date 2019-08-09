@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, reverse
 from .models import Container, OrderHeader, OrderDetail, ContainerInstance
 from django.contrib.auth.decorators import login_required
 from .forms import ContainerForm, ContainerTransactionForm, RequiredFormSet, OrderDetailForm, TransactionFormView
@@ -50,7 +50,6 @@ def showDetail(request):
 
 
 def addContainer(request):
-    # args = {'department': request.user.department}
     if request.method == 'POST':
         form = ContainerForm(request.POST)
         if form.is_valid():
@@ -274,7 +273,25 @@ def concat_location(bay, row, column):
 
 def barcode_scanner(request):
     out = run([sys.executable, 'C:\\Users\sam_hs\\eDocumentControllerManagementSystem\\Source\\eDCMS\\barcode_capture.py'],
-              shell=False, stdout=PIPE)
-    print(out)
-    return render(request, 'accounts/home.html')
+              shell=False, stdout=PIPE, text=True)
+    barcode = out.stdout
+    # barcode = barcode.decode('ascii')
+    print(barcode)
+    initial_data = {'container_serial_number': barcode}
+    # if request.method == 'POST':
+    #     form = ContainerForm(request.POST)
+    #     if form.is_valid():
+    #         container = form.save()
+    #         container.created_by = str(request.user)
+    #         container.modify_by = str(request.user)
+    #         container.department = request.user.department
+    #         container.save()
+    #         return render(request, 'recordmgnts/success_added.html')
+    #     else:
+    #         messages.error(request, 'Adding unsuccessful')
+    # else:
+    #     form = ContainerForm(initial=initial_data)
+
+    return HttpResponse(barcode)
+
 

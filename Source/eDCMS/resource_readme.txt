@@ -55,3 +55,9 @@
 
 18) creating custom commands in django
     src :https://simpleisbetterthancomplex.com/tutorial/2018/08/27/how-to-create-custom-django-management-commands.html
+
+19) barcode scanner with opvencv-python and pyzbar
+    src :https://www.pyimagesearch.com/2018/05/21/an-opencv-barcode-and-qr-code-scanner-with-zbar/
+
+20) stdout string returns in byte in subprocess
+    src :https://stackoverflow.com/questions/15374211/why-does-popen-communicate-return-bhi-n-instead-of-hi

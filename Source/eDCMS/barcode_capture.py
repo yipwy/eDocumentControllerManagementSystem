@@ -14,7 +14,7 @@ import cv2
 # args = vars(ap.parse_args())
 
 # initialize the video stream and allow the camera sensor to warm up
-print("[INFO] starting video stream...")
+# print("[INFO] starting video stream...")
 vs = VideoStream(src=0).start()
 # vs = VideoStream(usePiCamera=True).start()
 time.sleep(2.0)
@@ -33,7 +33,6 @@ while count == 0:
 
     # find the barcodes in the frame and decode each of the barcodes
     barcodes = pyzbar.decode(frame)
-
 # loop over the detected barcodes
     for barcode in barcodes:
         # extract the bounding box location of the barcode and draw
@@ -63,8 +62,12 @@ while count == 0:
         if cv2.waitKey(1) & 0xFF == ord('s'):
             (x, y, w, h) = barcode.rect
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 128, 0), 2)
-            print("[INFO] Found {} barcode: {}".format(barcodeType, barcodeData))
-            print("[INFO] cleaning up...")
+            barcodeData = barcodeData.replace("'", '')
+            # barcodeData = barcodeData.replace("\n", '')
+            # barcodeData = barcodeData.replace("\r", '')
+            print(barcodeData)
+            # print("[INFO] Found {} barcode: {}".format(barcodeType, barcodeData))
+            # print("[INFO] cleaning up...")
             count = 1
             if count == 1:
                 break
@@ -77,7 +80,7 @@ while count == 0:
         break
 
 # close the output CSV file do a bit of cleanup
-print("[INFO] cleaning up...")
+# print("[INFO] cleaning up...")
 # csv.close()
 cv2.destroyAllWindows()
 vs.stop()
