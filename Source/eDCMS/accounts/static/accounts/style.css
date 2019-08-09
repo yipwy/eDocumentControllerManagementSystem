@@ -310,6 +310,7 @@ body{
   width: 10%;
   padding: 10px;
   background: black;
+  opacity: 0.755;
   color: white;
   font-size: 17px;
   border: 1px solid grey;
@@ -319,8 +320,8 @@ body{
 
 .search-bar button:hover{
     background: black;
-    opacity:0.5;
-    transition: all 0.3s;
+    opacity:1;
+    transition: all 0.03s;
 
 }
 
