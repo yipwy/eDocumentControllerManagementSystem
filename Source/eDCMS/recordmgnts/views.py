@@ -15,7 +15,8 @@ from dateutil.relativedelta import relativedelta
 from pprint import pprint
 from django.db.models.functions import Concat
 from django.db.models import Value as V, CharField
-from django.core.mail import send_mail
+import sys
+from subprocess import run, PIPE
 
 
 @login_required
@@ -269,4 +270,11 @@ def create_container_instance(doctype, container, user, date):
 
 def concat_location(bay, row, column):
     return str(bay) + str(row) + str(column)
+
+
+def barcode_scanner(request):
+    out = run([sys.executable, 'C:\\Users\sam_hs\\eDocumentControllerManagementSystem\\Source\\eDCMS\\barcode_capture.py'],
+              shell=False, stdout=PIPE)
+    print(out)
+    return render(request, 'accounts/home.html')
 
