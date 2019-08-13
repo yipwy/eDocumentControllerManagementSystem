@@ -2,8 +2,12 @@
 {% load widget_tweaks %}
 {% block title %}eDCMS-Add documents{% endblock title %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block content %}
  <head>
+     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"></script>
+     <script type="text/javascript" src="{% static 'accounts/js/tinymce/tinymce.min.js' %}"></script>
+     <script type="text/javascript" src="{% static 'accounts/js/tinymce/custom.js' %}"></script>
      <div class="container" style="margin-top : 20px">
       {% if messages %}
                     {% for message in messages %}
@@ -22,79 +26,63 @@
         <li class="breadcrumb-item active">New container</li>
     </ol>
 </div>
-<div class="container" style="margin-top:30px">
-    <button class="btn btn-info" onclick="on_barcode_scanner();">Scan barcode</button>
-<form method="POST" id="contForm" data-bays-url="{% url 'recordmgnts:ajax_load_locations' %}" novalidate>
-    {% csrf_token %}
-        <div class="form-row align-items-center">
-              <div class="form-group col-md-8 mb-0">
-                {{ form.container_serial_number|as_crispy_field }}
-              </div>
+{{ form.media }}
+<div class="container" style="margin-top:60px;">
+        <div class="row justify-content-end">
+            <div class="col-md-4 mb-0">
+                <button class="btn btn-info" onclick="on_barcode_scanner();">Scan barcode</button>
+            </div>
         </div>
-            {{ form.container_description|as_crispy_field }}
-            {{ form.warehouse|as_crispy_field }}
-        <div class="form-row">
-              <div class="form-group col-md-4 mb-0">
-                {{ form.bay|as_crispy_field }}
-              </div>
-              <div class="form-group col-md-4 mb-0">
-                {{ form.row|as_crispy_field }}
-              </div>
-              <div class="form-group col-md-4 mb-0">
-                {{ form.column|as_crispy_field }}
-              </div>
-        </div>
-<!--    {% for field in form.visible_fields %}-->
-<!--                    <div class="form-group">-->
-<!--                        <b>{{ field.label_tag }}</b>-->
-<!--                        {% if form.is_bound %}-->
-<!--                        {% if field.errors %}-->
-<!--                        {% render_field field class="form-control is-invalid" %}-->
-<!--                        {% for error in field.errors %}-->
-<!--                        <div class="invalid-feedback">-->
-<!--                            {{ error }}-->
-<!--                        </div>-->
-<!--                        {% endfor %}-->
-<!--                        {% else %}-->
-<!--                        {% render_field field class="form-control is-valid" %}-->
-<!--                        {% endif %}-->
-<!--                        {% else %}-->
-<!--                        {% render_field field class="form-control" %}-->
-<!--                        {% endif %}-->
-
-<!--                        {% if field.help_text %}-->
-<!--                        <small class="form-text text-muted">{{ field.help_text }}</small>-->
-<!--                        {% endif %}-->
-<!--                    </div>-->
-<!--    {% endfor %}-->
-    <button type="submit" class="btn btn-info col-md-2" style="margin-top:20px">Add</button>
-</form>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script>
-    $("#id_warehouse").change(function(){
-        var url = $("#contForm").attr("data-bays-url");
-        var warehouseId =$(this).val();
-        $.ajax({
-            url: url,
-            data: {
-            'warehouse': warehouseId
-            },
-            success: function(data){
-                $("#id_bay").html(data);
-            }
+</div>
+<div class="container" style="margin-top:-75px" >
+    <form method="POST" id="contForm" data-bays-url="{% url 'recordmgnts:ajax_load_locations' %}" novalidate enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="form-row align-items-center justify-content-start">
+                  <div class="form-group col-md-8 mb-0">
+                    {{ form.container_serial_number|as_crispy_field }}
+                  </div>
+            </div>
+                {{ form.container_description|as_crispy_field }}
+                {{ form.warehouse|as_crispy_field }}
+            <div class="form-row">
+                  <div class="form-group col-md-4 mb-0">
+                    {{ form.bay|as_crispy_field }}
+                  </div>
+                  <div class="form-group col-md-4 mb-0">
+                    {{ form.row|as_crispy_field }}
+                  </div>
+                  <div class="form-group col-md-4 mb-0">
+                    {{ form.column|as_crispy_field }}
+                  </div>
+            </div>
+        <button type="submit" class="btn btn-info col-md-2" style="margin-top:20px">Add</button>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+        $("#id_warehouse").change(function(){
+            var url = $("#contForm").attr("data-bays-url");
+            var warehouseId =$(this).val();
+            $.ajax({
+                url: url,
+                data: {
+                'warehouse': warehouseId
+                },
+                success: function(data){
+                    $("#id_bay").html(data);
+                }
+            });
         });
-    });
 
-    function on_barcode_scanner(){
-        var url = "{% url 'recordmgnts:barcode_scanner' %}";
-        $.ajax({
-            url: url,
-            success: function(data){
-                $("#id_container_serial_number").attr("value",data);
-            }
-        });
-    };
-</script>
+        function on_barcode_scanner(){
+            var url = "{% url 'recordmgnts:barcode_scanner' %}";
+            $.ajax({
+                url: url,
+                success: function(data){
+                    $("#id_container_serial_number").attr("value",data);
+                }
+            });
+        };
+    </script>
 </div>
 </body>
 {% endblock content %}

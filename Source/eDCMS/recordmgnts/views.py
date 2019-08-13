@@ -23,7 +23,7 @@ from subprocess import run, PIPE
 def showContainer(request):
 
     allContainer = Container.objects.filter(department=request.user.department)
-    paginator = Paginator(allContainer, 2)  # Show 25 contacts per page
+    paginator = Paginator(allContainer, 5)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
         query_sets = paginator.page(page)
@@ -272,7 +272,7 @@ def concat_location(bay, row, column):
 
 
 def barcode_scanner(request):
-    out = run([sys.executable, 'C:\\Users\sam_hs\\eDocumentControllerManagementSystem\\Source\\eDCMS\\barcode_capture.py'],
+    out = run([sys.executable, 'C:\\Users\\pan_ch.DMHUAYANG\\PycharmProjects\\eDocumentControllerManagementSystem\\Source\\eDCMS\\barcode_capture.py'],
               shell=False, stdout=PIPE, text=True)
     barcode = out.stdout
     # barcode = barcode.decode('ascii')

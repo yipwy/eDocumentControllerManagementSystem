@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'simple_history',
+    'tinymce',
 ]
 
 MIDDLEWARE = [

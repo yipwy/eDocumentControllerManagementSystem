@@ -1,6 +1,7 @@
 from django import forms
 from .models import Container, OrderHeader, OrderDetail
 from generals.models import Warehouse, DocumentType, Bay
+from tinymce.widgets import TinyMCE
 from pprint import pprint
 
 ROW = (
@@ -19,11 +20,16 @@ COL = (
 )
 
 
+class TinyMCEWidget(TinyMCE):
+    def use_required_attribute(self, *args):
+        return False
+
+
 class ContainerForm(forms.ModelForm):
     #  warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
     container_serial_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
-    container_description = forms.CharField(required=False,
-                                    widget=forms.Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
+    container_description = forms.CharField(required=False, widget=TinyMCEWidget(attrs={'placeholder': 'Enter description'}))
+    # container_description = forms.CharField(required=False, widget=Textarea(attrs={'placeholder': 'Enter description'}), max_length=100)
     # status = forms.BooleanField(required=False, label='Status of container')
     row = forms.ChoiceField(choices=ROW)
     column = forms.ChoiceField(choices=COL)

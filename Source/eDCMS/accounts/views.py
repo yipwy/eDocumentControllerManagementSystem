@@ -119,12 +119,12 @@ class DashboardView(TemplateView):
     template_name = 'accounts/dashboard.html'
 
     def get_dept(self):
-            dataset = Department.objects.all() \
+            dataset = Department.objects \
                 .values('department') \
-                .annotate(IT_count=Count('department', filter=Q(department="IT")),
-                          Sales_count=Count('department', filter=Q(department="Sales")),
-                          Admin_count=Count('department', filter=Q(department="Admin")),
-                          HR_count=Count('department', filter=Q(department="HR"))) \
+                .annotate(IT_count=Count('department', filter=Q(department='IT')),
+                          Sales_count=Count('department', filter=Q(department='Sales')),
+                          Admin_count=Count('department', filter=Q(department='Admin')),
+                          HR_count=Count('department', filter=Q(department='HR'))) \
                 .order_by('department')
 
             categories = list()
