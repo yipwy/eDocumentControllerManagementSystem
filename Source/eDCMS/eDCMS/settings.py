@@ -157,11 +157,4 @@ EMAIL_BACKEND        = 'django.core.mail.backends.smtp.EmailBackend'
 
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-# SUMMERNOTE_THEME = 'bs4'
-#
-# SUMMERNOTE_CONFIG = {
-#     'summernote': {
-#         'width': '100%',
-#         'height': '100',
-#     }
-# }
+
