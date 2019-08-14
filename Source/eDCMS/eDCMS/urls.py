@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -22,6 +24,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('django.contrib.auth.urls')),
     path('recordmgnts/', include('recordmgnts.urls')),
-    path('tinymce/', include('tinymce.urls')),
+    path('froala_editor/', include('froala_editor.urls')),
+    # path('tinymce/', include('tinymce.urls')),
+    # path('summernote/', include('django_summernote.urls'))
     # path('mailings/', include('mailings.urls')),
 ]
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'simple_history',
-    'tinymce',
+    'froala_editor',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +153,15 @@ DEFAULT_FROM_EMAIL   = EMAIL_HOST_USER
 EMAIL_FROM           = EMAIL_HOST_USER
 EMAIL_SUBJECT_PREFIX = '[Project] '
 EMAIL_BACKEND        = 'django.core.mail.backends.smtp.EmailBackend'
+
+
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# SUMMERNOTE_THEME = 'bs4'
+#
+# SUMMERNOTE_CONFIG = {
+#     'summernote': {
+#         'width': '100%',
+#         'height': '100',
+#     }
+# }
