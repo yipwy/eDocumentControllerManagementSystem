@@ -7,7 +7,9 @@
     <div class = "jumbotron">
     <h1 style="border-bottom:1px solid black">Container Details</h1>
     <p><b>Container Serial Number: </b>{{ object.container_serial_number }}</p>
-    <p><b>Container Description: </b>{{ object.container_description }}</p>
+    <p><b>Container Description: </b>
+        {% autoescape off %}{{ object.container_description }}{% endautoescape %}
+    </p>
     <p><b>Status: </b>{{ object.status |yesno:"In,Out"}}</p>
     <p><b>Created by: </b>{{ object.created_by }}</p>
     <p><b>Created date: </b>{{ object.created_date }}</p>

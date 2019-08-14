@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'simple_history',
-    # 'django_summernote',
     'froala_editor',
 ]
 
