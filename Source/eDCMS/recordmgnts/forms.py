@@ -2,6 +2,9 @@ from django import forms
 from .models import Container, OrderHeader, OrderDetail
 from generals.models import Warehouse, DocumentType, Bay
 from froala_editor.widgets import FroalaEditor
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.bootstrap import FieldWithButtons, StrictButton
 from pprint import pprint
 
 ROW = (
@@ -28,6 +31,7 @@ class ContainerForm(forms.ModelForm):
     # status = forms.BooleanField(required=False, label='Status of container')
     row = forms.ChoiceField(label="<b>Row:</b>", choices=ROW)
     column = forms.ChoiceField(label="<b>Column:</b>", choices=COL)
+    helper = FormHelper()
 
     class Meta:
         model = Container
@@ -49,6 +53,22 @@ class ContainerForm(forms.ModelForm):
                 pass
         elif self.instance.pk:
             self.fields['bay'].queryset = self.instance.warehouse.bay_set
+
+        self.helper.form_method = 'POST'
+        self.helper.layout = Layout(
+        FieldWithButtons(
+            'container_serial_number',
+            StrictButton('<i class="fa fa-barcode"></i> Scan', css_class="btn-info", css_id="on-scanner")),
+            'container_description',
+            'warehouse',
+            Row(
+                Column('bay', css_class='form-group col-md-4 mb-0'),
+                Column('row', css_class='form-group col-md-4 mb-0'),
+                Column('column', css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+            Submit('submit', 'Add', css_class='btn btn-info col-md-3')
+        )
 
 
 class ContainerTransactionForm(forms.ModelForm):

@@ -51,9 +51,10 @@ def showDetail(request):
 
 def addContainer(request):
     if request.method == 'POST':
+        pprint('form is valid')
         form = ContainerForm(request.POST)
         if form.is_valid():
-            container = form.save()
+            container = form.save(commit=False)
             container.created_by = str(request.user)
             container.modify_by = str(request.user)
             container.department = request.user.department
@@ -211,7 +212,7 @@ def load_containers(request):
         containers = Container.objects.filter(status=True, department=request.user.department)
     elif doc_type is 'I':
         container_instance = ContainerInstance.objects.values_list('container', flat=True).filter(status=False, user=request.user)
-        containers = Container.objects.filter(id__in=container_instance)
+        containers = Container.objects.filter(id__in=container_instance, status=False)
     return render(request, 'recordmgnts/container_dropdown.html', {'containers': containers})
 
 

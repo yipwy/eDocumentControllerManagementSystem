@@ -61,3 +61,6 @@
 
 20) stdout string returns in byte in subprocess
     src :https://stackoverflow.com/questions/15374211/why-does-popen-communicate-return-bhi-n-instead-of-hi
+
+21) crispy forms tutorial
+    src :https://simpleisbetterthancomplex.com/tutorial/2018/11/28/advanced-form-rendering-with-django-crispy-forms.html
