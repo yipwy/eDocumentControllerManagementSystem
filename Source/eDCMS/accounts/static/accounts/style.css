@@ -327,6 +327,10 @@ body{
 
 tr th{
     text-align:center;
+}
 
-
+canvas.drawing, canvas.drawingBuffer {
+    position: absolute;
+    left: 0;
+    top: 0;
 }
