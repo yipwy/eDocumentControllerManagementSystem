@@ -129,7 +129,7 @@ def transaction_log(request):
         'department': request.user.department,
         'branch': request.user.branch,
         'created_by': request.user.username,
-        'created_date': now.strftime("%d/%m/%Y"),
+        'created_date': now,
     }
     DetailFormSet = modelformset_factory(OrderDetail, form=OrderDetailForm, formset=RequiredFormSet, extra=3)
     if request.method == 'POST':

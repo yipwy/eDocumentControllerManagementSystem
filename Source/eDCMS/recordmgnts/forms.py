@@ -22,15 +22,20 @@ COL = (
 
 class ContainerForm(forms.ModelForm):
     #  warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
-    container_serial_number = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
-    container_description = forms.CharField(required=False, widget=FroalaEditor())
+    container_serial_number = forms.CharField(label="<b>Container Serial Number:</b>",
+                                              widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
+    container_description = forms.CharField(label="<b>Container Description:</b>", required=False, widget=FroalaEditor())
     # status = forms.BooleanField(required=False, label='Status of container')
-    row = forms.ChoiceField(choices=ROW)
-    column = forms.ChoiceField(choices=COL)
+    row = forms.ChoiceField(label="<b>Row:</b>", choices=ROW)
+    column = forms.ChoiceField(label="<b>Column:</b>", choices=COL)
 
     class Meta:
         model = Container
         fields = ['container_serial_number', 'container_description', 'warehouse', 'bay', 'row', 'column']
+        labels = {
+            'warehouse': '<b>Warehouse:</b>',
+            'bay': '<b>Bay:</b>',
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
