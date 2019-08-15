@@ -55,7 +55,7 @@
                              </div>
                          </div>
                          <tr>
-                             <td>{{ Container.container_serial_number }}</td><td>{% autoescape off %}{{ Container.container_description }}{% endautoescape %}</td><td>{{ Container.status|yesno:"In,Out" }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date }}</td><td>{{ Container.warehouse }}</td><td>{{ Container.bay }}-{{ Container.row }}-{{ Container.column }}</td>
+                             <td>{{ Container.container_serial_number }}</td><td>{% autoescape off %}{{ Container.container_description }}{% endautoescape %}</td><td>{{ Container.status|yesno:"In,Out" }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date|date:"d/m/Y" }}, {{ Container.created_date|time:"h:i a" }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date|date:"d/m/Y" }}, {{ Container.modify_date|time:"h:i a" }}</td><td>{{ Container.warehouse }}</td><td>{{ Container.bay }}-{{ Container.row }}-{{ Container.column }}</td>
                              <td><button class="btn btn-outline-info" onclick="window.location.href='{% url 'recordmgnts:edit_records' Container.id %}';">Modify</button></td>
                              <td><button href="{% url 'recordmgnts:container_delete' id=Container.id %}" id="{{Container.id}}" class="btn btn-outline-info confirm-delete" data-toggle="modal" data-target="#delModal">Delete</button></td>
                              <td><button class="btn btn-outline-info" onclick="window.location.href='{% url 'recordmgnts:container_view' Container.id %}';">View</button></td>
