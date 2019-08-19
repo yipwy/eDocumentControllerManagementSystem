@@ -247,7 +247,7 @@ def transaction_form_view(request, id):
         'department': current_order_header.department,
         'branch': current_order_header.branch,
         'created_by': current_order_header.created_by,
-        'created_date': current_order_header.created_date,
+        'created_date': current_order_header.created_date.strftime('%d/%m/%Y, %I:%M %p'),
     }
     form = TransactionFormView(initial=display_data)
     context = {'form': form, 'details': current_order_details}

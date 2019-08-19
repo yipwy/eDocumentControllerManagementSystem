@@ -1,4 +1,5 @@
 <option value="">---------</option>
 {% for container in containers %}
-<option value="{{ container.id }}">{{ container.container_serial_number }}, {{ container.container_description }}</option>
+<option value="{{ container.id }}">{{ container.container_serial_number }},
+    {% autoescape off %}{{ container.container_description }}{% endautoescape %}</option>
 {% endfor %}

@@ -12,9 +12,9 @@
     </p>
     <p><b>Status: </b>{{ object.status |yesno:"In,Out"}}</p>
     <p><b>Created by: </b>{{ object.created_by }}</p>
-    <p><b>Created date: </b>{{ object.created_date|date:"d/m/Y" }}, {{ object.created_date|time:"h:i a" }}</p>
+    <p><b>Created date: </b>{{ object.created_date|date:"d/m/Y" }}, {{ object.created_date|time:"h:i A " }}</p>
     <p><b>Modify by: </b>{{ object.modify_by }}</p>
-    <p><b>Modify Date: </b>{{ object.modify_date|date:"d/m/Y" }}, {{ object.modify_date|time:"h:i a" }}</p>
+    <p><b>Modify Date: </b>{{ object.modify_date|date:"d/m/Y" }}, {{ object.modify_date|time:"h:i A" }}</p>
     <p><b>Warehouse: </b>{{ object.warehouse }}</p>
     <p><b>Location ID: </b>{{ object.bay }}-{{ object.row }}-{{ object.column }}</p>
     </div>

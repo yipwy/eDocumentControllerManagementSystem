@@ -23,9 +23,9 @@
                             <td>{{ container.container_serial_number }}</td>
                             <td>{% autoescape off %}{{ container.container_description }}{% endautoescape %}</td>
                             <td>{{ container.status |yesno:"Yes,No"  }}</td><td>{{ container.created_by }}</td>
-                            <td>{{ container.created_date|date:"d/m/Y" }}, {{ container.created_date|time:"h:i a" }}</td>
+                            <td>{{ container.created_date|date:"d/m/Y" }}, {{ container.created_date|time:"h:i A" }}</td>
                             <td>{{ container.modify_by }}</td>
-                            <td>{{ container.modify_date|date:"d/m/Y" }}, {{ container.modify_date|time:"h:i a" }}</td>
+                            <td>{{ container.modify_date|date:"d/m/Y" }}, {{ container.modify_date|time:"h:i A" }}</td>
                             <td>{{ container.warehouse }}</td><td>{{ container.bay }}-{{ container.row }}-{{ container.column }}</td>
                             <td><button class="btn btn-outline-info" onclick="window.location.href='{% url 'recordmgnts:edit_records' container.id %}';">Modify</button></td>
                             {% if user.is_superuser %}
