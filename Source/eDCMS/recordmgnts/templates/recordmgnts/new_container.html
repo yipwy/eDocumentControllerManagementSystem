@@ -28,7 +28,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div id="barcode_scanner"></div> <!--to open the webcam frame-->
+                <div id="interactive" class="viewport"></div> <!--to open the webcam frame-->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -59,9 +59,7 @@
 {{ form.media }}
 <div class="container">
         {% crispy form %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://cdn.rawgit.com/serratus/quaggaJS/0420d5e0/dist/quagga.min.js"></script>
+
     <script>
         $("#id_warehouse").change(function(){
             var warehouseId =$(this).val();
@@ -103,10 +101,8 @@
                     inputStream : {
                         name : "Live",
                         type : "LiveStream",
-                        target: document.querySelector('#barcode_scanner'),    // Or '#yourElement' (optional)
+<!--                        target: document.querySelector('#barcode_scanner'),    // Or '#yourElement' (optional)-->
                         constraints: {
-                        width: 465,
-                        height: 320,
                         facingMode: "environment"
                         },
                     },

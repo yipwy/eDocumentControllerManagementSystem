@@ -2,6 +2,7 @@
 {% load widget_tweaks %}
 {% block title %}eDCMS-Edit Documents{% endblock title %}
 {% load crispy_forms_tags %}
+{% crispy form form.helper %}
 {% block content %}
 <head>
        {% if messages %}
@@ -19,6 +20,26 @@
         {% endif %}
 </head>
 <body>
+<!--scanner modal-->
+<div class="modal fade" id="livestream_scanner" >
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Scan barcode</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="interactive" class="viewport"></div> <!--to open the webcam frame-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!--scanner modal end-->
 <div class ="container" style="margin-top:30px">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{% url 'recordmgnts:records' %}">Records</a></li>
@@ -27,36 +48,12 @@
 </div>
 {{ form.media }}
 <div class="container" style="margin-top:30px">
-<form method="POST" id="contForm" data-bays-url="{% url 'recordmgnts:ajax_load_locations' %}" novalidate>
-    {% csrf_token %}
-        <div class="form-row align-items-center">
-              <div class="form-group col-md-8 mb-0">
-                {{ form.container_serial_number|as_crispy_field }}
-              </div>
-        </div>
-            {{ form.container_description|as_crispy_field }}
-            {{ form.warehouse|as_crispy_field }}
-        <div class="form-row">
-              <div class="form-group col-md-4 mb-0">
-                {{ form.bay|as_crispy_field }}
-              </div>
-              <div class="form-group col-md-4 mb-0">
-                {{ form.row|as_crispy_field }}
-              </div>
-              <div class="form-group col-md-4 mb-0">
-                {{ form.column|as_crispy_field }}
-              </div>
-        </div>
-<!-- Trigger the modal with a button -->
-    <button type="button" class="btn btn-info col-md-2" data-toggle="modal" data-target="#addDoc" >Update</button>
-</form>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+{% crispy form %}
     <script>
         $("#id_warehouse").change(function(){
-            var url = $("#contForm").attr("data-bays-url");
             var warehouseId =$(this).val();
             $.ajax({
-                url: url,
+                url: "{% url 'recordmgnts:ajax_load_locations' %}",
                 data: {
                 'warehouse': warehouseId
                 },
@@ -69,31 +66,107 @@
     </script>
 </div>
     <!-- Modal -->
- <div class="modal fade" id="addDoc" role="dialog" >
-    <div class="modal-dialog">
 
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title">Update?</h3>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <p>Please press 'Save Changes' to update.</p>
-        </div>
-        <div class="modal-footer">
-          <input type="button" class="btn btn-success" id="confirmUpdateButtonModal" value="Save Changes"/>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
- </div>
 <script type="text/javascript">
-    window.onload = function(){
-        document.getElementById('confirmUpdateButtonModal').onclick = function(event){
-            document.getElementById('contForm').submit();
+<!--    window.onload = function(){-->
+<!--        document.getElementById('confirmUpdateButtonModal').onclick = function(event){-->
+<!--            document.getElementById('contForm').submit();-->
+<!--        }-->
+<!--    }-->
+
+            $("#on-scanner").click(function(){
+            $('#livestream_scanner').modal('show');
+        });
+
+
+
+        function most_occurrence(arr){
+            var count = {};
+            arr.forEach(function(value){
+                if(!count[value]){
+                    count[value] = 0;
+                }
+                count[value]++;
+             });
+         var a = Object.keys(count).sort(function(curKey,nextKey){
+            return count[nextKey] - count[curKey];
+            });
+
+         return a[0];
         }
-    }
+
+    $(function() {
+        $(document).on('shown.bs.modal', '#livestream_scanner', function(e) {
+                Quagga.init({
+                    inputStream : {
+                        name : "Live",
+                        type : "LiveStream",
+<!--                        target: document.querySelector('#barcode_scanner'),    // Or '#yourElement' (optional)-->
+                        constraints: {
+                        facingMode: "environment"
+                        },
+                    },
+                    decoder : {
+                        readers : ["ean_8_reader"]
+                    }
+                }, function(err) {
+                    if (err) {
+                        console.log(err);
+                        return
+                    }
+                    console.log("Initialization finished. Ready to start");
+                    Quagga.start();
+                });
+        });
+
+        Quagga.onProcessed(function (result) {
+                var drawingCtx = Quagga.canvas.ctx.overlay,
+                drawingCanvas = Quagga.canvas.dom.overlay;
+
+                if (result) {
+                    if (result.boxes) {
+                        drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+                        result.boxes.filter(function (box) {
+                            return box !== result.box;
+                        }).forEach(function (box) {
+                            Quagga.ImageDebug.drawPath(box, { x: 0, y: 1 }, drawingCtx, { color: "green", lineWidth: 2 });
+                        });
+                    }
+
+                    if (result.box) {
+                        Quagga.ImageDebug.drawPath(result.box, { x: 0, y: 1 }, drawingCtx, { color: "#00F", lineWidth: 2 });
+                    }
+
+                    if (result.codeResult && result.codeResult.code) {
+                        Quagga.ImageDebug.drawPath(result.line, { x: 'x', y: 'y' }, drawingCtx, { color: 'red', lineWidth: 3 });
+                    }
+                }
+            });
+
+                var result_list = [];
+                Quagga.onDetected(function(result){
+                    var last_code = result.codeResult.code;
+                    result_list.push(last_code);
+                    if(result_list.length > 15) {
+                        var serial_number = most_occurrence(result_list);
+                        Quagga.stop();
+                        $('#livestream_scanner').modal('hide');
+                        $('.modal-backdrop').remove();
+                        $("#id_container_serial_number").attr("value",serial_number);
+                        result_list = [];
+                    }
+                    console.log(result_list);
+                    console.log(serial_number);
+                });
+
+
+                $(document).on('hide.bs.modal', '#livestream_scanner', function(e) {
+    	            if (Quagga){
+    		            Quagga.stop();
+    		            console.log(result_list);
+    	            }
+                });
+    });
 </script>
 </body>
 

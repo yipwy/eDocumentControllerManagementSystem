@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse, reverse
 from .models import Container, OrderHeader, OrderDetail, ContainerInstance
 from django.contrib.auth.decorators import login_required
-from .forms import ContainerForm, ContainerTransactionForm, RequiredFormSet, OrderDetailForm, TransactionFormView
+from .forms import ContainerForm, ContainerTransactionForm, RequiredFormSet, OrderDetailForm, TransactionFormView, ContainerUpdateForm
 from django.views.generic import DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -114,7 +114,7 @@ def containerUpdate(request, pk):
         messages.warning(request, 'Please check in this container before updating')
         return redirect('recordmgnts:records')
 
-    form = ContainerForm(request.POST or None, instance=container)
+    form = ContainerUpdateForm(request.POST or None, instance=container)
     if form.is_valid():
         container = form.save()
         container.modify_date = datetime.now()

@@ -310,12 +310,13 @@ body{
   width: 10%;
   padding: 10px;
   background: black;
-  opacity: 0.755;
+  opacity: 0.78;
   color: white;
   font-size: 17px;
   border: 1px solid grey;
   border-left: none;
   cursor: pointer;
+  transition: all 150ms linear;
 }
 
 .search-bar button:hover{
@@ -329,8 +330,6 @@ tr th{
     text-align:center;
 }
 
-canvas.drawing, canvas.drawingBuffer {
-    position: absolute;
-    left: 0;
-    top: 0;
-}
+#interactive.viewport {position: relative; width: 100%; height: auto; overflow: hidden; text-align: center;}
+#interactive.viewport > canvas, #interactive.viewport > video {max-width: 100%;width: 100%;}
+canvas.drawing, canvas.drawingBuffer {position: absolute; left: 0; top: 0;}

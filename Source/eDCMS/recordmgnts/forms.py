@@ -72,6 +72,26 @@ class ContainerForm(forms.ModelForm):
         )
 
 
+class ContainerUpdateForm(ContainerForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper.form_method = 'POST'
+        self.helper.layout = Layout(
+            FieldWithButtons(
+                'container_serial_number',
+                StrictButton('<i class="fa fa-barcode"></i> Scan', css_class="btn-info", css_id="on-scanner")),
+            'container_description',
+            'warehouse',
+            Row(
+                Column('bay', css_class='form-group col-md-4 mb-0'),
+                Column('row', css_class='form-group col-md-4 mb-0'),
+                Column('column', css_class='form-group col-md-4 mb-0'),
+                css_class='form-row'
+            ),
+            Submit('submit', 'Update', css_class='btn btn-info col-md-3')
+        )
+
+
 class ContainerTransactionForm(forms.ModelForm):
     doc_type = forms.ModelChoiceField(queryset=DocumentType.objects.filter(is_active=True), label='<b>Document Type:</b>')
 
