@@ -98,7 +98,7 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta(UserChangeForm):
         model = Profile
-        fields = ('username', 'email', 'contact', 'branch', 'department', 'company', 'is_superuser', 'is_staff')
+        fields = ('username', 'email', 'contact', 'company', 'branch', 'department', 'is_superuser', 'is_staff')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -24,11 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('django.contrib.auth.urls')),
     path('recordmgnts/', include('recordmgnts.urls')),
-    path('froala_editor/', include('froala_editor.urls')),
-    # path('tinymce/', include('tinymce.urls')),
-    # path('summernote/', include('django_summernote.urls'))
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     # path('mailings/', include('mailings.urls')),
-]
-
-# if settings.DEBUG:
-#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

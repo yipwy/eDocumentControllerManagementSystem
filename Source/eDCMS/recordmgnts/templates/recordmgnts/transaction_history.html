@@ -17,7 +17,7 @@
                     <tr>
                         <td><a href="{% url 'recordmgnts:order_transaction_details_view' transaction.id %}">{{ transaction.doc_serial_number }}</a></td>
                         <td>{{ transaction.doc_type }}</td>
-                        <td>{{ transaction.created_date }}</td>
+                        <td>{{ transaction.created_date|date:"d/m/Y" }}, {{ transaction.created_date|time:"h:i a" }}</td>
 <!--                        <td><button class="btn btn-outline-info" onclick="window.location.href='#'">View</button></td>-->
                     </tr>
                     {% endfor %}

@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'simple_history',
-    'froala_editor',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -155,6 +156,18 @@ EMAIL_SUBJECT_PREFIX = '[Project] '
 EMAIL_BACKEND        = 'django.core.mail.backends.smtp.EmailBackend'
 
 
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CKEDITOR_JQUERY_URL = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        # 'skin': 'moono',
+        'toolbar': 'full',
+        'width': '980px',
+    },
+}
