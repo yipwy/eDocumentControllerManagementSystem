@@ -111,6 +111,11 @@ class SearchContainerView(LoginRequiredMixin, ListView):
 def containerUpdate(request, pk):
     template_name = 'recordmgnts/edit_records.html'
     container = get_object_or_404(Container, pk=pk)
+
+    if container.status is not True:
+        messages.warning(request, 'Please check in this container before updating')
+        return redirect('recordmgnts:records')
+
     form = ContainerForm(request.POST or None, instance=container)
     if form.is_valid():
         container = form.save()
@@ -163,7 +168,7 @@ def transaction_log(request):
                         q.status = True
                     q.save()
                     instance.save()
-                messages.success(request, 'Transaction made successfully.')
+                messages.success(request, 'Transaction made successfully')
             elif detail_form_set.is_valid() is False:
                 header_form = ContainerTransactionForm(initial=initial_header_data)
     else:
