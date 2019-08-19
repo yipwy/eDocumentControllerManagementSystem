@@ -9,16 +9,17 @@ def approve_user(modeladmin, request, queryset):
         profile.save()
 
 
-approve_user.short_description = 'Approve selected Profile'
+approve_user.short_description = 'Activate selected Profile'
 
 
 def disapprove_user(modeladmin, request, queryset):
     for profile in queryset:
         profile.is_active = 'False'
+        profile.is_staff = 'False'
         profile.save()
 
 
-disapprove_user.short_description = 'Disapprove selected Profile'
+disapprove_user.short_description = 'Deactivate selected Profile'
 
 
 def approve_superuser(modeladmin, request, queryset):
@@ -36,7 +37,7 @@ def deactivate_superuser(modeladmin, request, queryset):
         profile.save()
 
 
-deactivate_superuser.short_description = 'Deactivate selected Profile from superuser'
+deactivate_superuser.short_description = 'Demote selected Profile from superuser'
 
 
 class ProfileAdmin(admin.ModelAdmin):

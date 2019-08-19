@@ -1,7 +1,7 @@
 from django import forms
 from .models import Container, OrderHeader, OrderDetail
 from generals.models import Warehouse, DocumentType, Bay
-from froala_editor.widgets import FroalaEditor
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 from crispy_forms.bootstrap import FieldWithButtons, StrictButton
@@ -27,7 +27,8 @@ class ContainerForm(forms.ModelForm):
     #  warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
     container_serial_number = forms.CharField(label="<b>Container Serial Number:</b>",
                                               widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
-    container_description = forms.CharField(label="<b>Container Description:</b>", required=False, widget=FroalaEditor())
+    container_description = forms.CharField(label="<b>Container Description:</b>", required=False,
+                                            widget=CKEditorUploadingWidget())
     # status = forms.BooleanField(required=False, label='Status of container')
     row = forms.ChoiceField(label="<b>Row:</b>", choices=ROW)
     column = forms.ChoiceField(label="<b>Column:</b>", choices=COL)
@@ -56,18 +57,18 @@ class ContainerForm(forms.ModelForm):
 
         self.helper.form_method = 'POST'
         self.helper.layout = Layout(
-        FieldWithButtons(
-            'container_serial_number',
-            StrictButton('<i class="fa fa-barcode"></i> Scan', css_class="btn-info", css_id="on-scanner")),
-            'container_description',
-            'warehouse',
-            Row(
-                Column('bay', css_class='form-group col-md-4 mb-0'),
-                Column('row', css_class='form-group col-md-4 mb-0'),
-                Column('column', css_class='form-group col-md-4 mb-0'),
-                css_class='form-row'
-            ),
-            Submit('submit', 'Add', css_class='btn btn-info col-md-3')
+            FieldWithButtons(
+                'container_serial_number',
+                StrictButton('<i class="fa fa-barcode"></i> Scan', css_class="btn-info", css_id="on-scanner")),
+                'container_description',
+                'warehouse',
+                Row(
+                    Column('bay', css_class='form-group col-md-4 mb-0'),
+                    Column('row', css_class='form-group col-md-4 mb-0'),
+                    Column('column', css_class='form-group col-md-4 mb-0'),
+                    css_class='form-row'
+                ),
+                Submit('submit', 'Add', css_class='btn btn-info col-md-3')
         )
 
 
@@ -104,19 +105,6 @@ class ContainerTransactionForm(forms.ModelForm):
         })
 
 
-# class FormWithFormattedDates(forms.ModelForm):
-#     def __init__(self, *args, **kwargs):
-#         date_format = None
-#         if 'date_format' in kwargs:
-#             date_format = kwargs['date_format']
-#             del kwargs['date_format']
-#         super(FormWithFormattedDates, self).__init__(*args, **kwargs)
-#         if date_format is not None:
-#             for (field_name, field) in self.fields.items():
-#                 if isinstance(field, forms.fields.DateField):
-#                     field.input_format = [date_format]
-#                     field.widget = forms.widgets.DateTimeInput(format=date_format)
-
 class RequiredFormSet(forms.BaseModelFormSet):
     def __init__(self, *args, **kwargs):
         super(RequiredFormSet, self).__init__(*args, **kwargs)
@@ -128,7 +116,7 @@ class ListTextWidget(forms.TextInput):
         super(ListTextWidget, self).__init__(*args, **kwargs)
         self._name = name
         self._list = data_list
-        self.attrs.update({'list':'list__%s' % self._name})
+        self.attrs.update({'list': 'list__%s' % self._name})
 
     def render(self, name, value, attrs=None, renderer=None):
         text_html = super(ListTextWidget, self).render(name, value, attrs=attrs)

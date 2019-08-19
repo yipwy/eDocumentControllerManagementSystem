@@ -13,8 +13,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import *
 from dateutil.relativedelta import relativedelta
 from pprint import pprint
-from django.db.models.functions import Concat
-from django.db.models import Value as V, CharField
 import sys
 from subprocess import run, PIPE
 

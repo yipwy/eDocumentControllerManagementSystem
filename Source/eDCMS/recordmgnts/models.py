@@ -1,16 +1,14 @@
 from django.db import models
 from simple_history.models import HistoricalRecords
 from datetime import *
-# from tinymce.models import HTMLField
-from froala_editor.fields import FroalaField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class Container(models.Model):
     class Meta:
         verbose_name_plural     = 'Containers'
     container_serial_number     = models.CharField(max_length=20, unique=True)
-    # container_description       = HTMLField()
-    container_description       = FroalaField()
+    container_description       = RichTextUploadingField()
     # container_description       = models.CharField(max_length=100)
     status                      = models.BooleanField(default=True)
     created_by                  = models.CharField(max_length=20)
