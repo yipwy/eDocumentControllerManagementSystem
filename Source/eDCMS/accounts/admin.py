@@ -40,9 +40,29 @@ def deactivate_superuser(modeladmin, request, queryset):
 deactivate_superuser.short_description = 'Demote selected Profile from superuser'
 
 
+def approve_documentcontroller(modeladmin, request, queryset):
+    for profile in queryset:
+        profile.is_documentcontroller = 'True'
+        profile.save()
+
+
+approve_documentcontroller.short_description = 'Promote selected Profile to Doc-Controller'
+
+
+def deactivate_documentcontroller(modeladmin, request, queryset):
+    for profile in queryset:
+        profile.is_documentcontroller = 'False'
+        profile.save()
+
+
+deactivate_documentcontroller.short_description = 'Demote selected Profile from Doc-Controller'
+
+
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('username', 'contact', 'email', 'company', 'branch', 'department', 'is_active', 'is_superuser', 'is_staff')
-    actions = [approve_user, disapprove_user, approve_superuser, deactivate_superuser]
+    list_display = ('username', 'contact', 'email', 'company', 'branch', 'department',
+                    'is_active', 'is_superuser', 'is_documentcontroller', 'is_staff')
+    actions = [approve_user, disapprove_user, approve_superuser, deactivate_superuser, approve_documentcontroller,
+               deactivate_documentcontroller]
 
 
 admin.site.register(Profile, ProfileAdmin)
