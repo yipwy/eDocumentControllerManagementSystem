@@ -80,7 +80,7 @@ body{
 }
 
 #services #headers{
-    border-bottom: 1px solid #DCC2C2;
+    border-bottom: 1px solid #757575;
 
 }
 
@@ -333,3 +333,10 @@ tr th{
 #interactive.viewport {position: relative; width: 100%; height: auto; overflow: hidden; text-align: center;}
 #interactive.viewport > canvas, #interactive.viewport > video {max-width: 100%;width: 100%;}
 canvas.drawing, canvas.drawingBuffer {position: absolute; left: 0; top: 0;}
+
+
+.input-group ~ .invalid-feedback{ display: block; } /*show error text message using crispy tag*/
+
+#on-scanner{
+    z-index:1;
+}

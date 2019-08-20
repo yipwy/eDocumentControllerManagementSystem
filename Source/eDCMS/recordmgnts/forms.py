@@ -24,9 +24,15 @@ COL = (
 
 
 class ContainerForm(forms.ModelForm):
+    my_default_errors = {
+        'required': 'This field cannot be left empty.',
+        'invalid': 'Enter a valid value.',
+        'unique': 'Container with this serial number has already been registered.'
+    }
     #  warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), empty_label=None)
     container_serial_number = forms.CharField(label="<b>Container Serial Number:</b>",
-                                              widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}))
+                                              widget=forms.TextInput(attrs={'placeholder': 'Enter serial number'}),
+                                              error_messages=my_default_errors)
     container_description = forms.CharField(label="<b>Container Description:</b>", required=False,
                                             widget=CKEditorUploadingWidget())
     # status = forms.BooleanField(required=False, label='Status of container')
