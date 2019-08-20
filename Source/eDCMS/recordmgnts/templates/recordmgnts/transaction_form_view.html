@@ -32,7 +32,7 @@
         {% for detail in details %}
         <div class="form-group">
             <b>Container:</b>
-            <input type="text" value="{{ detail.container.container_serial_number }}, {{ detail.container.container_description | striptags }}"readonly class="form-control">
+            <input type="text" value="{{ detail.container.container_serial_number }} - {{ detail.container.container_description | striptags }}"readonly class="form-control">
         </div>
         {% endfor %}
     </form>
