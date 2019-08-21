@@ -18,7 +18,7 @@ class Container(models.Model):
     bay                         = models.ForeignKey('generals.Bay', on_delete=models.CASCADE)
     row                         = models.CharField(max_length=10, null=True)
     column                      = models.CharField(max_length=10, null=True)
-    department                  = models.ForeignKey('generals.Department', on_delete=models.CASCADE, null=True)
+    department                  = models.CharField(max_length=40, null=True)
     history = HistoricalRecords(table_name='container_history')
     is_deleted                  = models.BooleanField(default=False, null=True)
 
