@@ -20,6 +20,7 @@ class Profile(AbstractUser):
     is_superuser             = models.BooleanField(default=False, null=True, blank=True)
     is_staff                 = models.BooleanField(default=False, null=True, blank=True)
     is_documentcontroller    = models.BooleanField(default=False, null=True, blank=True)
+    email                    = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.username

@@ -9,7 +9,6 @@ class Container(models.Model):
         verbose_name_plural     = 'Containers'
     container_serial_number     = models.CharField(max_length=20, unique=True)
     container_description       = RichTextUploadingField()
-    # container_description       = models.CharField(max_length=100)
     status                      = models.BooleanField(default=True)
     created_by                  = models.CharField(max_length=20)
     created_date                = models.DateTimeField(default=datetime.now, blank=True)
@@ -21,6 +20,7 @@ class Container(models.Model):
     column                      = models.CharField(max_length=10, null=True)
     department                  = models.ForeignKey('generals.Department', on_delete=models.CASCADE, null=True)
     history = HistoricalRecords(table_name='container_history')
+    is_deleted                  = models.BooleanField(default=False, null=True)
 
     def __str__(self):
         return self.container_serial_number

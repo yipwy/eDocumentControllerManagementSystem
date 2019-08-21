@@ -13,7 +13,7 @@
                         <table class="table table-hover table-bordered table-condensed">
                         <tr>
                             <th> Container Serial Number </th><th> Container Description </th><th> Status </th>
-                            <th> Created by </th><th> Created date </th><th> Modify by </th><th> Modify Date </th>
+<!--                            <th> Created by </th><th> Created date </th><th> Modify by </th><th> Modify Date </th>-->
                             <th> Warehouse </th><th> Location ID</th>
                             <th> Modify </th>{% if user.is_superuser %}<th> Delete </th>{% endif %}<th> View </th>
 
@@ -22,10 +22,11 @@
                         <tr>
                             <td>{{ container.container_serial_number }}</td>
                             <td>{% autoescape off %}{{ container.container_description }}{% endautoescape %}</td>
-                            <td>{{ container.status |yesno:"Yes,No"  }}</td><td>{{ container.created_by }}</td>
-                            <td>{{ container.created_date|date:"d/m/Y" }}, {{ container.created_date|time:"h:i A" }}</td>
-                            <td>{{ container.modify_by }}</td>
-                            <td>{{ container.modify_date|date:"d/m/Y" }}, {{ container.modify_date|time:"h:i A" }}</td>
+                            <td>{{ container.status |yesno:"Yes,No"  }}</td>
+<!--                            <td>{{ container.created_by }}</td>-->
+<!--                            <td>{{ container.created_date|date:"d/m/Y" }}, {{ container.created_date|time:"h:i A" }}</td>-->
+<!--                            <td>{{ container.modify_by }}</td>-->
+<!--                            <td>{{ container.modify_date|date:"d/m/Y" }}, {{ container.modify_date|time:"h:i A" }}</td>-->
                             <td>{{ container.warehouse }}</td><td>{{ container.bay }}-{{ container.row }}-{{ container.column }}</td>
                             <td><button class="btn btn-outline-info" onclick="window.location.href='{% url 'recordmgnts:edit_records' container.id %}';">Modify</button></td>
                             {% if user.is_superuser %}

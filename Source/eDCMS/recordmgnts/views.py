@@ -20,7 +20,7 @@ from subprocess import run, PIPE
 @login_required
 def showContainer(request):
 
-    allContainer = Container.objects.filter(department=request.user.department)
+    allContainer = Container.objects.filter(department=request.user.department, is_deleted=False)
     paginator = Paginator(allContainer, 5)  # Show 25 contacts per page
     page = request.GET.get('page')
     try:
@@ -76,13 +76,18 @@ class ContainerDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         id_ = self.kwargs.get("id")
-        return get_object_or_404(Container, id=id_)
+        return get_object_or_404(Container, id=id_, is_deleted=False)
 
 
 @login_required
 def containerDelete(request,id):
     container = Container.objects.get(pk=id)
-    container.delete()
+    if container.status is not True:
+        messages.warning(request, 'Unable to delete checked out containers')
+        return redirect('recordmgnts:records')
+
+    container.is_deleted = True
+    container.save()
     messages.success(request, f'Record has been deleted.')
     return redirect('recordmgnts:records')
 
@@ -94,8 +99,8 @@ class SearchContainerView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         query = self.request.GET.get('q')
         object_list = Container.objects.filter(
-            Q(container_serial_number__icontains=query) & Q(department=self.request.user.department.id) |
-            Q(container_description__icontains=query) & Q(department=self.request.user.department.id)
+            Q(container_serial_number__icontains=query) & Q(department=self.request.user.department.id) & Q(is_deleted=False) |
+            Q(container_description__icontains=query) & Q(department=self.request.user.department.id) & Q(is_deleted=False)
         )
         return object_list
 
@@ -162,8 +167,10 @@ def transaction_log(request):
                     instance.barcode = q.container_serial_number
                     if doc_type is 'O':
                         q.status = False
+                        q.is_deleted = False
                     elif doc_type is 'I':
                         q.status = True
+                        q.is_deleted = False
                     q.save()
                     instance.save()
                 messages.success(request, 'Transaction made successfully')
@@ -212,10 +219,10 @@ def load_containers(request):
     document = request.GET.get('doc_type')
     doc_type = document[0]
     if doc_type is 'O':
-        containers = Container.objects.filter(status=True, department=request.user.department)
+        containers = Container.objects.filter(status=True, department=request.user.department, is_deleted=False)
     elif doc_type is 'I':
         container_instance = ContainerInstance.objects.values_list('container', flat=True).filter(status=False, user=request.user)
-        containers = Container.objects.filter(id__in=container_instance, status=False)
+        containers = Container.objects.filter(id__in=container_instance, status=False, is_deleted=False)
     return render(request, 'recordmgnts/container_dropdown.html', {'containers': containers})
 
 
