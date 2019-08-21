@@ -11,6 +11,7 @@ class Profile(AbstractUser):
         verbose_name_plural = 'Profiles'
     company          = models.CharField(max_length=30, null=True)
     contact          = models.CharField(max_length=20, null=True)
+    email            = models.CharField(max_length=50, null=True)
     branch           = models.ForeignKey('generals.Branch', on_delete=models.CASCADE)
     department       = models.ForeignKey('generals.Department', on_delete=models.CASCADE)
     created_by       = models.CharField(max_length=20)

@@ -2,6 +2,10 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm, PasswordChangeForm
 from .models import Profile
 from generals.models import Department, Branch, Company
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.bootstrap import AppendedText
+from django.core.validators import RegexValidator
 
 # DEPARTMENT_CHOICES = [
 #     ('HR', 'HR'),
@@ -29,16 +33,18 @@ COMPANY_CHOICES = [
 
 
 class UserRegistrationForm(UserCreationForm):
-    first_name = forms.CharField(label="First Name")
-    last_name = forms.CharField(label="Last Name")
-    username = forms.CharField(label="Username")
-    contact = forms.CharField(label="Contact Number")
-    email = forms.EmailField(label="Email Address")
-    password1 = forms.CharField(label="Password", widget=forms.PasswordInput())
-    password2 = forms.CharField(label="Password Confirmation", widget=forms.PasswordInput())
-    department = forms.ModelChoiceField(queryset=Department.objects.all(), required=True)
-    company = forms.CharField(label="Company", widget=forms.Select(choices=COMPANY_CHOICES))
-    branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True)
+    alphanumeric = RegexValidator(r'^[0-9a-zA-Z_]*$', 'Only alphanumeric characters and "_" are allowed.')
+    first_name = forms.CharField(label="<b>First Name:</b>")
+    last_name = forms.CharField(label="<b>Last Name:</b>")
+    username = forms.CharField(label="<b>Username:</b>")
+    contact = forms.CharField(label="<b>Contact Number:</b>")
+    email = forms.CharField(label="<b>Email Address:</b>", validators=[alphanumeric])
+    password1 = forms.CharField(label="<b>Password:</b>", widget=forms.PasswordInput())
+    password2 = forms.CharField(label="<b>Password Confirmation:</b>", widget=forms.PasswordInput())
+    department = forms.ModelChoiceField(queryset=Department.objects.all(), required=True, label="<b>Department:</b>")
+    company = forms.CharField(label="<b>Company:</b>", widget=forms.Select(choices=COMPANY_CHOICES))
+    branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True, label="<b>Branch:</b>")
+    helper = FormHelper()
 
     class Meta(UserCreationForm):
         model = Profile
@@ -57,6 +63,30 @@ class UserRegistrationForm(UserCreationForm):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             self.fields['department'].queryset = self.instance.branch.department_set.order_by('department')
+            self.helper.form_method = 'POST'
+
+        self.helper.layout = Layout(
+            Row(
+                Column('first_name', css_class='form-group col-md-6 mb-0'),
+                Column('last_name', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            'username',
+            AppendedText('email', '.huayang@gmail.com'),
+            'contact',
+            Row(
+                Column('password1', css_class='form-group col-md-6 mb-0'),
+                Column('password2', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            'company',
+            Row(
+                Column('branch', css_class='form-group col-md-6 mb-0'),
+                Column('department', css_class='form-group col-md-6 mb-0'),
+                css_class='form-row'
+            ),
+            Submit('submit', 'Sign Up', css_class='btn-outline-success col-md-12')
+        )
 
 
 class PasswordResetForm(SetPasswordForm):

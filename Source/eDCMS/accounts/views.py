@@ -46,8 +46,12 @@ def signup(request):
 
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
+        email = form.data['email']
+        email += ".huayang@gmail.com"
         if form.is_valid():
-            form.save()
+            new_form = form.save(commit=False)
+            new_form.email = email
+            new_form.save()
             messages.success(request, f'Your account has been created.')
             return redirect('accounts:login')
     else:
