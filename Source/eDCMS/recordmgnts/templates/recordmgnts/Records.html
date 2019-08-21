@@ -32,9 +32,9 @@
                      <table class="table table-hover table-bordered table-condensed">
                         <tr>
                             <th> Container Serial Number </th><th> Container Description </th><th> Status </th>
-                            <th> Created by </th><th> Created date </th><th> Modify by </th><th> Modify Date </th>
+<!--                            <th> Created by </th><th> Created date </th><th> Modify by </th><th> Modify Date </th>-->
                             <th> Warehouse </th><th> Location ID </th><th> Modify </th>
-                            {% if user.is_superuser %}<th> Delete </th>{% endif %}<th> View </th>
+                            {% if user.is_superuser or user.is_documentcontroller %}<th> Delete </th>{% endif %}<th> View </th>
                         </tr>
                          {% for Container in allContainer %}
                          <div id="delModal" class="modal fade" role="dialog" caller-id="">
@@ -58,9 +58,9 @@
                              </div>
                          </div>
                          <tr>
-                             <td>{{ Container.container_serial_number }}</td><td>{% autoescape off %}{{ Container.container_description }}{% endautoescape %}</td><td>{{ Container.status|yesno:"In,Out" }}</td><td>{{ Container.created_by }}</td><td>{{ Container.created_date|date:"d/m/Y" }}, {{ Container.created_date|time:"h:i A" }}</td><td>{{ Container.modify_by }}</td><td>{{ Container.modify_date|date:"d/m/Y" }}, {{ Container.modify_date|time:"h:i A" }}</td><td>{{ Container.warehouse }}</td><td>{{ Container.bay }}-{{ Container.row }}-{{ Container.column }}</td>
+                             <td>{{ Container.container_serial_number }}</td><td>{% autoescape off %}{{ Container.container_description }}{% endautoescape %}</td><td>{{ Container.status|yesno:"In,Out" }}</td><td>{{ Container.warehouse }}</td><td>{{ Container.bay }}-{{ Container.row }}-{{ Container.column }}</td>
                              <td><button class="btn btn-outline-info" onclick="window.location.href='{% url 'recordmgnts:edit_records' Container.id %}';">Modify</button></td>
-                             {% if user.is_superuser %}
+                             {% if user.is_superuser or user.is_documentcontroller %}
                              <td><button href="{% url 'recordmgnts:container_delete' id=Container.id %}" id="{{Container.id}}" class="btn btn-outline-info confirm-delete" data-toggle="modal" data-target="#delModal">Delete</button></td>
                              {% endif %}
                              <td><button class="btn btn-outline-info" onclick="window.location.href='{% url 'recordmgnts:container_view' Container.id %}';">View</button></td>
