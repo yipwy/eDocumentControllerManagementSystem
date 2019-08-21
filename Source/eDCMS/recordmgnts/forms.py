@@ -100,6 +100,10 @@ class ContainerUpdateForm(ContainerForm):
 
 class ContainerTransactionForm(forms.ModelForm):
     doc_type = forms.ModelChoiceField(queryset=DocumentType.objects.filter(is_active=True), label='<b>Document Type:</b>')
+    created_date = forms.DateTimeField(label="<b>Created Date:</b>",
+                                       input_formats=["%d/%m/%Y, %I:%M %p"]
+                                    )
+    warehouse = forms.ModelChoiceField(queryset=Warehouse.objects.all(), label='<b>Warehouse:</b>', required=False)
 
     class Meta:
         model = OrderHeader

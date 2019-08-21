@@ -138,7 +138,7 @@ def transaction_log(request):
         'department': request.user.department,
         'branch': request.user.branch,
         'created_by': request.user.username,
-        'created_date': now,
+        'created_date': datetime.now().strftime("%d/%m/%Y, %I:%M %p"),
     }
     DetailFormSet = modelformset_factory(OrderDetail, form=OrderDetailForm, formset=RequiredFormSet, extra=3)
     if request.method == 'POST':
@@ -152,13 +152,12 @@ def transaction_log(request):
             if detail_form_set.is_valid():
                 current_doctype = new_header.doc_type
                 current_doctype.is_active = False  # set used document type to inactive
-                current_doctype.save()
-                new_header.save()
                 doc_type = new_header.doc_type.document_code[0]
                 doc_num = new_header.doc_type.document_code[1:]
                 #  create a new doctype with new doc_code
                 create_new_doctype(doc_type, doc_num)
-
+                current_doctype.save()
+                new_header.save()
                 instances = detail_form_set.save(commit=False)
                 for instance in instances:
                     create_container_instance(doc_type, instance.container, request.user, new_header.created_date)
@@ -174,6 +173,7 @@ def transaction_log(request):
                     q.save()
                     instance.save()
                 messages.success(request, 'Transaction made successfully')
+                detail_form_set = DetailFormSet(queryset=OrderDetail.objects.none())
             elif detail_form_set.is_valid() is False:
                 header_form = ContainerTransactionForm(initial=initial_header_data)
     else:
@@ -217,12 +217,23 @@ def create_new_doctype(doctype, counter): #  new_doc_series_number): # create a 
 
 def load_containers(request):
     document = request.GET.get('doc_type')
+    warehouse = request.GET.get('warehouse')
     doc_type = document[0]
-    if doc_type is 'O':
-        containers = Container.objects.filter(status=True, department=request.user.department.department, is_deleted=False)
-    elif doc_type is 'I':
-        container_instance = ContainerInstance.objects.values_list('container', flat=True).filter(status=False, user=request.user)
-        containers = Container.objects.filter(id__in=container_instance, status=False, is_deleted=False)
+    if warehouse:
+        if doc_type is 'O':
+            containers = Container.objects.filter(status=True, department=request.user.department.department,
+                                                is_deleted=False, warehouse=warehouse)
+        elif doc_type is 'I':
+            container_instance = ContainerInstance.objects.values_list('container', flat=True).filter(status=False, user=request.user)
+            containers = Container.objects.filter(id__in=container_instance, status=False, is_deleted=False, warehouse=warehouse)
+    else:
+        if doc_type is 'O':
+            containers = Container.objects.filter(status=True, department=request.user.department.department,
+                                                  is_deleted=False)
+        elif doc_type is 'I':
+            container_instance = ContainerInstance.objects.values_list('container', flat=True).filter(status=False, user=request.user)
+            containers = Container.objects.filter(id__in=container_instance, status=False, is_deleted=False)
+
     return render(request, 'recordmgnts/container_dropdown.html', {'containers': containers})
 
 

@@ -63,7 +63,7 @@ class UserRegistrationForm(UserCreationForm):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             self.fields['department'].queryset = self.instance.branch.department_set.order_by('department')
-            self.helper.form_method = 'POST'
+        self.helper.form_method = 'POST'
 
         self.helper.layout = Layout(
             Row(

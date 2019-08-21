@@ -74,7 +74,7 @@ class Warehouse(models.Model):
     branch                      = models.ForeignKey('Branch', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.warehouse_id
+        return str(self.branch) + " - " + str(self.warehouse_id)
 
 
 class Bay(models.Model):

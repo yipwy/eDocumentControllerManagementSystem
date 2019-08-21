@@ -25,6 +25,7 @@
                 {{ header_form.doc_type | as_crispy_field }}
                 {{ header_form.doc_serial_number | as_crispy_field }}
                 {{ header_form.created_by | as_crispy_field }}
+                {{ header_form.warehouse| as_crispy_field }}
             </div>
             </div>
             <div class="col-md-6">
@@ -118,10 +119,15 @@
         });
     })
 
+    $("#id_warehouse").click(function(){
+        data = $("#id_doc_serial_number").val();
+        get_container(data)
+    });
 
     function get_container(data) {
       var form_num = $("#id_form-TOTAL_FORMS").val();
       var forms_arr = [];
+      var warehouse = $("#id_warehouse").val();
 
       for (var i = 0; i < form_num; i++){
         forms_arr[i] = '#id_form-' + i.toString() + '-container';
@@ -132,6 +138,7 @@
         data: {
           'doc_type': data,
           'form_num': form_num,
+          'warehouse': warehouse,
         },
         success: function(data){
           for (var i = 0; i < form_num; i++){
