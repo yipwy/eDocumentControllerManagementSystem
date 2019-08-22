@@ -161,6 +161,10 @@ body{
     margin: 20px;
     text-align: center;
 }
+#table-actions button{
+    margin-right:25px;
+
+}
 
 /*-----footer------*/
 .footer-box img{

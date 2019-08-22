@@ -93,9 +93,14 @@ class PasswordResetForm(SetPasswordForm):
     def save(self, commit=True):
         password = self.cleaned_data["new_password1"]
         self.user.set_password(password)
-        if self.user.is_superuser is not True and self.user.is_staff is not True:
+        if self.user.is_staff is not True:
             self.user.is_staff = False
+
+        if self.user.is_superuser is not True:
             self.user.is_superuser = False
+
+        if self.user.is_documentcontroller is not True:
+            self.user.is_documentcontroller = False
         if commit:
             self.user.save()
 
@@ -106,9 +111,15 @@ class ChangePasswordForm(PasswordChangeForm):
     def save(self, commit=True):
         password = self.cleaned_data["new_password1"]
         self.user.set_password(password)
-        if self.user.is_superuser is not True and self.user.is_staff is not True:
+        if self.user.is_staff is not True:
             self.user.is_staff = False
+
+        if self.user.is_superuser is not True:
             self.user.is_superuser = False
+
+        if self.user.is_documentcontroller is not True:
+            self.user.is_documentcontroller = False
+
         if commit:
             self.user.save()
 
@@ -125,10 +136,11 @@ class CustomUserChangeForm(UserChangeForm):
     branch = forms.ModelChoiceField(queryset=Branch.objects.filter(), required=True)
     is_superuser = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
     is_staff = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
+    is_documentcontroller = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
 
     class Meta(UserChangeForm):
         model = Profile
-        fields = ('username', 'email', 'contact', 'company', 'branch', 'department', 'is_superuser', 'is_staff')
+        fields = ('username', 'email', 'contact', 'company', 'branch', 'department', 'is_superuser', 'is_staff', 'is_documentcontroller')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -116,12 +116,15 @@ def containerUpdate(request, pk):
     container = get_object_or_404(Container, pk=pk)
 
     if container.status is not True:
-        messages.warning(request, 'Please check in this container before updating')
+        messages.warning(request, 'Please check in this container before editing')
         return redirect('recordmgnts:records')
 
     form = ContainerUpdateForm(request.POST or None, instance=container)
     if form.is_valid():
-        container = form.save()
+        container = form.save(commit=False)
+        if container.is_deleted is None:
+            container.is_deleted = False
+        print(container.is_deleted)
         container.modify_date = datetime.now()
         container.modify_by = str(request.user)
         container.save()

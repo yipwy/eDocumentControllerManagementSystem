@@ -14,7 +14,7 @@
             {% render_field field hidden='True' id='hidden-field' class='hidden-field-class' %}
             {% endif %}
             {% for field in form.visible_fields %}
-            {% if field.name == 'is_superuser' or field.name == 'is_staff' %}
+            {% if field.name == 'is_superuser' or field.name == 'is_staff' or field.name == "is_documentcontroller" %}
             {% render_field field class="hidden" %}
             {% else %}
             <div class="form-group col-md-8 col-sm-3" style="margin-left:-15px">
