@@ -162,7 +162,8 @@ body{
     text-align: center;
 }
 #table-actions button{
-    margin-right:25px;
+    margin-right:10px;
+    margin-bottom:5px;
 
 }
 
@@ -300,7 +301,7 @@ body{
 
 /*--- Search bar ---*/
 
-.search-bar input[type=text] {
+/*.search-bar input[type=text] {
   padding: 10px;
   font-size: 17px;
   border: 1px solid grey;
@@ -328,7 +329,7 @@ body{
     opacity:1;
     transition: all 0.03s;
 
-}
+}*/
 
 tr th{
     text-align:center;

@@ -50,11 +50,11 @@
                             <td>{{ container.warehouse }}</td><td>{{ container.bay }}-{{ container.row }}-{{ container.column }}</td>
                             <td>
                                 <div class="container" style="text-align:center" id="table-actions">
-                                    <button class="btn btn-dark" onclick="window.location.href='{% url 'recordmgnts:edit_records' container.id %}';"><i class="fa fa-edit"></i> Edit</button>
+                                    <button class="btn btn-info" title="Edit" onclick="window.location.href='{% url 'recordmgnts:edit_records' container.id %}';"><i class="fa fa-edit"></i></button>
                                     {% if user.is_superuser or user.is_documentcontroller %}
-                                    <button href="{% url 'recordmgnts:container_delete' id=container.id %}" id="{{container.id}}" class="btn btn-danger confirm-delete" data-toggle="modal" data-target="#delModal"><i class="fa fa-trash"></i> Delete</button>
+                                    <button href="{% url 'recordmgnts:container_delete' id=container.id %}" title="Delete" id="{{container.id}}" class="btn btn-danger confirm-delete" data-toggle="modal" data-target="#delModal"><i class="fa fa-trash"></i></button>
                                     {% endif %}
-                                    <button class="btn btn-dark" onclick="window.location.href='{% url 'recordmgnts:container_view' container.id %}';"><i class="fa fa-laptop"></i> View</button>
+                                    <button class="btn btn-dark" title="View" onclick="window.location.href='{% url 'recordmgnts:container_view' container.id %}';"><i class="fa fa-laptop"></i></button>
                                 </div>
                             </td>
                         </tr>

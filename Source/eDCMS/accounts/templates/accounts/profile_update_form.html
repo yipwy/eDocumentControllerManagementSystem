@@ -1,52 +1,44 @@
 {% extends 'accounts/base.html' %}
 {% load widget_tweaks %}
 {% block title %}Update Profile{% endblock %}
-
+{% load crispy_forms_tags %}
+{% crispy form form.helper %}
 {% block content %}
-<section id="services">
-    <div class="container-left jumbotron col-md-8 col-sm-3">
-        <div id="headers" style="margin-bottom:20px">
-            <h1>Update profile</h1>
-        </div>
-        <form method="POST" id="DepartmentForm" data-departments-url="{% url 'accounts:ajax_load_department' %}" novalidate>
-            {% csrf_token %}
-            {% if field == form.hidden_field_name %}
-            {% render_field field hidden='True' id='hidden-field' class='hidden-field-class' %}
-            {% endif %}
-            {% for field in form.visible_fields %}
-            {% if field.name == 'is_superuser' or field.name == 'is_staff' or field.name == "is_documentcontroller" %}
-            {% render_field field class="hidden" %}
-            {% else %}
-            <div class="form-group col-md-8 col-sm-3" style="margin-left:-15px">
-                <b>{{ field.label_tag }}</b>
-                {% if form.is_bound %}
-                {% if field.errors %}
-                {% render_field field class="form-control is-invalid" %}
-                {% for error in field.errors %}
-                <div class="invalid-feedback">
-                    {{ error }}
+    <div class="content-section" style="margin-top:80px">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card jumbotron">
+                    <div class="border-bottom mb-4"><h2 style="text-align:center">Update Profile</h2></div>
+                    <article class="card-body">
+                        {% crispy form %}
+                    </article>
                 </div>
-                {% endfor %}
-                {% else %}
-                {% render_field field class="form-control is-valid" %}
-                {% endif %}
-                {% else %}
-                {% render_field field class="form-control" %}
-                {% endif %}
             </div>
-            {% endif %}
-            {% endfor %}
-            <button class="btn btn-outline-info form-control col-md-4" type="submit" style="margin-top:5px">Update</button>
-        </form>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
+
+<!--           $(document).ready(function(){-->
+<!--           var branchId = $("#id_branch").val();-->
+
+<!--           $.ajax({-->
+<!--           url: "{% url 'accounts:ajax_load_department' %}",-->
+<!--           data: {-->
+<!--           'branch': branchId-->
+<!--           },-->
+<!--           success: function (data) {-->
+<!--           $("#id_department").html(data);-->
+<!--           }-->
+<!--           });-->
+
+<!--           });-->
+
            $("#id_branch").change(function () {
-           var url = $("#DepartmentForm").attr("data-departments-url");
            var branchId = $(this).val();
 
            $.ajax({
-           url: url,
+           url: "{% url 'accounts:ajax_load_department' %}",
            data: {
            'branch': branchId
            },
@@ -57,5 +49,4 @@
 
            });
     </script>
-</section>
 {% endblock %}

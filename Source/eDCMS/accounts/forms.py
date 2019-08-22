@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPassw
 from .models import Profile
 from generals.models import Department, Branch, Company
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Submit, Row, Column
+from crispy_forms.layout import Layout, Submit, Row, Column, Field
 from crispy_forms.bootstrap import AppendedText
 from django.core.validators import RegexValidator
 
@@ -127,24 +127,26 @@ class ChangePasswordForm(PasswordChangeForm):
 
 
 class CustomUserChangeForm(UserChangeForm):
+    alphanumeric = RegexValidator(r'^[0-9a-zA-Z_]*$', 'Only alphanumeric characters and "_" are allowed.')
     password = None
-    username = forms.CharField(label="Username")
-    contact = forms.CharField(label="Contact Number")
-    email = forms.EmailField(label="Email Address")
-    department = forms.ModelChoiceField(queryset=Department.objects.filter(), required=True)
-    company = forms.CharField(label="Company", widget=forms.Select(choices=COMPANY_CHOICES))
-    branch = forms.ModelChoiceField(queryset=Branch.objects.filter(), required=True)
-    is_superuser = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
-    is_staff = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
-    is_documentcontroller = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={'class': 'hidden'}))
+    username = forms.CharField(label="<b>Username:</b>")
+    contact = forms.CharField(label="<b>Contact Number:</b>")
+    email = forms.CharField(label="<b>Email Address:</b>", validators=[alphanumeric])
+    department = forms.ModelChoiceField(label="<b>Department:</b>", queryset=Department.objects.all(), required=True)
+    company = forms.CharField(label="<b>Company:</b>", widget=forms.Select(choices=COMPANY_CHOICES))
+    branch = forms.ModelChoiceField(label="<b>Branch:</b>", queryset=Branch.objects.all(), required=True)
+    is_superuser = forms.BooleanField(required=False)
+    is_staff = forms.BooleanField(required=False)
+    is_documentcontroller = forms.BooleanField(required=False)
+    helper = FormHelper()
 
     class Meta(UserChangeForm):
         model = Profile
         fields = ('username', 'email', 'contact', 'company', 'branch', 'department', 'is_superuser', 'is_staff', 'is_documentcontroller')
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, branch, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['department'].queryset = Department.objects.none()
+        self.fields['department'].queryset = Department.objects.filter(branch=branch)
 
         if 'branch' in self.data:
             try:
@@ -154,6 +156,20 @@ class CustomUserChangeForm(UserChangeForm):
                 pass  # invalid input from the client; ignore and fallback to empty City queryset
         elif self.instance.pk:
             self.fields['department'].queryset = self.instance.branch.department_set.order_by('department')
+
+        self.helper.form_method = 'POST'
+        self.helper.layout = Layout(
+            'username',
+            AppendedText('email', '.huayang@gmail.com'),
+            'contact',
+            'company',
+            'branch',
+            'department',
+            Field('is_superuser', type="hidden"),
+            Field('is_staff', type="hidden"),
+            Field('is_documentcontroller', type="hidden"),
+            Submit('submit', 'Update', css_class='col-md-12')
+        )
 
 
 # class FormWithFormattedDates(forms.ModelForm):

@@ -6,11 +6,14 @@
     <div class="container-fluid">
         <div class="row align-items-start">
             <div class="col-sm-6 col-md-8" style="margin-top:25px">
-                <h2>Search</h2>
                 <div class="search-bar">
                 <form method="GET" action="{% url 'recordmgnts:container_search' %}">
-                        <input type="text" name="q" class="col-md-4 col-sm-4" placeholder="Search"/>
-                        <button type="submit"><i class="fa fa-search"></i></button>
+                    <div class="input-group">
+                        <input type="text" name="q" class="col-md-4 col-sm-4 form-control" placeholder="Search"/>
+                        <span class="input-group-append">
+                            <button type="submit" class="btn btn-dark"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
                 </form>
                 </div>
             </div>
@@ -59,12 +62,12 @@
                          <tr>
                              <td>{{ Container.container_serial_number }}</td><td>{% autoescape off %}{{ Container.container_description }}{% endautoescape %}</td><td>{{ Container.status|yesno:"In,Out" }}</td><td>{{ Container.warehouse }}</td><td>{{ Container.bay }}-{{ Container.row }}-{{ Container.column }}</td>
                              <td>
-                                 <div class="container" style="text-align:center" id="table-actions">
-                                        <button class="btn btn-dark" onclick="window.location.href='{% url 'recordmgnts:edit_records' Container.id %}';"><i class="fa fa-edit"></i> Edit </button>
+                                 <div style="text-align:center" id="table-actions">
+                                        <button class="btn btn-info" title="Edit" onclick="window.location.href='{% url 'recordmgnts:edit_records' Container.id %}';"><i class="fa fa-edit"></i></button>
                                      {% if user.is_superuser or user.is_documentcontroller %}
-                                        <button href="{% url 'recordmgnts:container_delete' id=Container.id %}" id="{{Container.id}}" class="btn btn-danger confirm-delete" data-toggle="modal" data-target="#delModal"><i class="fa fa-trash"></i> Delete</button>
+                                        <button href="{% url 'recordmgnts:container_delete' id=Container.id %}" title="Delete" id="{{Container.id}}" class="btn btn-danger confirm-delete" data-toggle="modal" data-target="#delModal"><i class="fa fa-trash"></i></button>
                                      {% endif %}
-                                        <button class="btn btn-dark" onclick="window.location.href='{% url 'recordmgnts:container_view' Container.id %}';"><i class="fa fa-laptop"></i> View </button>
+                                        <button class="btn btn-dark" title="View" onclick="window.location.href='{% url 'recordmgnts:container_view' Container.id %}';"><i class="fa fa-laptop"></i></button>
                                 </div>
                              </td>
                          </tr>

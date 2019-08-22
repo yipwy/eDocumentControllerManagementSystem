@@ -103,17 +103,32 @@ def profile(request):
 
 @login_required
 def update_profile(request):
+    email_name = request.user.email.split('.', 1)[0]
+    initial_data = {
+        'username': request.user.username,
+        'contact': request.user.contact,
+        'email': email_name,
+        'department': request.user.department,
+        'company': request.user.company,
+        'branch': request.user.branch,
+        'is_superuser': request.user.is_superuser,
+        'is_staff': request.user.is_staff,
+        'is_documentcontroller': request.user.is_documentcontroller
+    }
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, instance=request.user)
+        form = CustomUserChangeForm(request.user.branch, request.POST, instance=request.user)
+        email = form.data['email']
+        email += ".huayang@gmail.com"
         if form.is_valid():
-            fs = form.save()
+            fs = form.save(commit=False)
+            fs.email = email
             fs.modify_by = str(request.user)
             fs.save()
             messages.success(request, f'Your profile has been updated.')
             return redirect('accounts:profile_page')
 
     else:
-        form = CustomUserChangeForm(instance=request.user)
+        form = CustomUserChangeForm(request.user.branch, initial=initial_data)
     return render(request, 'accounts/profile_update_form.html', {'form': form})
 
 
