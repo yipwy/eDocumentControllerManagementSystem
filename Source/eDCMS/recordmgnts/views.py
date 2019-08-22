@@ -88,7 +88,7 @@ def containerDelete(request,id):
 
     container.is_deleted = True
     container.save()
-    messages.success(request, f'Record has been deleted.')
+    messages.success(request, f'Record has been deleted')
     return redirect('recordmgnts:records')
 
 

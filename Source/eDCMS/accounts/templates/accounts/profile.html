@@ -2,9 +2,10 @@
 {% block title %} eDCMS-{{ user.username }}{% endblock title %}
 {% block content %}
 
-
-<section id="services">
-    <div class="col-md-8 col-sm-6 container-left jumbotron">
+<div class="content-section" style="margin-top:80px">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="jumbotron">
         {% if messages %}
         {% for message in messages %}
         <div class="alert alert-success alert-dismissible text-center" role="alert">
@@ -13,35 +14,30 @@
         </div>
         {% endfor %}
         {% endif %}
-        <div id="headers">
-            <div class="row">
+        <div class="row">
             <div class="col">
             <h1> {{ user.get_full_name }}</h1>
             </div>
-            <div class="col" style="text-align:right">
-                <a href="{% url 'accounts:profile_update' %}"><i class="fa fa-edit"></i> Update profile</a><br>
-                <a href="{% url 'accounts:password_change' %}"><i class="fa fa-key"></i> Change password</a>
-            </div>
+<!--            <div style="text-align:right;" class="col">-->
+<!--                <a href="{% url 'accounts:profile_update' %}"><i class="fa fa-edit"></i> Update profile</a><br>-->
+<!--                <a href="{% url 'accounts:password_change' %}"><i class="fa fa-key"></i> Change password</a>-->
+<!--            </div>-->
         </div>
-        </div>
+                <hr>
         <div class="row">
             <div class="col">
                 <p><b>Username: </b>{{ user.username }}</p>
+                <p><b>Company: </b>{{ user.company }}</p>
+                <p><b>Branch: </b>{{ user.branch }}</p>
+                <p><b>Department: </b>{{ user.department }}</p>
             </div>
             <div class="col">
                 <p><b>Email: </b>{{ user.email }}</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <p><b>Company: </b>{{ user.company }}</p>
-            </div>
-            <div class="col">
                 <p><b>Contact: </b>{{ user.contact }}</p>
             </div>
         </div>
-        <p><b>Branch: </b>{{ user.branch }}</p>
-        <p><b>Department: </b>{{ user.department }}</p>
+            </div>
+        </div>
     </div>
-</section>
+</div>
 {% endblock content %}

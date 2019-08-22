@@ -28,14 +28,14 @@ def mylogin(request):
 
         if user is not None:
             if user.is_active is None and user.is_superuser is None:
-                messages.warning(request, f'Account is not activated.')
+                messages.warning(request, f'Account is not activated')
             else:
                 # correct username and password login the user
                 login(request, user)
                 return redirect('accounts:home')
 
         else:
-            messages.warning(request, f'Incorrect username or password.')
+            messages.warning(request, f'Incorrect username or password')
 
     return render(request, 'registration/login.html')
 
@@ -52,7 +52,7 @@ def signup(request):
             new_form = form.save(commit=False)
             new_form.email = email
             new_form.save()
-            messages.success(request, f'Your account has been created.')
+            messages.success(request, f'Your account has been created')
             return redirect('accounts:login')
     else:
         form = UserRegistrationForm()
@@ -88,7 +88,7 @@ class MyPasswordChangeView(SuccessMessageMixin, auth_views.PasswordChangeView):
     success_url = reverse_lazy('accounts:profile_page')
 
     def get_success_message(self, cleaned_data):
-        return 'Your password has been changed successfully.'
+        return 'Your password has been changed successfully'
 
 
 @login_required
@@ -124,7 +124,7 @@ def update_profile(request):
             fs.email = email
             fs.modify_by = str(request.user)
             fs.save()
-            messages.success(request, f'Your profile has been updated.')
+            messages.success(request, f'Your profile has been updated')
             return redirect('accounts:profile_page')
 
     else:
