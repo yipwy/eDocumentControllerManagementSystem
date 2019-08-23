@@ -1,11 +1,10 @@
 {% extends 'accounts/base.html' %}
 {% block title %} eDCMS-{{ user.username }}{% endblock title %}
 {% block content %}
-
 <div class="content-section" style="margin-top:80px">
-    <div class="container">
-        <div class="col-md-12">
-            <div class="jumbotron">
+    <div class="row justify-content-center">
+        <div class="col-md-11">
+            <div class="jumbotron container-fluid">
         {% if messages %}
         {% for message in messages %}
         <div class="alert alert-success alert-dismissible text-center" role="alert">
@@ -14,17 +13,18 @@
         </div>
         {% endfor %}
         {% endif %}
-        <div class="row">
-            <div class="col">
-            <h1> {{ user.get_full_name }}</h1>
-            </div>
-<!--            <div style="text-align:right;" class="col">-->
-<!--                <a href="{% url 'accounts:profile_update' %}"><i class="fa fa-edit"></i> Update profile</a><br>-->
-<!--                <a href="{% url 'accounts:password_change' %}"><i class="fa fa-key"></i> Change password</a>-->
-<!--            </div>-->
-        </div>
+                <div class="dropdown show">
+                    <h1>{{ user.get_full_name }}
+                    <a class="small dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:black">
+                    </a>
+                    <span class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'accounts:profile_update' %}"><i class="fa fa-edit"></i> Update profile</a>
+                        <a class="dropdown-item" href="{% url 'accounts:password_change' %}"><i class="fa fa-key"></i> Change password</a>
+                    </span>
+                    </h1>
+                </div>
                 <hr>
-        <div class="row">
+        <div class="row" id="display-text">
             <div class="col">
                 <p><b>Username: </b>{{ user.username }}</p>
                 <p><b>Company: </b>{{ user.company }}</p>

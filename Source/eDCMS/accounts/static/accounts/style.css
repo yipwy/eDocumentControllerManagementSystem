@@ -345,3 +345,8 @@ canvas.drawing, canvas.drawingBuffer {position: absolute; left: 0; top: 0;}
 #on-scanner{
     z-index:1;
 }
+
+#display-text p{
+    font-size :1em;
+
+}
