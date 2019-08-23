@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'simple_history',
     'ckeditor',
     'ckeditor_uploader',
+    # 'django_wsgiserver',
 ]
 
 MIDDLEWARE = [
