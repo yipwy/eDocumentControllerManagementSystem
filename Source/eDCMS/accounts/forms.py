@@ -72,7 +72,7 @@ class UserRegistrationForm(UserCreationForm):
                 css_class='form-row'
             ),
             'username',
-            AppendedText('email', '.huayang@gmail.com'),
+            AppendedText('email', '@huayang.com.my'),
             'contact',
             Row(
                 Column('password1', css_class='form-group col-md-6 mb-0'),
