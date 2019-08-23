@@ -160,7 +160,7 @@ class CustomUserChangeForm(UserChangeForm):
         self.helper.form_method = 'POST'
         self.helper.layout = Layout(
             'username',
-            AppendedText('email', '.huayang@gmail.com'),
+            AppendedText('email', '@huayang.com.my'),
             'contact',
             'company',
             'branch',
