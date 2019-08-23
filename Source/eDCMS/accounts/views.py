@@ -47,7 +47,7 @@ def signup(request):
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         email = form.data['email']
-        email += ".huayang@gmail.com"
+        email += "@huayang.com.my"
         if form.is_valid():
             new_form = form.save(commit=False)
             new_form.email = email
@@ -103,7 +103,7 @@ def profile(request):
 
 @login_required
 def update_profile(request):
-    email_name = request.user.email.split('.', 1)[0]
+    email_name = request.user.email.split('@', 1)[0]
     initial_data = {
         'username': request.user.username,
         'contact': request.user.contact,
@@ -118,7 +118,7 @@ def update_profile(request):
     if request.method == 'POST':
         form = CustomUserChangeForm(request.user.branch, request.POST, instance=request.user)
         email = form.data['email']
-        email += ".huayang@gmail.com"
+        email += "@huayang.com.my"
         if form.is_valid():
             fs = form.save(commit=False)
             fs.email = email

@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from recordmgnts.models import ContainerInstance
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
 
 # to run this command manually, use python manage.py custom_command
 # this is a command to send emails to users who have not check in overdue containers
@@ -26,24 +26,27 @@ class Command(BaseCommand):
                                       if container.is_overdue]
                 containers = '\n '.join(overdue_containers)
                 if len(overdue_containers) == 1:
-                    message = "According to our records, the container listed below which is currently " \
+                    message = "Dear " + user.get_full_name() + ",\n\n\n" \
+                              "According to our records, the container listed below which is currently " \
                               "checked out by you is overdue.\n" \
                               "The container is:\n " + containers + \
                               "\nPlease check in this container at the warehouse as soon as possible.\n\n" \
                               "\nThis is an automated email, please do not reply."
                 elif len(overdue_containers) > 1:
-                    message = "According to our records, the containers listed below which are currently " \
+                    message = "Dear " + user.get_full_name() + ",\n\n\n" \
+                            "According to our records, the containers listed below which are currently " \
                             "checked out by you are overdue.\n" \
                             "The containers are:\n " + containers + \
                             "\n\nPlease check in these containers at their respective warehouses as soon as possible.\n\n" \
                             "\nThis is an automated email, please do not reply."
 
-                send_mail('Container Check Out Overdue',
-                          message,
-                          'edcmshyb@gmail.com',
-                          [user.email],
-                          fail_silently=False
-                          )
+                email = EmailMessage('Container Check Out Overdue',
+                                        message,
+                                        'edcmshyb@gmail.com',
+                                        [user.email],
+                                        [user.supervisor.email]
+                                    )
+                email.send(fail_silently=True)
                 for container in containers_by_user:
                     if container.is_overdue:
                         container.email_sent = True

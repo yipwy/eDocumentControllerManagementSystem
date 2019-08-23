@@ -44,12 +44,13 @@ class UserRegistrationForm(UserCreationForm):
     department = forms.ModelChoiceField(queryset=Department.objects.all(), required=True, label="<b>Department:</b>")
     company = forms.CharField(label="<b>Company:</b>", widget=forms.Select(choices=COMPANY_CHOICES))
     branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True, label="<b>Branch:</b>")
+    supervisor = forms.ModelChoiceField(queryset=Profile.objects.filter(is_superuser=True), required=True, label="<b>Superior:</b>")
     helper = FormHelper()
 
     class Meta(UserCreationForm):
         model = Profile
         fields = ('first_name', 'last_name', 'username', 'email', 'contact', 'password1', 'password2', 'branch',
-                  'department', 'company')
+                  'department', 'company', 'supervisor')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -85,6 +86,7 @@ class UserRegistrationForm(UserCreationForm):
                 Column('department', css_class='form-group col-md-6 mb-0'),
                 css_class='form-row'
             ),
+            'supervisor',
             Submit('submit', 'Sign Up', css_class='btn-outline-success col-md-12')
         )
 
@@ -160,7 +162,7 @@ class CustomUserChangeForm(UserChangeForm):
         self.helper.form_method = 'POST'
         self.helper.layout = Layout(
             'username',
-            AppendedText('email', '.huayang@gmail.com'),
+            AppendedText('email', '@huayang.com.my'),
             'contact',
             'company',
             'branch',

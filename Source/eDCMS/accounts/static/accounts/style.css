@@ -347,6 +347,6 @@ canvas.drawing, canvas.drawingBuffer {position: absolute; left: 0; top: 0;}
 }
 
 #display-text p{
-    font-size :1em;
+    font-size :1.15em;
 
 }
