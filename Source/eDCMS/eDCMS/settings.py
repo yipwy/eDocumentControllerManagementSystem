@@ -169,6 +169,6 @@ CKEDITOR_CONFIGS = {
     'default': {
         # 'skin': 'moono',
         'toolbar': 'full',
-        'width': '980px',
+        'width': 'auto',
     },
 }

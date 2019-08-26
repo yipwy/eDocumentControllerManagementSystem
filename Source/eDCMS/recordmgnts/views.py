@@ -49,7 +49,6 @@ def showDetail(request):
 
 def addContainer(request):
     if request.method == 'POST':
-        pprint('form is valid')
         form = ContainerForm(request.POST)
         if form.is_valid():
             container = form.save(commit=False)
@@ -140,7 +139,7 @@ def transaction_log(request):
     initial_header_data = {
         'department': request.user.department,
         'branch': request.user.branch,
-        'created_by': request.user.username,
+        'created_by': request.user,
         'created_date': datetime.now().strftime("%d/%m/%Y, %I:%M %p"),
     }
     DetailFormSet = modelformset_factory(OrderDetail, form=OrderDetailForm, formset=RequiredFormSet, extra=3)
@@ -242,7 +241,7 @@ def load_containers(request):
 
 @login_required
 def transaction_history_view(request):
-    current_user = request.user.username
+    current_user = request.user
     order_header = OrderHeader.objects.filter(created_by=current_user).order_by('-created_date')
     paginator = Paginator(order_header, 5)  # Show 25 contacts per page
     page = request.GET.get('page')

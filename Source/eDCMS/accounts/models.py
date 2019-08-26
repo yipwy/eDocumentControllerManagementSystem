@@ -24,4 +24,4 @@ class Profile(AbstractUser):
     email                    = models.CharField(max_length=50, null=True)
 
     def __str__(self):
-        return self.username
+        return self.first_name + " " + self.last_name

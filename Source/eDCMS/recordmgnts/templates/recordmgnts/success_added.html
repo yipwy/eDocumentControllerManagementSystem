@@ -8,16 +8,10 @@
     </ol>
 </div>
 <div class="container">
-    <div class="row">
-        <div class="col">
-                <h1>Added successfully!</h1>
-            <div class="container" style="margin-top:30px">
-                <h4 style="margin-bottom:25px;">You have added new container.</h4>
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'recordmgnts:records' %}';">Return to records</button>
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'recordmgnts:new_container' %}';">Add another record</button>
-                </div>
-        </div>
-    </div>
+    <h1>Added successfully!</h1><br>
+    <h4 style="margin-bottom:25px;">You have added new container.</h4>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'recordmgnts:records' %}';" style="margin-bottom:5px">Return to records</button>
+    <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'recordmgnts:new_container' %}';" style="margin-bottom:5px">Add another record</button>
 </div>
 
 {% endblock content %}

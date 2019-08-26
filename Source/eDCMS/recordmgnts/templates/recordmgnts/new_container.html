@@ -1,6 +1,6 @@
 {% extends 'accounts/base.html' %}
 {% load widget_tweaks %}
-{% block title %}eDCMS-Add documents{% endblock title %}
+{% block title %}eDCMS-Add Containers{% endblock title %}
 {% load crispy_forms_tags %}
 {% crispy form form.helper %}
 {% block content %}
@@ -165,6 +165,15 @@
     		            Quagga.stop();
     		            console.log(result_list);
     	            }
+                });
+
+                $("#id_warehouse").change(function(){
+                    var str = $("#id_warehouse option:selected").text();
+                    if (str.indexOf("Penang") >= 0){
+                        $("#id_column").attr("max",4);
+                    }
+                    else
+                        $("#id_column").attr("max",2);
                 });
     });
 

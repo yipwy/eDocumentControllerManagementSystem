@@ -36,8 +36,8 @@ class ContainerForm(forms.ModelForm):
     container_description = forms.CharField(label="<b>Container Description:</b>", required=False,
                                             widget=CKEditorUploadingWidget())
     # status = forms.BooleanField(required=False, label='Status of container')
-    row = forms.ChoiceField(label="<b>Row:</b>", choices=ROW)
-    column = forms.ChoiceField(label="<b>Column:</b>", choices=COL)
+    row = forms.CharField(label="<b>Row:</b>", widget=forms.TextInput(attrs={'type':'number', 'max':5, 'min':1}))
+    column = forms.CharField(label="<b>Column:</b>", widget=forms.TextInput(attrs={'type':'number', 'max':2, 'min':1}))
     helper = FormHelper()
 
     class Meta:

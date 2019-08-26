@@ -1,5 +1,5 @@
 {% extends 'accounts/base.html' %}
-{% block title %}eDCMS-Documents Search{% endblock title %}
+{% block title %}eDCMS-Containers Search{% endblock title %}
 {% block content %}
 
 <section>
@@ -70,29 +70,29 @@
                               });
                          </script>
                         </table>
-<!--                    {% if object_list.has_other_pages %}-->
-<!--                    <nav aria-label="Search result pages">-->
-<!--                      <ul class="pagination justify-content-center">-->
-<!--                        {% if object_list.has_previous %}-->
-<!--                          <li class="page-item"><a class="page-link" href="?page={{ object_list.previous_page_number }}">Previous</a></li>-->
-<!--                        {% else %}-->
-<!--                          <li class="page-item disabled"><a class="page-link" tabindex="-1" aria-disabled="true">Previous</a></li>-->
-<!--                        {% endif %}-->
-<!--                        {% for i in object_list.paginator.page_range %}-->
-<!--                          {% if object_list.number == i %}-->
-<!--                            <li class="page-item active"><a class="page-link">{{ i }} <span class="sr-only">(current)</span></a></li>-->
-<!--                          {% else %}-->
-<!--                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>-->
-<!--                          {% endif %}-->
-<!--                        {% endfor %}-->
-<!--                        {% if object_list.has_next %}-->
-<!--                          <li class="page-item"><a class="page-link" href="?page={{ object_list.next_page_number }}">Next</a></li>-->
-<!--                        {% else %}-->
-<!--                          <li class="page-item disabled"><a class="page-link" tabindex="-1" aria-disabled="true">Next</a></li>-->
-<!--                        {% endif %}-->
-<!--                      </ul>-->
-<!--                    </nav>-->
-<!--                    {% endif %}-->
+                    {% if object_list.has_other_pages %}
+                    <nav aria-label="Search result pages">
+                      <ul class="pagination justify-content-center">
+                        {% if object_list.has_previous %}
+                          <li class="page-item"><a class="page-link" href="?page={{ object_list.previous_page_number }}">Previous</a></li>
+                        {% else %}
+                          <li class="page-item disabled"><a class="page-link" tabindex="-1" aria-disabled="true">Previous</a></li>
+                        {% endif %}
+                        {% for i in object_list.paginator.page_range %}
+                          {% if object_list.number == i %}
+                            <li class="page-item active"><a class="page-link">{{ i }} <span class="sr-only">(current)</span></a></li>
+                          {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                          {% endif %}
+                        {% endfor %}
+                        {% if object_list.has_next %}
+                          <li class="page-item"><a class="page-link" href="?page={{ object_list.next_page_number }}">Next</a></li>
+                        {% else %}
+                          <li class="page-item disabled"><a class="page-link" tabindex="-1" aria-disabled="true">Next</a></li>
+                        {% endif %}
+                      </ul>
+                    </nav>
+                    {% endif %}
                     {% else %}
                     <h4 style="margin-top:25px; margin-bottom:20px">No results found.</h4>
                     {% endif %}
