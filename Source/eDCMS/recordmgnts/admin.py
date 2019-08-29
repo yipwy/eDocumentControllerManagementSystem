@@ -12,5 +12,5 @@ class ContainerAdmin(SimpleHistoryAdmin):
 
 admin.site.register(Container, ContainerAdmin)
 admin.site.register(LogEntry)
-admin.site.site_url = '/home'
+admin.site.site_url = '/'
 

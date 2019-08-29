@@ -25,7 +25,7 @@ SECRET_KEY = '2p%3m(vpo7k8yot)))v2xz3l=xh11v+1nm^l3nsabqp4#gt8s8*e'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -88,10 +88,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'edcms_dev',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'sam',
+        'PASSWORD': 'user@123',
         'HOST': '',
-        'PORT': '',
+        'PORT': '3306',
         'OPTIONS': {'autocommit': True}
     }
 }
@@ -134,9 +134,10 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 # EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend" # for development phase
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+# EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 AUTH_USER_MODEL = 'accounts.Profile'
 

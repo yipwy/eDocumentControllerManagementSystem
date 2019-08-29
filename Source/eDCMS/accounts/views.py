@@ -48,8 +48,11 @@ def signup(request):
         form = UserRegistrationForm(request.POST)
         email = form.data['email']
         email += "@huayang.com.my"
+        username = str(form.data['first_name']) + " " + str(form.data['last_name'])
         if form.is_valid():
             new_form = form.save(commit=False)
+            new_form.created_by = username
+            new_form.modify_by = username
             new_form.email = email
             new_form.save()
             messages.success(request, f'Your account has been created')
