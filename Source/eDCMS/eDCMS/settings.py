@@ -88,8 +88,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'edcms_dev',
-        'USER': 'sam',
-        'PASSWORD': 'user@123',
+        'USER': 'root',
+        'PASSWORD': '',
         'HOST': '',
         'PORT': '3306',
         'OPTIONS': {'autocommit': True}

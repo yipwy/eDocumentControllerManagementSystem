@@ -64,5 +64,17 @@ class ProfileAdmin(admin.ModelAdmin):
     actions = [approve_user, disapprove_user, approve_superuser, deactivate_superuser, approve_documentcontroller,
                deactivate_documentcontroller]
 
+    def save_model(self, request, obj, form, change):
+        if obj.is_superuser is not True:
+            obj.is_superuser = False
+        if obj.is_documentcontroller is not True:
+            obj.is_documentcontroller = False
+        if obj.is_staff is not True:
+            obj.is_staff = False
+        if obj.is_active is not True:
+            obj.is_active = False
+
+        super().save_model(request, obj, form, change)
+
 
 admin.site.register(Profile, ProfileAdmin)

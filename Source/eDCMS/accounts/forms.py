@@ -44,7 +44,7 @@ class UserRegistrationForm(UserCreationForm):
     department = forms.ModelChoiceField(queryset=Department.objects.all(), required=True, label="<b>Department:</b>")
     company = forms.CharField(label="<b>Company:</b>", widget=forms.Select(choices=COMPANY_CHOICES))
     branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True, label="<b>Branch:</b>")
-    supervisor = forms.ModelChoiceField(queryset=Profile.objects.filter(is_superuser=True), label="<b>Superior:</b>")
+    supervisor = forms.ModelChoiceField(queryset=Profile.objects.filter(is_superuser=True), label="<b>Superior:</b>", required=False)
     helper = FormHelper()
 
     class Meta(UserCreationForm):
