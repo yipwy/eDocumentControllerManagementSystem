@@ -15,6 +15,7 @@ from django.db.models import Count, Q
 from django.views import View
 from django.http import JsonResponse
 from django.views.generic import TemplateView
+from recordmgnts.models import Container
 
 
 def mylogin(request):
@@ -141,11 +142,12 @@ class DashboardView(TemplateView):
     template_name = 'accounts/dashboard.html'
 
     def get_dept(self):
-            dataset = Department.objects \
+            dataset = Container.objects \
                 .values('department') \
                 .annotate(IT_count=Count('department', filter=Q(department='IT')),
                           Sales_count=Count('department', filter=Q(department='Sales')),
                           Admin_count=Count('department', filter=Q(department='Admin')),
+                          Finance_count=Count('department', filter=Q(department='Finance')),
                           HR_count=Count('department', filter=Q(department='HR'))) \
                 .order_by('department')
 
@@ -153,6 +155,7 @@ class DashboardView(TemplateView):
             IT_series_data = list()
             Sales_series_data = list()
             Admin_series_data = list()
+            Finance_series_data = list()
             HR_series_data = list()
 
             for entry in dataset:
@@ -160,6 +163,7 @@ class DashboardView(TemplateView):
                 IT_series_data.append(entry['IT_count'])
                 Sales_series_data.append(entry['Sales_count'])
                 Admin_series_data.append(entry['Admin_count'])
+                Finance_series_data.append(entry['Finance_count'])
                 HR_series_data.append(entry['HR_count'])
 
             IT_series = {
@@ -186,6 +190,12 @@ class DashboardView(TemplateView):
                 'color': 'blue'
             }
 
+            Finance_series = {
+                'name': 'Finance',
+                'data': Finance_series_data,
+                'color': 'black'
+            }
+
             chart2 = {
                 'chart': {
                     'type': 'column',
@@ -206,12 +216,13 @@ class DashboardView(TemplateView):
                         },
                 'plotOptions': {
                     'column': {
-                        'pointPadding': 0.2,
-                        'borderWidth': 0,
+                        'stacking': 'normal',
+                        'groupPadding': 0.3,
+                        'pointPadding': 0.3,
                         'depth': 60,
                     }
                 },
-                'series': [IT_series, Sales_series, Admin_series, HR_series],
+                'series': [IT_series, Sales_series, Admin_series, HR_series, Finance_series],
                 'colorByPoint': "true",
             }
 
@@ -231,8 +242,10 @@ class DashboardView(TemplateView):
 
             for entry in dataset:
                 # categories.append('User')
-                is_active_series_data.append(entry['is_active_count'])
-                not_is_active_series_data.append(entry['not_is_active_count'])
+                if entry['is_active_count'] >= 0 :
+                    is_active_series_data.append(entry['is_active_count'])
+                if entry['not_is_active_count'] >= 0 :
+                    not_is_active_series_data.append(entry['not_is_active_count'])
 
             is_active_series = {
                 'name': 'Active user',
@@ -258,7 +271,7 @@ class DashboardView(TemplateView):
                     }
                 },
                 'title': {'text': 'Active user on Current Platform'},
-                'xAxis': {'categories': ['Active', 'Inactive']},
+                'xAxis': {'categories': ['']},
                 'yAxis': {
                     'title': {
                         'text': 'No.of users'},

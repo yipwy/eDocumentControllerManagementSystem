@@ -88,8 +88,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'edcms_dev',
-        'USER': 'root',
-        'PASSWORD': '',
+        'USER': 'sam',
+        'PASSWORD': 'user@123',
         'HOST': '',
         'PORT': '3306',
         'OPTIONS': {'autocommit': True}
@@ -132,9 +132,6 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
-# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend" # for development phase
-# EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

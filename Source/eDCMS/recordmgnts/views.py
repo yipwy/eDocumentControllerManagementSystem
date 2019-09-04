@@ -295,27 +295,4 @@ def concat_location(bay, row, column):
     return str(bay) + str(row) + str(column)
 
 
-def barcode_scanner(request):
-    out = run([sys.executable, 'C:\\Users\\pan_ch.DMHUAYANG\\PycharmProjects\\eDocumentControllerManagementSystem\\Source\\eDCMS\\barcode_capture.py'],
-              shell=False, stdout=PIPE, text=True)
-    barcode = out.stdout
-    # barcode = barcode.decode('ascii')
-    print(barcode)
-    initial_data = {'container_serial_number': barcode}
-    # if request.method == 'POST':
-    #     form = ContainerForm(request.POST)
-    #     if form.is_valid():
-    #         container = form.save()
-    #         container.created_by = str(request.user)
-    #         container.modify_by = str(request.user)
-    #         container.department = request.user.department
-    #         container.save()
-    #         return render(request, 'recordmgnts/success_added.html')
-    #     else:
-    #         messages.error(request, 'Adding unsuccessful')
-    # else:
-    #     form = ContainerForm(initial=initial_data)
-
-    return HttpResponse(barcode)
-
 

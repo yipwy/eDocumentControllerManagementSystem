@@ -71,8 +71,6 @@ class ProfileAdmin(admin.ModelAdmin):
             obj.is_documentcontroller = False
         if obj.is_staff is not True:
             obj.is_staff = False
-        if obj.is_active is not True:
-            obj.is_active = False
 
         super().save_model(request, obj, form, change)
 

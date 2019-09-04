@@ -12,6 +12,7 @@ class ContainerAdmin(SimpleHistoryAdmin):
     def save_model(self, request, obj, form, change):
         if obj.is_deleted is not True:
             obj.is_deleted = False
+
         super().save_model(request, obj, form, change)
 
 
