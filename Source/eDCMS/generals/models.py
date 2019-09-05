@@ -59,7 +59,7 @@ class Company(models.Model):
 class Department(models.Model):
     class Meta:
         verbose_name_plural     = "Departments"
-    head_of_department          = models.CharField(max_length=30, unique=True, null=False)
+    head_of_department          = models.CharField(max_length=30, unique=False, null=False)
     department                  = models.CharField(max_length=40, null=True)
     branch                      = models.ForeignKey('Branch', on_delete=models.CASCADE)
 

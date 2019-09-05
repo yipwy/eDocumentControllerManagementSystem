@@ -42,7 +42,7 @@ class UserRegistrationForm(UserCreationForm):
     password1 = forms.CharField(label="<b>Password:</b>", widget=forms.PasswordInput())
     password2 = forms.CharField(label="<b>Password Confirmation:</b>", widget=forms.PasswordInput())
     department = forms.ModelChoiceField(queryset=Department.objects.all(), required=True, label="<b>Department:</b>")
-    company = forms.CharField(label="<b>Company:</b>", widget=forms.Select(choices=COMPANY_CHOICES))
+    company = forms.ModelChoiceField(label="<b>Company:</b>", queryset=Company.objects.all())
     branch = forms.ModelChoiceField(queryset=Branch.objects.all(), required=True, label="<b>Branch:</b>")
     supervisor = forms.ModelChoiceField(queryset=Profile.objects.filter(is_superuser=True), label="<b>Superior:</b>", required=False)
     helper = FormHelper()

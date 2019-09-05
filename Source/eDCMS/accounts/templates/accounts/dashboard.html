@@ -68,9 +68,9 @@
         </div>
         <div class="carousel-item">
             <div class="border" id="container3" style="min-width: 100px;max-width:800px; max-height: 700px; min-height:500px; margin: 0 auto;"></div>
-          <div class="carousel-caption" >
-              <h3>Currently Unavailable</h3>
-          </div>
+            <script>
+                      Highcharts.chart('container3', {{ chart3|safe }});
+            </script>
         </div>
       </div>
 

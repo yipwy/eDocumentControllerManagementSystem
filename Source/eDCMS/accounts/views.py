@@ -144,26 +144,32 @@ class DashboardView(TemplateView):
     def get_dept(self):
             dataset = Container.objects \
                 .values('department') \
-                .annotate(IT_count=Count('department', filter=Q(department='IT')),
-                          Sales_count=Count('department', filter=Q(department='Sales')),
-                          Admin_count=Count('department', filter=Q(department='Admin')),
-                          Finance_count=Count('department', filter=Q(department='Finance')),
-                          HR_count=Count('department', filter=Q(department='HR'))) \
+                .annotate(IT_count=Count('department', filter=Q(department='IT') & Q(is_deleted=False)),
+                          Sales_marketing_count=Count('department', filter=Q(department='Sales & Marketing') & Q(is_deleted=False)),
+                          Admin_count=Count('department', filter=Q(department='Admin') & Q(is_deleted=False)),
+                          Project_count=Count('department', filter=Q(department='Project') & Q(status=False) & Q(is_deleted=False)),
+                          Accounts_count=Count('department', filter=Q(department='Accounts & Finance') & Q(is_deleted=False)),
+                          Sales_admin_count=Count('department', filter=Q(department='Sales Admin') & Q(is_deleted=False)),
+                          HR_count=Count('department', filter=Q(department='HR') & Q(is_deleted=False))) \
                 .order_by('department')
 
             categories = list()
             IT_series_data = list()
-            Sales_series_data = list()
+            Sales_marketing_series_data = list()
+            Sales_admin_series_data = list()
             Admin_series_data = list()
-            Finance_series_data = list()
+            Accounts_series_data = list()
+            Project_series_data = list()
             HR_series_data = list()
 
             for entry in dataset:
                 categories.append('%s Department' % entry['department'])
                 IT_series_data.append(entry['IT_count'])
-                Sales_series_data.append(entry['Sales_count'])
+                Sales_marketing_series_data.append(entry['Sales_marketing_count'])
                 Admin_series_data.append(entry['Admin_count'])
-                Finance_series_data.append(entry['Finance_count'])
+                Sales_admin_series_data.append((entry['Sales_admin_count']))
+                Accounts_series_data.append(entry['Accounts_count'])
+                Project_series_data.append(entry['Project_count'])
                 HR_series_data.append(entry['HR_count'])
 
             IT_series = {
@@ -172,10 +178,16 @@ class DashboardView(TemplateView):
                 'color': 'green'
             }
 
-            Sales_series = {
-                'name': 'Sales',
-                'data': Sales_series_data,
+            Sales_marketing_series = {
+                'name': 'Sales & Marketing',
+                'data': Sales_marketing_series_data,
                 'color': 'yellow'
+            }
+
+            Sales_admin_series = {
+                'name': 'Sales Admin',
+                'data': Sales_admin_series_data,
+                'color': 'purple'
             }
 
             Admin_series = {
@@ -190,10 +202,16 @@ class DashboardView(TemplateView):
                 'color': 'blue'
             }
 
-            Finance_series = {
-                'name': 'Finance',
-                'data': Finance_series_data,
+            Accounts_series = {
+                'name': 'Accounts & Finance',
+                'data': Accounts_series_data,
                 'color': 'black'
+            }
+
+            Project_series = {
+                'name': 'Project',
+                'data': Project_series_data,
+                'color': 'orange'
             }
 
             chart2 = {
@@ -207,7 +225,7 @@ class DashboardView(TemplateView):
                         'depth': 50,
                     }
                 },
-                'title': {'text': 'Containers per department'},
+                'title': {'text': 'Containers per Department'},
                 'xAxis': {'categories': categories},
                 'yAxis': {
                     'title': {
@@ -222,7 +240,7 @@ class DashboardView(TemplateView):
                         'depth': 60,
                     }
                 },
-                'series': [IT_series, Sales_series, Admin_series, HR_series, Finance_series],
+                'series': [Project_series, IT_series, Sales_marketing_series, Admin_series, Sales_admin_series, HR_series, Accounts_series],
                 'colorByPoint': "true",
             }
 
@@ -270,7 +288,7 @@ class DashboardView(TemplateView):
                         'depth': 50,
                     }
                 },
-                'title': {'text': 'Active user on Current Platform'},
+                'title': {'text': 'Active Users on Current Platform'},
                 'xAxis': {'categories': ['']},
                 'yAxis': {
                     'title': {
@@ -291,10 +309,118 @@ class DashboardView(TemplateView):
 
             return dump
 
+    def get_containers(self):
+        dataset = Container.objects \
+            .values('department') \
+            .annotate(IT_count=Count('department', filter=Q(department='IT') & Q(status=False) & Q(is_deleted=False)),
+                      Admin_count=Count('department', filter=Q(department='Admin') & Q(status=False) & Q(is_deleted=False)),
+                      Sales_admin_count=Count('department', filter=Q(department='Sales Admin') & Q(status=False) & Q(is_deleted=False)),
+                      Sales_marketing_count=Count('department', filter=Q(department='Sales & Marketing') & Q(status=False)& Q(is_deleted=False)),
+                      Project_count=Count('department', filter=Q(department='Project') & Q(status=False) & Q(is_deleted=False)),
+                      Accounts_count=Count('department', filter=Q(department='Accounts & Finance') & Q(status=False) & Q(is_deleted=False)),
+                      HR_count=Count('department', filter=Q(department='HR') & Q(status=False) & Q(is_deleted=False))) \
+            .order_by('department')
+
+        categories = list()
+        IT_series_data = list()
+        Sales_marketing_series_data = list()
+        Sales_admin_series_data = list()
+        Project_series_data = list()
+        Admin_series_data = list()
+        Accounts_series_data = list()
+        HR_series_data = list()
+
+        for entry in dataset:
+            categories.append('%s Department' % entry['department'])
+            IT_series_data.append(entry['IT_count'])
+            Sales_marketing_series_data.append(entry['Sales_marketing_count'])
+            Sales_admin_series_data.append(entry['Sales_admin_count'])
+            Admin_series_data.append(entry['Admin_count'])
+            Accounts_series_data.append(entry['Accounts_count'])
+            HR_series_data.append(entry['HR_count'])
+            Project_series_data.append(entry['Project_count'])
+
+        IT_series = {
+            'name': 'IT',
+            'data': IT_series_data,
+            'color': 'green'
+        }
+
+        Sales_marketing_series = {
+            'name': 'Sales & Marketing',
+            'data': Sales_marketing_series_data,
+            'color': 'yellow'
+        }
+
+        Sales_admin_series = {
+            'name': 'Sales Admin',
+            'data': Sales_admin_series_data,
+            'color': 'purple'
+        }
+
+        Admin_series = {
+            'name': 'Admin',
+            'data': Admin_series_data,
+            'color': 'red'
+        }
+
+        HR_series = {
+            'name': 'HR',
+            'data': HR_series_data,
+            'color': 'blue'
+        }
+
+        Accounts_series = {
+            'name': 'Accounts & Finance',
+            'data': Accounts_series_data,
+            'color': 'black'
+        }
+
+        Project_series = {
+            'name': 'Project',
+            'data': Project_series_data,
+            'color': 'orange'
+        }
+
+        chart3 = {
+            'chart': {
+                'type': 'column',
+                'backgroundColor': '#E3F0E6',
+                'option3d': {
+                    'enabled': "true",
+                    'alpha': 10,
+                    'beta': 15,
+                    'depth': 50,
+                }
+            },
+            'title': {'text': 'Checked Out Containers per Department'},
+            'xAxis': {'categories': categories},
+            'yAxis': {
+                'title': {
+                    'text': 'No.of containers'},
+                'tickInterval': 1
+            },
+            'plotOptions': {
+                'column': {
+                    'stacking': 'normal',
+                    'groupPadding': 0.3,
+                    'pointPadding': 0.3,
+                    'depth': 60,
+                }
+            },
+            'series': [Project_series, IT_series, Sales_marketing_series, Admin_series, Sales_admin_series, HR_series, Accounts_series],
+            'colorByPoint': "true",
+        }
+
+        dump3 = json.dumps(chart3)
+
+        return dump3
+
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['chart'] = self.get_profile()
         context['chart2'] = self.get_dept()
+        context['chart3'] = self.get_containers()
         return context
 
     # def post(self, request, *args, **kwargs):
