@@ -20,10 +20,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2p%3m(vpo7k8yot)))v2xz3l=xh11v+1nm^l3nsabqp4#gt8s8*e'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -89,13 +89,12 @@ DATABASES = {
         'ENGINE': 'mysql.connector.django',
         'NAME': 'edcms_dev',
         'USER': 'sam',
-        'PASSWORD': 'user@123',
+        'PASSWORD': os.environ['DB_PASSWORD'],
         'HOST': '',
         'PORT': '3306',
         'OPTIONS': {'autocommit': True}
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -147,7 +146,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 EMAIL_HOST           = 'smtp.gmail.com'
 EMAIL_PORT           = 587
 EMAIL_HOST_USER      = 'edcmshyb@gmail.com'
-EMAIL_HOST_PASSWORD  = 'user@123'
+EMAIL_HOST_PASSWORD  = os.environ['EMAIL_PASSWORD']
 EMAIL_USE_TLS        = True
 DEFAULT_FROM_EMAIL   = EMAIL_HOST_USER
 EMAIL_FROM           = EMAIL_HOST_USER
