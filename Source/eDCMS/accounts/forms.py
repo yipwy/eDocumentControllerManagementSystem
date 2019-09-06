@@ -146,18 +146,18 @@ class CustomUserChangeForm(UserChangeForm):
         model = Profile
         fields = ('username', 'email', 'contact', 'company', 'branch', 'department', 'is_superuser', 'is_staff', 'is_documentcontroller')
 
-    def __init__(self, branch, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['department'].queryset = Department.objects.filter(branch=branch)
-
-        if 'branch' in self.data:
-            try:
-                branch = int(self.data.get('branch'))
-                self.fields['department'].queryset = Department.objects.filter(branch=branch)
-            except (ValueError, TypeError):
-                pass  # invalid input from the client; ignore and fallback to empty City queryset
-        elif self.instance.pk:
-            self.fields['department'].queryset = self.instance.branch.department_set.order_by('department')
+        # self.fields['department'].queryset = Department.objects.filter(branch=branch)
+        #
+        # if 'branch' in self.data:
+        #     try:
+        #         branch = int(self.data.get('branch'))
+        #         self.fields['department'].queryset = Department.objects.filter(branch=branch)
+        #     except (ValueError, TypeError):
+        #         pass  # invalid input from the client; ignore and fallback to empty City queryset
+        # elif self.instance.pk:
+        #     self.fields['department'].queryset = self.instance.branch.department_set.order_by('department')
 
         self.helper.form_method = 'POST'
         self.helper.layout = Layout(

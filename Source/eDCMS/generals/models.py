@@ -59,7 +59,6 @@ class Company(models.Model):
 class Department(models.Model):
     class Meta:
         verbose_name_plural     = "Departments"
-    head_of_department          = models.CharField(max_length=30, unique=False, null=False)
     department                  = models.CharField(max_length=40, null=True)
     branch                      = models.ForeignKey('Branch', on_delete=models.CASCADE)
 
@@ -70,7 +69,7 @@ class Department(models.Model):
 class Warehouse(models.Model):
     class Meta:
         verbose_name_plural     = "Warehouses"
-    warehouse_id                = models.CharField(max_length=15, null=False, unique=True)
+    warehouse_id                = models.CharField(max_length=40, null=False, unique=False)
     branch                      = models.ForeignKey('Branch', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -80,7 +79,7 @@ class Warehouse(models.Model):
 class Bay(models.Model):
     class Meta:
         verbose_name_plural     = "Locations"
-    bay_id                 = models.CharField(max_length=15, null=True, unique=True)
+    bay_id                 = models.CharField(max_length=15, null=True, unique=False)
     warehouse                   = models.ForeignKey('Warehouse', on_delete=models.CASCADE)
 
     def __str__(self):

@@ -1,4 +1,15 @@
 <option value="">---------</option>
+{% if curr_dept %}
+{% for department in departments %}
+{% if department == curr_dept %}
+<option value="{{ department.id }}" selected>{{ department.department }}</option>
+{% elif department != curr_dept %}
+<option value="{{ department.id }}">{{ department.department }}</option>
+{% endif %}
+{% endfor %}
+
+{% else %}
 {% for department in departments %}
 <option value="{{ department.id }}">{{ department.department }}</option>
 {% endfor %}
+{% endif %}

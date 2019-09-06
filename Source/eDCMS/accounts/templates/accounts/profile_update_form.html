@@ -19,20 +19,20 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script>
 
-<!--           $(document).ready(function(){-->
-<!--           var branchId = $("#id_branch").val();-->
+           $(document).ready(function(){
+           var branchId = $("#id_branch").val();
 
-<!--           $.ajax({-->
-<!--           url: "{% url 'accounts:ajax_load_department' %}",-->
-<!--           data: {-->
-<!--           'branch': branchId-->
-<!--           },-->
-<!--           success: function (data) {-->
-<!--           $("#id_department").html(data);-->
-<!--           }-->
-<!--           });-->
+           $.ajax({
+           url: "{% url 'accounts:ajax_load_department' %}",
+           data: {
+           'branch': branchId
+           },
+           success: function (data) {
+           $("#id_department").html(data);
+           }
+           });
 
-<!--           });-->
+           });
 
            $("#id_branch").change(function () {
            var branchId = $(this).val();
