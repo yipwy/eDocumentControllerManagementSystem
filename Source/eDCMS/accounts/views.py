@@ -16,6 +16,7 @@ from django.views import View
 from django.http import JsonResponse
 from django.views.generic import TemplateView
 from recordmgnts.models import Container
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def mylogin(request):
@@ -142,7 +143,7 @@ def update_profile(request):
 
 # class dashboard_view(View):
 #     template_name = 'accounts/dashboard.html'
-class DashboardView(TemplateView):
+class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/dashboard.html'
 
     def get_dept(self):

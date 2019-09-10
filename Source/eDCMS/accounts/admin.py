@@ -6,6 +6,12 @@ def approve_user(modeladmin, request, queryset):
     for profile in queryset:
         profile.is_active = 'True'
         profile.is_staff = 'True'
+        if profile.is_superuser is not True:
+            profile.is_superuser = False
+        if profile.is_documentcontroller is not True:
+            profile.is_documentcontroller = False
+        if profile.is_staff is not True:
+            profile.is_staff = False
         profile.save()
 
 
@@ -16,6 +22,12 @@ def disapprove_user(modeladmin, request, queryset):
     for profile in queryset:
         profile.is_active = 'False'
         profile.is_staff = 'False'
+        if profile.is_superuser is not True:
+            profile.is_superuser = False
+        if profile.is_documentcontroller is not True:
+            profile.is_documentcontroller = False
+        if profile.is_staff is not True:
+            profile.is_staff = False
         profile.save()
 
 
@@ -25,6 +37,10 @@ disapprove_user.short_description = 'Deactivate selected Profile'
 def approve_superuser(modeladmin, request, queryset):
     for profile in queryset:
         profile.is_superuser = 'True'
+        if profile.is_documentcontroller is not True:
+            profile.is_documentcontroller = False
+        if profile.is_staff is not True:
+            profile.is_staff = False
         profile.save()
 
 
@@ -34,6 +50,10 @@ approve_superuser.short_description = 'Promote selected Profile to superuser'
 def deactivate_superuser(modeladmin, request, queryset):
     for profile in queryset:
         profile.is_superuser = 'False'
+        if profile.is_documentcontroller is not True:
+            profile.is_documentcontroller = False
+        if profile.is_staff is not True:
+            profile.is_staff = False
         profile.save()
 
 
@@ -43,6 +63,10 @@ deactivate_superuser.short_description = 'Demote selected Profile from superuser
 def approve_documentcontroller(modeladmin, request, queryset):
     for profile in queryset:
         profile.is_documentcontroller = 'True'
+        if profile.is_superuser is not True:
+            profile.is_superuser = False
+        if profile.is_staff is not True:
+            profile.is_staff = False
         profile.save()
 
 
@@ -52,6 +76,10 @@ approve_documentcontroller.short_description = 'Promote selected Profile to Doc-
 def deactivate_documentcontroller(modeladmin, request, queryset):
     for profile in queryset:
         profile.is_documentcontroller = 'False'
+        if profile.is_superuser is not True:
+            profile.is_superuser = False
+        if profile.is_staff is not True:
+            profile.is_staff = False
         profile.save()
 
 

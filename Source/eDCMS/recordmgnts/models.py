@@ -7,18 +7,18 @@ from ckeditor_uploader.fields import RichTextUploadingField
 class Container(models.Model):
     class Meta:
         verbose_name_plural     = 'Containers'
-    container_serial_number     = models.CharField(max_length=20, unique=True)
+    container_serial_number     = models.CharField(max_length=35, unique=True)
     container_description       = RichTextUploadingField()
     status                      = models.BooleanField(default=True)
-    created_by                  = models.CharField(max_length=20)
+    created_by                  = models.CharField(max_length=120)
     created_date                = models.DateTimeField(default=datetime.now, blank=True)
-    modify_by                   = models.CharField(max_length=20)
+    modify_by                   = models.CharField(max_length=120)
     modify_date                 = models.DateTimeField(default=datetime.now, blank=True)
     warehouse                   = models.ForeignKey('generals.Warehouse', on_delete=models.CASCADE)
     bay                         = models.ForeignKey('generals.Bay', on_delete=models.CASCADE)
     row                         = models.CharField(max_length=10, null=True)
     column                      = models.CharField(max_length=10, null=True)
-    department                  = models.CharField(max_length=40, null=True)
+    department                  = models.CharField(max_length=55, null=True)
     history = HistoricalRecords(table_name='container_history')
     is_deleted                  = models.BooleanField(default=False, null=True)
 
@@ -31,8 +31,8 @@ class OrderHeader(models.Model):
         verbose_name_plural     = 'Order Headers'
     doc_type                    = models.ForeignKey('generals.DocumentType', on_delete=models.CASCADE)
     doc_serial_number           = models.CharField(max_length=20, unique=True)
-    created_by                  = models.CharField(max_length=20)
-    department                  = models.CharField(max_length=50)
+    created_by                  = models.CharField(max_length=120)
+    department                  = models.CharField(max_length=55)
     branch                      = models.CharField(max_length=50)
     created_date                = models.DateTimeField(default=datetime.now, blank=True)
 
@@ -42,7 +42,7 @@ class OrderDetail(models.Model):
         verbose_name_plural     = 'Order Details'
     header                   = models.ForeignKey(OrderHeader, on_delete=models.CASCADE)
     container                = models.ForeignKey(Container, on_delete=models.SET_NULL, null=True)
-    barcode                  = models.CharField(max_length=20, null=True)
+    barcode                  = models.CharField(max_length=35, null=True)
 
 
 class ContainerInstance(models.Model):
