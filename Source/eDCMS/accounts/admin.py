@@ -87,8 +87,8 @@ deactivate_documentcontroller.short_description = 'Demote selected Profile from 
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('username', 'contact', 'email', 'company', 'branch', 'department',
-                    'is_active', 'is_superuser', 'is_documentcontroller', 'is_staff')
+    list_display = ('username', 'contact', 'date_joined', 'email', 'company', 'branch', 'department',
+                    'supervisor', 'is_active', 'is_superuser', 'is_documentcontroller', 'is_staff')
     actions = [approve_user, disapprove_user, approve_superuser, deactivate_superuser, approve_documentcontroller,
                deactivate_documentcontroller]
 

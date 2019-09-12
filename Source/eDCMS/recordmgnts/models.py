@@ -47,7 +47,8 @@ class OrderDetail(models.Model):
 
 class ContainerInstance(models.Model):
     class Meta:
-        verbose_name_plural     = 'Container Instances'
+        verbose_name            = 'Transaction'
+        verbose_name_plural     = 'Transactions'
     container = models.ForeignKey(Container, on_delete=models.SET_NULL, null=True)
     due_date  = models.DateField(null=True)
     user      = models.ForeignKey('accounts.Profile', on_delete=models.CASCADE)
@@ -59,3 +60,11 @@ class ContainerInstance(models.Model):
         if date.today() > self.due_date:
             return True
         return False
+
+    def is_returned(self):
+        if self.status is True:
+            return 'Returned'
+        else:
+            return 'Not returned'
+
+    is_returned.short_description = "Status"
