@@ -37,10 +37,9 @@ disapprove_user.short_description = 'Deactivate selected Profile'
 def approve_superuser(modeladmin, request, queryset):
     for profile in queryset:
         profile.is_superuser = 'True'
+        profile.is_staff = 'True'
         if profile.is_documentcontroller is not True:
             profile.is_documentcontroller = False
-        if profile.is_staff is not True:
-            profile.is_staff = False
         profile.save()
 
 

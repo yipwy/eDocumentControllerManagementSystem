@@ -34,6 +34,7 @@
             <div class="col">
                 <p><b>Email: </b>{{ user.email }}</p>
                 <p><b>Contact: </b>{{ user.contact }}</p>
+				<p><b>Superior: </b>{% if user.supervisor is not None %}{{ user.supervisor }} {% else %} - {% endif %} </p>
             </div>
         </div>
             </div>

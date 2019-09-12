@@ -120,6 +120,7 @@ def update_profile(request):
         'department': request.user.department,
         'company': request.user.company,
         'branch': request.user.branch,
+        'supervisor': request.user.supervisor,
         'is_superuser': request.user.is_superuser,
         'is_staff': request.user.is_staff,
         'is_documentcontroller': request.user.is_documentcontroller

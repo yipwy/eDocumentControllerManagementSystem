@@ -134,8 +134,9 @@ class CustomUserChangeForm(UserChangeForm):
     username = forms.CharField(label="<b>Username:</b>")
     contact = forms.CharField(label="<b>Contact Number:</b>")
     email = forms.CharField(label="<b>Email Address:</b>", validators=[alphanumeric])
+    supervisor = forms.ModelChoiceField(queryset=Profile.objects.filter(is_superuser=True), label="<b>Superior:</b>", required=False)
     department = forms.ModelChoiceField(label="<b>Department:</b>", queryset=Department.objects.all(), required=True)
-    company = forms.CharField(label="<b>Company:</b>", widget=forms.Select(choices=COMPANY_CHOICES))
+    company = forms.ModelChoiceField(label="<b>Company:</b>", queryset=Company.objects.all())
     branch = forms.ModelChoiceField(label="<b>Branch:</b>", queryset=Branch.objects.all(), required=True)
     is_superuser = forms.BooleanField(required=False)
     is_staff = forms.BooleanField(required=False)
@@ -144,7 +145,7 @@ class CustomUserChangeForm(UserChangeForm):
 
     class Meta(UserChangeForm):
         model = Profile
-        fields = ('username', 'email', 'contact', 'company', 'branch', 'department', 'is_superuser', 'is_staff', 'is_documentcontroller')
+        fields = ('username', 'email', 'contact', 'company', 'branch', 'department','supervisor', 'is_superuser', 'is_staff', 'is_documentcontroller')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -167,6 +168,7 @@ class CustomUserChangeForm(UserChangeForm):
             'company',
             'branch',
             'department',
+            'supervisor',
             Field('is_superuser', type="hidden"),
             Field('is_staff', type="hidden"),
             Field('is_documentcontroller', type="hidden"),

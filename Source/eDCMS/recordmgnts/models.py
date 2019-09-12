@@ -60,11 +60,11 @@ class ContainerInstance(models.Model):
         if date.today() > self.due_date:
             return True
         return False
-
+        
     def is_returned(self):
         if self.status is True:
             return 'Returned'
         else:
             return 'Not returned'
-
-    is_returned.short_description = "Status"
+            
+    is_returned.short_description = 'Status'
