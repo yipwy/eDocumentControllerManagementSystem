@@ -40,7 +40,7 @@ protobuf==3.8.0
 pypiwin32==223
 python-dateutil==2.8.0
 pytz==2019.1
-pywin32==224
+pywin32==301
 pyzbar==0.1.8
 six==1.12.0
 sqlparse==0.3.0
