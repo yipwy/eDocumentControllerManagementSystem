@@ -31,7 +31,7 @@ mod-wsgi==4.6.7
 monotonic==1.5
 more-itertools==7.2.0
 mysql-connector-python==8.0.16
-numpy==1.17.0
+numpy==1.22.0
 opencv-python==4.1.0.25
 openpyxl==2.6.2
 Pillow==6.1.0
