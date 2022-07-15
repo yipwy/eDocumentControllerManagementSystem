@@ -9,7 +9,7 @@ CherryPy==18.1.2
 Django==2.2.3
 django-appconf==1.0.3
 django-celery-email==2.0.2
-django-celery-results==1.1.2
+django-celery-results==2.4.0
 django-ckeditor==5.7.1
 django-crispy-forms==1.7.2
 django-froala-editor==3.0.4
